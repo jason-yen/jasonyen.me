@@ -16,6 +16,7 @@
         a {
             color: #536DFE;
             transition: 0.5s;
+            text-decoration: none;
         }
 
         a:hover {
@@ -34,12 +35,23 @@
             padding: 0 40px;
         }
 
+        /* Container for logo and text */
+        .navbar-content {
+            display: flex;
+            align-items: center;
+        }
+
         /* Logo styling */
         .navbar img {
             width: 30px;
             height: 30px;
             border-radius: 5px;
-            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        /* Games text styling */
+        .navbar a {
+            margin-left: 5px;
         }
 
         /* Main title styling */
@@ -58,64 +70,32 @@
         /* Content Section */
         .content {
             text-align: center;
-            color: #4c5eaf; /* Change the color to your desired value */
+            color: #4c5eaf;
             font-size: 30px;
             margin-top: 20px;
         }
 
-        /* Tic Tac Toe Styles */
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 5px;
-            justify-content: center;
+        /* Style for game link */
+        .game-link {
+            display: inline-block;
             margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4c5eaf;
+            color: white;
+            font-size: 24px;
+            border-radius: 5px;
+            text-decoration: none; /* Removes underline */
         }
 
-        .cell {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            background-color: #fff;
-            border: 2px solid #000;
-            cursor: pointer;
+        .game-link:hover {
+            background-color: #2f4a88;
         }
 
-        .cell.taken {
-            pointer-events: none;
-        }
-
+        /* Message Section */
         .message {
             font-size: 24px;
             margin-top: 20px;
             text-align: center;
-        }
-
-        /* Centered Container for Replay Button */
-        .replay-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        /* Replay Button Styles */
-        .replay-button {
-            font-size: 24px;
-            padding: 10px 20px;
-            background-color: #4c5eaf;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .replay-button:hover {
-            background-color: #2f4a88;
-            cursor: pointer; /* Ensure pointer cursor on hover */
         }
     </style>
 </head>
@@ -123,9 +103,14 @@
 <body>
     <!-- Navbar -->
     <div class="navbar">
-        <img src="https://i.pinimg.com/564x/c7/c3/a8/c7c3a8166620978ebebe3b161fe82e4b.jpg" alt="Discord Logo" />
-        <div><a href="/">Home</a></div>
-        <div><a href="/games">Games</a></div>
+        <!-- Container for logo and text -->
+        <div class="navbar-content">
+            <!-- Light Home Page Logo (now linked to home) -->
+            <a href="/">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/023/654/784/small_2x/golden-logo-template-free-png.png" alt="Home Page Logo" />
+            </a>
+            <a href="/games">Games</a>
+        </div>
     </div>
 
     <!-- Main Title Section -->
@@ -138,201 +123,14 @@
         And yes, for the people in my current class, this is my webpage.
     </div>
     
-    <!-- Content Section -->
+    <!-- Content Section for Game Selection -->
     <div class="content">
-        Tic Tac Toe
+        Choose A Game!
+        <br>
+        <!-- Link to Tic Tac Toe game with enhanced style -->
+        <a href="/games/tic-tac-toe" class="game-link">Tic Tac Toe</a>
+        <!-- Link to Platformer game with enhanced style -->
+        <a href="/games/GuessNumber" class="game-link">Guess The Number</a>
     </div>
-
-    <!-- Tic Tac Toe Game -->
-    <div class="board" id="board">
-        <div class="cell" onclick="makeMove(0)"></div>
-        <div class="cell" onclick="makeMove(1)"></div>
-        <div class="cell" onclick="makeMove(2)"></div>
-        <div class="cell" onclick="makeMove(3)"></div>
-        <div class="cell" onclick="makeMove(4)"></div>
-        <div class="cell" onclick="makeMove(5)"></div>
-        <div class="cell" onclick="makeMove(6)"></div>
-        <div class="cell" onclick="makeMove(7)"></div>
-        <div class="cell" onclick="makeMove(8)"></div>
-    </div>
-
-    <!-- Message Section -->
-    <div class="message" id="message"></div>
-
-    <!-- Centered Replay Button -->
-    <div class="replay-container">
-        <button id="replayButton" class="replay-button" onclick="resetGame()">Replay</button>
-    </div>
-
-    <script>
-        const board = ["", "", "", "", "", "", "", "", ""];
-        let currentPlayer = "X";  // X starts
-        let gameOver = false;
-
-        function makeMove(index) {
-            if (gameOver || board[index] !== "") return;
-
-            board[index] = currentPlayer;
-            document.getElementsByClassName("cell")[index].textContent = currentPlayer;
-            document.getElementsByClassName("cell")[index].classList.add("taken");
-
-            if (checkWinner()) {
-                document.getElementById("message").textContent = `${currentPlayer} wins!`;
-                document.getElementById("replayButton").style.display = "inline-block";  // Show the Replay button
-                gameOver = true;
-                return;
-            }
-
-            // Check if the board is full and it's a tie
-            if (board.every(cell => cell !== "")) {
-                document.getElementById("message").textContent = "Tie!";
-                document.getElementById("replayButton").style.display = "inline-block";  // Show the Replay button
-                gameOver = true;
-                return;
-            }
-
-            // Switch to the next player
-            currentPlayer = currentPlayer === "X" ? "O" : "X";
-
-            // If it's the computer's turn (O)
-            if (currentPlayer === "O" && !gameOver) {
-                setTimeout(() => computerMove(), 500);  // Delay for computer's move
-            }
-        }
-
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6]
-            ];
-
-            for (const pattern of winPatterns) {
-                const [a, b, c] = pattern;
-                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function computerMove() {
-            // First, try to block the player from winning
-            const blockMove = findBlockMove();
-            if (blockMove !== -1) {
-                makeMove(blockMove);
-                return;
-            }
-
-            // If no blocking move, proceed with the best move based on minimax
-            const bestMove = minimax(board, "O", -Infinity, Infinity, true);
-            makeMove(bestMove.index);
-        }
-
-        function findBlockMove() {
-            const winPatterns = [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6]
-            ];
-
-            // Check each pattern if the player is about to win
-            for (const pattern of winPatterns) {
-                const [a, b, c] = pattern;
-                if (board[a] === "X" && board[b] === "X" && board[c] === "") {
-                    return c;  // Block the empty spot
-                } else if (board[b] === "X" && board[c] === "X" && board[a] === "") {
-                    return a;  // Block the empty spot
-                } else if (board[a] === "X" && board[c] === "X" && board[b] === "") {
-                    return b;  // Block the empty spot
-                }
-            }
-
-            return -1;  // No block needed
-        }
-
-        function minimax(board, player, alpha, beta, isMaximizingPlayer) {
-            const availableMoves = getAvailableMoves(board);
-            if (checkWinner()) {
-                return { score: -10 };
-            } else if (board.every(cell => cell !== "")) {
-                return { score: 0 };
-            }
-
-            let bestMove;
-            if (isMaximizingPlayer) {
-                let maxEval = -Infinity;
-                for (let i = 0; i < availableMoves.length; i++) {
-                    const move = availableMoves[i];
-                    board[move] = "O";  // Computer's move
-                    const evaluation = minimax(board, "X", alpha, beta, false).score;
-                    board[move] = "";  // Undo move
-
-                    if (evaluation > maxEval) {
-                        maxEval = evaluation;
-                        bestMove = { index: move, score: evaluation };
-                    }
-                    alpha = Math.max(alpha, evaluation);
-                    if (beta <= alpha) {
-                        break;
-                    }
-                }
-                return bestMove;
-            } else {
-                let minEval = Infinity;
-                for (let i = 0; i < availableMoves.length; i++) {
-                    const move = availableMoves[i];
-                    board[move] = "X";  // Player's move
-                    const evaluation = minimax(board, "O", alpha, beta, true).score;
-                    board[move] = "";  // Undo move
-
-                    if (evaluation < minEval) {
-                        minEval = evaluation;
-                        bestMove = { index: move, score: evaluation };
-                    }
-                    beta = Math.min(beta, evaluation);
-                    if (beta <= alpha) {
-                        break;
-                    }
-                }
-                return bestMove;
-            }
-        }
-
-        function getAvailableMoves(board) {
-            const moves = [];
-            for (let i = 0; i < board.length; i++) {
-                if (board[i] === "") {
-                    moves.push(i);
-                }
-            }
-            return moves;
-        }
-
-        // Reset the game
-        function resetGame() {
-            // Reset the board and game variables
-            for (let i = 0; i < board.length; i++) {
-                board[i] = "";
-                document.getElementsByClassName("cell")[i].textContent = "";
-                document.getElementsByClassName("cell")[i].classList.remove("taken");
-            }
-            document.getElementById("message").textContent = "";
-            document.getElementById("replayButton").style.display = "none";  // Hide the Replay button
-            currentPlayer = "X";
-            gameOver = false;
-        }
-    </script>
 </body>
-
 </html>

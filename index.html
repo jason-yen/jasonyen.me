@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Webpage</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,12 +18,14 @@
 
         a {
             color: #536DFE;
-            transition: 0.5s;
+            text-decoration: none; /* Added this to remove underlining */
+            transition: 0.3s;
         }
 
         a:hover {
             color: rgb(83, 80, 255);
-            font-size: 29px; /* Reduce font size slightly */
+            font-size: 29px;
+            text-decoration: none; /* Ensures no underline on hover */
         }
 
         /* Navbar container */
@@ -30,16 +35,27 @@
             background-color: #000000;
             display: flex;
             gap: 45px;
-            align-items: center; /* Align items vertically */
+            align-items: center;
             padding: 0 40px;
+        }
+
+        /* Container for logo and text */
+        .navbar-content {
+            display: flex;
+            align-items: center;
         }
 
         /* Logo styling */
         .navbar img {
-            width: 30px; /* Adjust width of logo */
-            height: 30px; /* Adjust height of logo */
+            width: 30px;
+            height: 30px;
             border-radius: 5px;
-            vertical-align: middle; /* Aligns the logo vertically with text */
+            margin-right: 10px;
+        }
+
+        /* Games text styling */
+        .navbar a {
+            margin-left: 5px;
         }
 
         /* Main title styling */
@@ -62,16 +78,33 @@
             font-size: 30px;
             margin-top: 20px;
         }
+
+        /* Map Image Styling with centering */
+        .map-image {
+            width: 100%;
+            max-width: 1200px;
+            height: auto;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 15px;
+        }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
     <div class="navbar">
-        <!-- Discord Logo -->
-        <img src="https://i.pinimg.com/564x/c7/c3/a8/c7c3a8166620978ebebe3b161fe82e4b.jpg" alt="Discord Logo" />
-        <div><a href="/">Home</a></div>
-        <div><a href="/games">Games</a></div>
+        <!-- Container for logo and text -->
+        <div class="navbar-content">
+            <!-- Light Home Page Logo (now linked to home) -->
+            <a href="/">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/023/654/784/small_2x/golden-logo-template-free-png.png" alt="Home Page Logo" />
+            </a>
+            <a href="/games">Games</a>
+        </div>
     </div>
 
     <!-- Main Title Section -->
@@ -81,12 +114,14 @@
 
     <!-- Content Section with Link -->
     <div class="content">
-        And yes, for the people in my current class, this is my webpage. <a href="/games">Go to the games page for unblocked games!</a>
+        And yes, for the people in my current class, this is my webpage. 
+        <a href="/games">Go to the games page for unblocked games!</a>
 
-        I live in Irvine, California, which is located in the USA, in case you didn't know that...   Anyway, this a map of Irvine city:
-
+        I live in Irvine, California, which is located in the USA, in case you didn't know that... Anyway, this is a map of Irvine city:
     </div>
-    <img src="https://www.cityofirvine.org/sites/default/files/GIS%20Map.JPG" alt="Irvine Map" style="width: 100%;"/>
+    
+    <!-- Map Image (Static Map URL or Screenshot) -->
+    <img src="https://www.google.com/maps/vt/data=nXkqex9QAAq-vTHn9a7USzTCHD_wyBAkP1WHMgVpT5Zwtoq5ss89t2461n-sB--EaihhDGm5_4SLryyUm0KM1nkp9hfQZXooSXPyEkYfsZb9OzkihNTtE5_xLWkhipKWgKhpimwc4cehSegwG42Rs4zGAbgBvWkQGsceeLsnDWPyoKAJT1JjfrKg3OHTkE0OSjxtOhp2XLG1crHEFf1HmUOXsI5EH7W8G7NOtempDYLdhfMTk1vpChdsbPf8fmHR5fjxB-x7nEYq_i9xnWCkgb-_PJ6o_SeU" class="map-image" alt="Irvine CA City Map">
 </body>
 
 </html>
