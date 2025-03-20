@@ -44,12 +44,19 @@
             align-items: center; /* Align the items (logo and text) vertically */
         }
 
-        /* Logo styling */
-        .navbar img {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            margin-right: 10px; /* Adds some space between the logo and the text */
+/* Logo styling (increased size, border-radius, and margin-top for positioning) */
+         .navbar img {
+            width: 40px; /* Increased size */
+            height: 40px; /* Increased size */
+            border-radius: 15px; /* Rounded corners */
+            margin-right: 10px;
+            margin-top: 5px; /* Added margin to lower the logo */
+            transition: transform 0.3s ease; /* Smooth transition for scaling */
+        }
+
+/* Scale up logo when hovered */
+        .navbar img:hover {
+            transform: scale(1.2); /* Make the logo 20% bigger */
         }
 
         /* Games text styling */
