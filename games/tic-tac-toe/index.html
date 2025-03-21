@@ -44,8 +44,8 @@
             align-items: center; /* Align the items (logo and text) vertically */
         }
 
-/* Logo styling (increased size, border-radius, and margin-top for positioning) */
-         .navbar img {
+        /* Logo styling (increased size, border-radius, and margin-top for positioning) */
+        .navbar img {
             width: 40px; /* Increased size */
             height: 40px; /* Increased size */
             border-radius: 15px; /* Rounded corners */
@@ -54,7 +54,7 @@
             transition: transform 0.3s ease; /* Smooth transition for scaling */
         }
 
-/* Scale up logo when hovered */
+        /* Scale up logo when hovered */
         .navbar img:hover {
             transform: scale(1.2); /* Make the logo 20% bigger */
         }
@@ -62,6 +62,13 @@
         /* Games text styling */
         .navbar a {
             margin-left: 5px; /* Adds a small space to the right of the icon */
+        }
+
+        /* Separator styling */
+        .separator {
+            color: #fff; /* White color for the separator */
+            font-size: 24px; /* Set the font size */
+            padding: 0 10px; /* Add some padding to space out the separator */
         }
 
         /* Main title styling */
@@ -135,13 +142,14 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-content">
             <a href="/">
-                <img src="/images/logo2.png" alt="Error" />
+                <img src="/images/logo2.png" alt="Logo" />
             </a>
             <a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
         </div>
     </div>
 
@@ -227,9 +235,66 @@
         }
 
         function computerMove() {
+            // First, check if the computer can win
+            const winningMove = findWinningMove("O");
+            if (winningMove !== null) {
+                makeMove(winningMove);
+                return;
+            }
+
+            // If no winning move, check if the player can win and block
+            const blockMove = findWinningMove("X");
+            if (blockMove !== null) {
+                makeMove(blockMove);
+                return;
+            }
+
+            // If no immediate win or block, prioritize the center and corners
+            const center = 4; // The center position of the board
+            if (board[center] === "") {
+                makeMove(center);
+                return;
+            }
+
+            // Prioritize corners
+            const corners = [0, 2, 6, 8];
+            for (let i = 0; i < corners.length; i++) {
+                if (board[corners[i]] === "") {
+                    makeMove(corners[i]);
+                    return;
+                }
+            }
+
+            // Otherwise, pick a random available move
             const availableMoves = getAvailableMoves(board);
             const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
             makeMove(randomMove);
+        }
+
+        // Function to check if a player can win and return the winning move
+        function findWinningMove(player) {
+            const winPatterns = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                const cells = [board[a], board[b], board[c]];
+                const emptyCells = [a, b, c].filter(i => board[i] === "");
+
+                // If there are two player pieces and one empty, block or win
+                if (cells.filter(cell => cell === player).length === 2 && emptyCells.length === 1) {
+                    return emptyCells[0];
+                }
+            }
+            return null;
         }
 
         function getAvailableMoves(board) {

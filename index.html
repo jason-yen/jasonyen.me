@@ -18,17 +18,16 @@
 
         a {
             color: #536DFE;
-            text-decoration: none; /* Added this to remove underlining */
+            text-decoration: none;
             transition: 0.3s;
         }
 
         a:hover {
             color: rgb(83, 80, 255);
             font-size: 29px;
-            text-decoration: none; /* Ensures no underline on hover */
+            text-decoration: none;
         }
 
-        /* Navbar container */
         .navbar {
             width: 100%;
             height: 56px;
@@ -39,33 +38,34 @@
             padding: 0 40px;
         }
 
-        /* Container for logo and text */
         .navbar-content {
             display: flex;
             align-items: center;
         }
 
-        /* Logo styling (increased size, border-radius, and margin-top for positioning) */
         .navbar img {
-            width: 40px; /* Increased size */
-            height: 40px; /* Increased size */
-            border-radius: 15px; /* Rounded corners */
+            width: 40px;
+            height: 40px;
+            border-radius: 15px;
             margin-right: 10px;
-            margin-top: 5px; /* Added margin to lower the logo */
-            transition: transform 0.3s ease; /* Smooth transition for scaling */
+            margin-top: 5px;
+            transition: transform 0.3s ease;
         }
 
-        /* Scale up logo when hovered */
         .navbar img:hover {
-            transform: scale(1.2); /* Make the logo 20% bigger */
+            transform: scale(1.2);
         }
 
-        /* Games text styling */
         .navbar a {
             margin-left: 5px;
         }
 
-        /* Main title styling */
+        .navbar .separator {
+            margin: 0 10px; /* Adjust spacing for the pipe symbol */
+            color: white; /* Make sure the pipe symbol is visible */
+            font-size: 24px; /* Adjust size if necessary */
+        }
+
         .main-title {
             display: flex;
             justify-content: center;
@@ -78,7 +78,6 @@
             font-weight: bold;
         }
 
-        /* Text and image container */
         .content {
             text-align: center;
             color: #4c60d6;
@@ -86,13 +85,10 @@
             margin-top: 20px;
         }
 
-        /* Map Image Styling with centering */
-        .map-image {
-            width: 100%;
-            max-width: 1200px;
-            height: auto;
-            margin-top: 20px;
-            margin-bottom: 40px;
+        /* Styling for iframe to create space */
+        iframe {
+            margin-top: 40px; /* Adds space between text and map */
+            margin-bottom: 40px; /* Adds space below the map */
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -102,37 +98,40 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <div class="navbar">
-        <!-- Container for logo and text -->
         <div class="navbar-content">
-            <!-- Light Home Page Logo (now linked to home) -->
             <a href="/">
-                <img src="images/logo2.png" alt="Error" />
+                <img src="images/logo2.png" alt="Logo" />
             </a>
             <a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
         </div>
     </div>
 
-    <!-- Main Title Section -->
     <div class="main-title">
         Main Page
     </div>
 
-    <!-- Content Section with Link -->
     <div class="content">
         And yes, for the people in my current class, this is my webpage. 
         <a href="/games">Go to the games page for unblocked games!</a>
+        <a href="/tools"> Go to the tools page for helpful tools!</a>
 
         I live in Irvine, California, which is located in the USA, in case you didn't know that... Anyway, this is a map of Irvine city:
     </div>
     
-    <!-- Map Image (Static Map URL or Screenshot) -->
-    <img src="https://www.google.com/maps/vt/data=nXkqex9QAAq-vTHn9a7USzTCHD_wyBAkP1WHMgVpT5Zwtoq5ss89t2461n-sB--EaihhDGm5_4SLryyUm0KM1nkp9hfQZXooSXPyEkYfsZb9OzkihNTtE5_xLWkhipKWgKhpimwc4cehSegwG42Rs4zGAbgBvWkQGsceeLsnDWPyoKAJT1JjfrKg3OHTkE0OSjxtOhp2XLG1crHEFf1HmUOXsI5EH7W8G7NOtempDYLdhfMTk1vpChdsbPf8fmHR5fjxB-x7nEYq_i9xnWCkgb-_PJ6o_SeU" class="map-image" alt="Error">
-    <div class="content">
-        I live about here:
-    </div>
-    <img src="images/hi.png" class="map-image" alt="Error">
+    <!-- Embedded Google Map iframe -->
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3303.5798993484687!2d-117.8265!3d33.6846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c34e4a34f61b3f%3A0x8b055d04f7cd622d!2sIrvine%2C%20CA!5e0!3m2!1sen!2sus!4v1626747158031!5m2!1sen!2sus" 
+        width="90%" 
+        height="400" 
+        frameborder="0" 
+        style="border:0;" 
+        allowfullscreen="" 
+        aria-hidden="false" 
+        tabindex="0"
+        title="Map of Irvine, California">
+    </iframe>
 </body>
-
 </html>

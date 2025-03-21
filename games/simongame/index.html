@@ -34,7 +34,7 @@
             height: 56px;
             background-color: #000000;
             display: flex;
-            gap: 45px;
+            gap: 20px; /* Reduced the gap to fit properly */
             align-items: center;
             padding: 0 40px;
         }
@@ -72,6 +72,13 @@
         .navbar a:hover {
             color: rgb(83, 80, 255);
             font-size: 29px; /* Same as in the second code */
+        }
+
+        /* Separator styling */
+        .separator {
+            color: white;  /* Make the separator text white */
+            font-size: 24px;  /* Adjust the size to make it more visible */
+            margin: 0 10px;  /* Add space around the separator */
         }
 
         /* Main title styling */
@@ -182,13 +189,14 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <div class="navbar">
         <div class="navbar-content">
             <a href="/">
                 <img src="/images/logo2.png" alt="Logo" />
             </a>
-            <a href="/games">Games</a> <!-- Now matches the style from the second code -->
+            <a href="/games">Games</a>
+            <div class="separator">|</div> <!-- Separator here -->
+            <a href="/tools">Tools</a>
         </div>
     </div>
 

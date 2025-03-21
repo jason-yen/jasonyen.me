@@ -43,7 +43,7 @@
             align-items: center;
         }
 
-/* Logo styling (increased size, border-radius, and margin-top for positioning) */
+        /* Logo styling (increased size, border-radius, and margin-top for positioning) */
         .navbar img {
             width: 40px; /* Increased size */
             height: 40px; /* Increased size */
@@ -53,7 +53,7 @@
             transition: transform 0.3s ease; /* Smooth transition for scaling */
         }
 
-/* Scale up logo when hovered */
+        /* Scale up logo when hovered */
         .navbar img:hover {
             transform: scale(1.2); /* Make the logo 20% bigger */
         }
@@ -119,18 +119,24 @@
             margin-top: 20px;
         }
 
+        /* Styling for the separator */
+        .separator {
+            font-size: 30px;  /* Adjust size */
+            color: #fff;      /* White color */
+            margin: 0 15px;   /* Add space around */
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
     <div class="navbar">
-        <!-- Container for logo and text -->
         <div class="navbar-content">
             <a href="/">
-                <img src="/images/logo2.png" alt="Error" />
+                <img src="/images/logo2.png" alt="Logo" />
             </a>
             <a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
         </div>
     </div>
 
