@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate</title>
+    <style>
+        /* Global styling */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: rgb(162, 224, 227);
+            color: black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #536DFE;
+            transition: 0.5s;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: rgb(83, 80, 255);
+            font-size: 29px;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            width: 100%;
+            height: 56px;
+            background-color: #000000;
+            display: flex;
+            gap: 45px;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 15px;
+            margin-right: 10px;
+            margin-top: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar img:hover {
+            transform: scale(1.2);
+        }
+
+        .navbar a {
+            margin-left: 5px;
+        }
+
+        .separator {
+            color: #fff;
+            font-size: 24px;
+            padding: 0 10px;
+        }
+
+        /* Main title */
+        .main-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            background-color: #4c5eaf;
+            text-align: center;
+            color: #bfc9ff;
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        /* Page content container */
+        .page-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .content {
+            text-align: center;
+            color: #4c5eaf;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        .rickroll-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .rickroll-gif {
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .gotcha-text {
+            font-size: 24px;
+            color: #444;
+            margin-top: 20px;
+        }
+
+        /* Footer button */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .game-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4c5eaf;
+            color: white;
+            font-size: 24px;
+            border-radius: 5px;
+        }
+
+        .game-link:hover {
+            background-color: #3b4a8b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-content">
+            <a href="/">
+                <img src="/images/logo2.png" alt="Logo" />
+            </a>
+            <a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
+        </div>
+    </div>
+
+    <div class="main-title">
+        Donate
+    </div>
+
+    <div class="page-content">
+        <div class="content">
+            Thank you so much for your generosity! Your support helps keep this site alive and thriving.
+        </div>
+
+        <div class="rickroll-container">
+            <img 
+                src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" 
+                alt="Rickroll GIF" 
+                class="rickroll-gif">
+            <p class="gotcha-text">
+                Gotcha! Never gonna give you up 🎵<br>
+                You’ve been rickrolled.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="/" class="game-link">Back to Home</a>
+    </div>
+
+</body>
+</html>

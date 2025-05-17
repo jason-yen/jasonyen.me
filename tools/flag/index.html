@@ -1,232 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flag Generator</title>
-    <link rel="stylesheet" href="/navbar.css">
-    <link rel="stylesheet" href="/navbar.css">
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flag Generator</title>
+  <link rel="stylesheet" href="/navbar.css" />
+  <style>
+    .generate-flag-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 30px;
+      background-color: #4c5eaf;
+      color: white;
+      font-size: 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
 
-        /* Button Styles for Flag Generation */
-        .generate-flag-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 30px;
-            background-color: #4c5eaf;
-            color: white;
-            font-size: 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+    .generate-flag-button:hover {
+      background-color: #2f4a88;
+    }
 
-        .generate-flag-button:hover {
-            background-color: #2f4a88;
-        }
+    .flag {
+      width: 300px;
+      height: auto;
+      margin: 20px auto;
+      text-align: center;
+    }
 
-        /* Flag Styles */
-        .flag {
-            width: 300px;
-            height: 200px;
-            margin: 20px auto;
-            position: relative;
-        }
+    .flag img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-        /* USA Flag Styles */
-        .usa-flag {
-            background-color: #B22234;
-            position: relative;
-            height: 100%;
-            width: 100%;
-        }
-
-        .usa-stripe {
-            width: 100%;
-            height: 14.28%;
-            background-color: white;
-            position: absolute;
-        }
-
-        .usa-blue-field {
-            background-color: #003366;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 40%;
-            height: 50%;
-        }
-
-        .usa-star {
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        /* China Flag Styles */
-        .china-flag {
-            background-color: #DE2910;
-            position: relative;
-            height: 100%;
-            width: 100%;
-        }
-
-        .china-star {
-            width: 30px;
-            height: 30px;
-            background-color: yellow;
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        .china-small-star {
-            width: 10px;
-            height: 10px;
-            background-color: yellow;
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        /* Madagascar Flag Styles */
-        .madagascar-flag {
-            background-color: #007847;
-            position: relative;
-            height: 100%;
-            width: 100%;
-        }
-
-        .madagascar-stripe {
-            background-color: white;
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 50%;
-        }
-    </style>
+    .country-name {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
 <!-- Navbar -->
 <div class="navbar">
-    <div class="navbar-content">
-        <a href="/">Home</a>
-        <a href="/games">Games</a>
-        <div class="separator">|</div>
-        <a href="/tools">Tools</a>
-    </div>
+  <div class="navbar-content">
+    <a href="/">
+      <img src="/images/logo2.png" alt="Logo" />
+    </a>
+    <a href="/games">Games</a>
+    <div class="separator">|</div>
+    <a href="/tools">Tools</a>
+  </div>
 </div>
 
 <!-- Main Title Section -->
 <div class="main-title">
-    Flag Generator
+  Flag Generator
 </div>
 
 <!-- Content Section -->
 <div class="content">
-    Generate random flags from different countries!
+  Generate a random country's flag and see it instantly!
 </div>
 
 <!-- Generate Random Flag Button -->
 <div class="content">
-    <a href="#" class="generate-flag-button" onclick="generateFlag()">Generate Random Flag</a>
+  <div class="generate-flag-button" onclick="generateRandomFlag()">Generate Random Flag</div>
 </div>
 
 <!-- Flag Display Section -->
-<div class="flag" id="flag"></div>
+<div class="flag" id="flagDisplay">
+  <!-- Flag and country name will be injected here -->
+</div>
 
 <script>
-    // Variable to store the last generated flag
-    let lastFlag = '';
+  let countriesData = [];
 
-    function generateFlag() {
-        const flagContainer = document.getElementById('flag');
-        flagContainer.innerHTML = '';  // Clear any previous flag
+  // Fetch all countries with flags
+  async function fetchCountries() {
+    const res = await fetch('https://restcountries.com/v3.1/all');
+    const data = await res.json();
+    countriesData = data.filter(country => country.flags && country.flags.svg && country.name);
+  }
 
-        // Flag options
-        const flags = ['usa', 'china', 'madagascar'];
-        
-        // Choose a random flag, ensuring it's not the same as the last flag
-        let randomFlag = flags[Math.floor(Math.random() * flags.length)];
-
-        // If the randomly selected flag is the same as the last one, pick a new one
-        while (randomFlag === lastFlag) {
-            randomFlag = flags[Math.floor(Math.random() * flags.length)];
-        }
-
-        lastFlag = randomFlag;  // Update lastFlag to the newly generated one
-
-        // Generate the selected flag
-        if (randomFlag === 'usa') {
-            // USA Flag Generation
-            const usaFlag = document.createElement('div');
-            usaFlag.classList.add('usa-flag');
-
-            for (let i = 0; i < 13; i++) {
-                const stripe = document.createElement('div');
-                stripe.classList.add('usa-stripe');
-                stripe.style.top = `${i * 14.28}%`; 
-                if (i % 2 === 0) stripe.style.backgroundColor = '#B22234'; 
-                else stripe.style.backgroundColor = 'white';
-                usaFlag.appendChild(stripe);
-            }
-
-            const blueField = document.createElement('div');
-            blueField.classList.add('usa-blue-field');
-            usaFlag.appendChild(blueField);
-
-            const starPositions = [
-                { top: '5%', left: '5%' }, { top: '5%', left: '15%' }, { top: '5%', left: '25%' }, { top: '5%', left: '35%' }, { top: '5%', left: '45%' },
-                { top: '15%', left: '5%' }, { top: '15%', left: '15%' }, { top: '15%', left: '25%' }, { top: '15%', left: '35%' }, { top: '15%', left: '45%' }
-            ];
-
-            for (const pos of starPositions) {
-                const star = document.createElement('div');
-                star.classList.add('usa-star');
-                star.style.top = pos.top;
-                star.style.left = pos.left;
-                blueField.appendChild(star);
-            }
-
-            flagContainer.appendChild(usaFlag);
-
-        } else if (randomFlag === 'china') {
-            // China Flag Generation
-            const chinaFlag = document.createElement('div');
-            chinaFlag.classList.add('china-flag');
-
-            const bigStar = document.createElement('div');
-            bigStar.classList.add('china-star');
-            bigStar.style.top = '5%';
-            bigStar.style.left = '5%';
-            chinaFlag.appendChild(bigStar);
-
-            const smallStarPositions = [
-                { top: '15%', left: '15%' }, { top: '25%', left: '5%' }, { top: '35%', left: '15%' }, { top: '45%', left: '5%' }
-            ];
-
-            for (const pos of smallStarPositions) {
-                const smallStar = document.createElement('div');
-                smallStar.classList.add('china-small-star');
-                smallStar.style.top = pos.top;
-                smallStar.style.left = pos.left;
-                chinaFlag.appendChild(smallStar);
-            }
-
-            flagContainer.appendChild(chinaFlag);
-
-        } else if (randomFlag === 'madagascar') {
-            // Madagascar Flag Generation
-            const madagascarFlag = document.createElement('div');
-            madagascarFlag.classList.add('madagascar-flag');
-            const stripe = document.createElement('div');
-            stripe.classList.add('madagascar-stripe');
-            madagascarFlag.appendChild(stripe);
-            flagContainer.appendChild(madagascarFlag);
-        }
+  // Generate a random flag from fetched data
+  function generateRandomFlag() {
+    if (countriesData.length === 0) {
+      document.getElementById('flagDisplay').innerHTML = 'Loading countries...';
+      return;
     }
+
+    const randomCountry = countriesData[Math.floor(Math.random() * countriesData.length)];
+    const flagUrl = randomCountry.flags.svg;
+    const countryName = randomCountry.name.common;
+
+    document.getElementById('flagDisplay').innerHTML = `
+      <img src="${flagUrl}" alt="Flag of ${countryName}">
+      <div class="country-name">${countryName}</div>
+    `;
+  }
+
+  // Load countries on page load
+  fetchCountries();
 </script>
 
 </body>
