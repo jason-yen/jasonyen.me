@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rubik's Cube Solver</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-title {
+      text-align: center;
+      font-size: 32px;
+      margin-top: 20px;
+    }
+
+    .layout-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    .color-picker-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: fixed;
+      top: 100px;
+      left: 20px;
+      z-index: 999;
+    }
+
+    .color-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #ccc;
+    }
+
+    .cube-ui {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 120px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      grid-template-rows: repeat(3, 50px);
+      gap: 3px;
+      margin-bottom: 15px;
+    }
+
+    .cell {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #999;
+      background-color: #eee;
+      cursor: pointer;
+    }
+
+    .face {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #replayButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4c5eaf;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #replayButton:hover {
+      background-color: #3b4a8b;
+    }
+
+    #solution {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-title">Rubik's Cube Solver</div>
+
+  <div class="layout-container">
+    <!-- Color Picker -->
+    <div class="color-picker-vertical">
+      <div class="color-button" style="background-color: white;" onclick="changeColor('U')"></div>
+      <div class="color-button" style="background-color: yellow;" onclick="changeColor('D')"></div>
+      <div class="color-button" style="background-color: green;" onclick="changeColor('F')"></div>
+      <div class="color-button" style="background-color: blue;" onclick="changeColor('B')"></div>
+      <div class="color-button" style="background-color: orange;" onclick="changeColor('L')"></div>
+      <div class="color-button" style="background-color: red;" onclick="changeColor('R')"></div>
+    </div>
+
+    <!-- Cube Faces -->
+    <div class="cube-ui">
+      <div class="face"><h3>Up (U)</h3><div class="grid" id="U"></div></div>
+      <div class="face"><h3>Right (R)</h3><div class="grid" id="R"></div></div>
+      <div class="face"><h3>Front (F)</h3><div class="grid" id="F"></div></div>
+      <div class="face"><h3>Down (D)</h3><div class="grid" id="D"></div></div>
+      <div class="face"><h3>Left (L)</h3><div class="grid" id="L"></div></div>
+      <div class="face"><h3>Back (B)</h3><div class="grid" id="B"></div></div>
+
+      <button id="replayButton" onclick="solveAndDisplay()">Solve Cube</button>
+      <div id="solution"></div>
+    </div>
+  </div>
+
+  <!-- Cube.js Solver Library -->
+  <script src="https://cdn.jsdelivr.net/npm/cubejs/lib/cube.min.js"></script>
+
+  <script>
+    const faces = ['U', 'R', 'F', 'D', 'L', 'B'];
+    const cube = {};
+    let currentColor = 'U'; // Default color
+
+    const colorMap = {
+      U: '#FFFFFF', // white
+      D: '#FFFF00', // yellow
+      F: '#008000', // green
+      B: '#0000FF', // blue
+      L: '#FFA500', // orange
+      R: '#FF0000'  // red
+    };
+
+    window.onload = () => {
+      faces.forEach(face => {
+        cube[face] = Array(9).fill(face);
+        const container = document.getElementById(face);
+        for (let i = 0; i < 9; i++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.id = `${face}${i}`;
+          cell.onclick = () => selectColor(face, i);
+          cell.style.backgroundColor = colorMap[cube[face][i]];
+          container.appendChild(cell);
+        }
+      });
+    };
+
+    function changeColor(color) {
+      currentColor = color;
+    }
+
+    function selectColor(face, index) {
+      cube[face][index] = currentColor;
+      document.getElementById(face + index).style.backgroundColor = colorMap[currentColor];
+    }
+
+    function cubeToFacelets() {
+      let facelets = '';
+      ['U', 'R', 'F', 'D', 'L', 'B'].forEach(face => {
+        facelets += cube[face].join('');
+      });
+      return facelets;
+    }
+
+    function solveAndDisplay() {
+      const facelets = cubeToFacelets();
+      if (facelets.length !== 54) {
+        alert("Cube must have 54 stickers filled.");
+        return;
+      }
+
+      try {
+        Cube.initSolver(); // initialize cube.js solver
+        const solution = Cube.solve(facelets);
+        document.getElementById('solution').innerText = 'Solution: ' + solution;
+      } catch (err) {
+        alert('Error solving cube: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

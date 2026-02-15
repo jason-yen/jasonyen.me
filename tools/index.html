@@ -4,74 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Webpage</title>
-    <link rel="stylesheet" href="/navbar.css">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
 
-        a {
+        body {
+            margin: 0;
+            padding-top: 56px; /* prevents navbar overlap */
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            width: 100%;
+            height: 56px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 20px;
+
+            background: rgba(200, 200, 255, 0.093);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar a {
             color: #536DFE;
-            transition: 0.5s;
+            font-weight: 500;
             text-decoration: none;
+            transition: 0.3s ease;
         }
 
-        a:hover {
-            color: rgb(83, 80, 255);
-            font-size: 29px;
+        .navbar a:hover {
+            transform: scale(1.05);
         }
-        /* Style for game link */
+
+        .separator {
+            color: #9dacff;
+            font-size: 20px;
+        }
+
+        /* ================= PAGE CONTENT ================= */
+
+        .main-title {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 40px 40px 20px 40px;
+        }
+
+        .content {
+            margin: 0 40px 30px 40px;
+            font-size: 18px;
+        }
+
+        /* ================= TOOL BUTTONS ================= */
+
         .game-link {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
+            margin: 15px 10px 0 0;
+            padding: 12px 25px;
             background-color: #4c5eaf;
             color: white;
-            font-size: 24px;
-            border-radius: 5px;
-            text-decoration: none; /* Removes underline */
+            font-size: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s ease;
         }
 
         .game-link:hover {
             background-color: #2f4a88;
+            transform: translateY(-3px);
         }
+
     </style>
 </head>
 
 <body>
+
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="navbar-content">
             <a href="/">
-                <img src="/images/logo2.png" alt="Logo" />
+                <img src="/images/WardenmonsterLogo.png" alt="Logo">
             </a>
+
             <a href="/games">Games</a>
             <div class="separator">|</div>
             <a href="/tools">Tools</a>
         </div>
     </div>
 
-
-    <!-- Main Title Section -->
+    <!-- MAIN TITLE -->
     <div class="main-title">
         Tools Page
     </div>
 
-    <!-- Content Section -->
+    <!-- INTRO TEXT -->
     <div class="content">
-        And yes, for the people in my current class, this is my webpage.
+        Jasonyen.me
     </div>
-    
-    <!-- Content Section for Game Selection -->
+
+    <!-- TOOL SECTION -->
     <div class="content">
-        Choose A Tool!
+        <strong>Choose A Tool:</strong>
         <br>
-        <!-- Link to Tic Tac Toe game with enhanced style -->
-        <a href="/tools/calculator/"class=game-link>Calculator</a>
-        <!-- Link to Platformer game with enhanced style -->
+
+        <a href="/tools/calculator/" class="game-link">Calculator</a>
         <a href="/tools/wordgen" class="game-link">Word Generator</a>
-        <!-- Link to Platformer game with enhanced style -->
         <a href="/tools/maps" class="game-link">Google Maps</a>
-               <!-- Link to Platformer game with enhanced style -->
-               <a href="/tools/flag" class="game-link">Flag Generator</a>
-      
+        <a href="/tools/flag" class="game-link">Flag Generator</a>
+        <a href="/ai" class="game-link">Search Engine (Beta)</a>
 
     </div>
+
 </body>
 </html>

@@ -4,146 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate</title>
+
     <style>
-        /* Global styling */
         * {
             box-sizing: border-box;
         }
 
-        html, body {
+        body {
             margin: 0;
-            padding: 0;
-            height: 100%;
+            padding-top: 56px; /* Prevent navbar overlap */
             font-family: Arial, sans-serif;
-            background: rgb(162, 224, 227);
-            color: black;
-            display: flex;
-            flex-direction: column;
+            background-color: #f5f6fa;
         }
 
-        a {
-            color: #536DFE;
-            transition: 0.5s;
-            text-decoration: none;
-        }
+        /* ================= NAVBAR ================= */
 
-        a:hover {
-            color: rgb(83, 80, 255);
-            font-size: 29px;
-        }
-
-        /* Navbar styling */
         .navbar {
             width: 100%;
             height: 56px;
-            background-color: #000000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+
             display: flex;
-            gap: 45px;
             align-items: center;
             padding: 0 40px;
+            gap: 20px;
+
+            background: rgba(200, 200, 255, 0.093);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .navbar-content {
             display: flex;
             align-items: center;
+            gap: 20px;
         }
 
         .navbar img {
             width: 40px;
             height: 40px;
-            border-radius: 15px;
-            margin-right: 10px;
-            margin-top: 5px;
+            border-radius: 12px;
             transition: transform 0.3s ease;
         }
 
         .navbar img:hover {
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         .navbar a {
-            margin-left: 5px;
+            color: #536DFE;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .navbar a:hover {
+            transform: scale(1.05);
         }
 
         .separator {
-            color: #fff;
-            font-size: 24px;
-            padding: 0 10px;
+            color: #9dacff;
+            font-size: 20px;
         }
 
-        /* Main title */
+        /* ================= PAGE CONTENT ================= */
+
         .main-title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            background-color: #4c5eaf;
-            text-align: center;
-            color: #bfc9ff;
-            font-size: 80px;
+            font-size: 42px;
             font-weight: bold;
-        }
-
-        /* Page content container */
-        .page-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            margin: 40px 40px 20px 40px;
         }
 
         .content {
-            text-align: center;
-            color: #4c5eaf;
-            font-size: 30px;
-            margin-top: 20px;
+            margin: 0 40px 30px 40px;
+            font-size: 18px;
         }
 
         .rickroll-container {
-            text-align: center;
-            margin-top: 40px;
+            margin: 20px 40px;
         }
 
         .rickroll-gif {
-            width: 90%;
+            width: 100%;
             max-width: 500px;
             border-radius: 8px;
-        }
-
-        .gotcha-text {
-            font-size: 24px;
-            color: #444;
             margin-top: 20px;
         }
 
-        /* Footer button */
-        .footer {
-            text-align: center;
-            padding: 30px 0;
+        .gotcha-text {
+            font-size: 18px;
+            margin-top: 15px;
         }
+
+        /* ================= BUTTON ================= */
 
         .game-link {
             display: inline-block;
-            padding: 10px 20px;
+            margin: 20px 40px 40px 40px;
+            padding: 12px 25px;
             background-color: #4c5eaf;
             color: white;
-            font-size: 24px;
-            border-radius: 5px;
+            font-size: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s ease;
         }
 
         .game-link:hover {
-            background-color: #3b4a8b;
+            background-color: #2f4a88;
+            transform: translateY(-3px);
         }
+
     </style>
 </head>
+
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="navbar-content">
             <a href="/">
-                <img src="/images/logo2.png" alt="Logo" />
+                <img src="/images/WardenmonsterLogo.png" alt="Logo">
             </a>
             <a href="/games">Games</a>
             <div class="separator">|</div>
@@ -151,30 +138,31 @@
         </div>
     </div>
 
+    <!-- TITLE -->
     <div class="main-title">
         Donate
     </div>
 
-    <div class="page-content">
-        <div class="content">
-            Thank you so much for your generosity! Your support helps keep this site alive and thriving.
-        </div>
+    <!-- CONTENT -->
+    <div class="content">
+        Thank you so much for your generosity! Your support helps keep this site alive and thriving.
+    </div>
 
-        <div class="rickroll-container">
-            <img 
-                src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" 
-                alt="Rickroll GIF" 
-                class="rickroll-gif">
-            <p class="gotcha-text">
-                Gotcha! Never gonna give you up 🎵<br>
-                You’ve been rickrolled.
-            </p>
+    <!-- RICKROLL SECTION -->
+    <div class="rickroll-container content">
+        <img 
+            src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" 
+            alt="Rickroll GIF" 
+            class="rickroll-gif">
+
+        <div class="gotcha-text">
+            <br>
+            You’ve been rickrolled.
         </div>
     </div>
 
-    <div class="footer">
-        <a href="/" class="game-link">Back to Home</a>
-    </div>
+    <!-- BACK BUTTON -->
+    <a href="/" class="game-link">Back to Home</a>
 
 </body>
 </html>

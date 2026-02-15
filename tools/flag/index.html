@@ -1,112 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flag Generator</title>
-  <link rel="stylesheet" href="/navbar.css" />
-  <style>
-    .generate-flag-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 15px 30px;
-      background-color: #4c5eaf;
-      color: white;
-      font-size: 18px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: 0.3s;
-      cursor: pointer;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Flag Generator</title>
 
-    .generate-flag-button:hover {
-      background-color: #2f4a88;
-    }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    .flag {
-      width: 300px;
-      height: auto;
-      margin: 20px auto;
-      text-align: center;
-    }
+body {
+    margin: 0;
+    padding-top: 56px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: black;
+}
 
-    .flag img {
-      width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+a {
+    color: #536DFE;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
 
-    .country-name {
-      margin-top: 10px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  </style>
+a:hover {
+    transform: scale(1.05);
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    width: 100%;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 20px;
+    background: rgba(200, 200, 255, 0.093);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.navbar img:hover {
+    transform: scale(1.1);
+}
+
+.separator {
+    color: #9dacff;
+    font-size: 20px;
+}
+
+.navbar a {
+    font-weight: 500;
+}
+
+/* ================= PAGE CONTENT ================= */
+
+.main-title {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 40px 40px 20px 40px;
+}
+
+.content {
+    margin: 0 40px 30px 40px;
+    font-size: 18px;
+}
+
+/* ================= BUTTON ================= */
+
+.generate-flag-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #4c5eaf;
+    color: white;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.generate-flag-button:hover {
+    background-color: #2f4a88;
+    transform: translateY(-3px);
+}
+
+/* ================= FLAG DISPLAY ================= */
+
+.flag {
+    width: 300px;
+    margin: 20px 40px 40px 40px;
+}
+
+.flag img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.country-name {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
-<!-- Navbar -->
 <div class="navbar">
-  <div class="navbar-content">
-    <a href="/">
-      <img src="/images/logo2.png" alt="Logo" />
-    </a>
-    <a href="/games">Games</a>
-    <div class="separator">|</div>
-    <a href="/tools">Tools</a>
-  </div>
+    <div class="navbar-content">
+        <a href="/">
+                <img src="/images/WardenmonsterLogo.png" alt="Logo">
+        </a>
+        <a href="/games">Games</a>
+        <div class="separator">|</div>
+        <a href="/tools">Tools</a>
+    </div>
 </div>
 
-<!-- Main Title Section -->
 <div class="main-title">
-  Flag Generator
+    Flag Generator
 </div>
 
-<!-- Content Section -->
+
 <div class="content">
-  Generate a random country's flag and see it instantly!
+    <div class="generate-flag-button" onclick="generateRandomFlag()">
+        Generate Random Flag
+    </div>
 </div>
 
-<!-- Generate Random Flag Button -->
-<div class="content">
-  <div class="generate-flag-button" onclick="generateRandomFlag()">Generate Random Flag</div>
-</div>
-
-<!-- Flag Display Section -->
 <div class="flag" id="flagDisplay">
-  <!-- Flag and country name will be injected here -->
 </div>
 
 <script>
-  let countriesData = [];
+let countriesData = [];
 
-  // Fetch all countries with flags
-  async function fetchCountries() {
+async function fetchCountries() {
     const res = await fetch('https://restcountries.com/v3.1/all');
     const data = await res.json();
-    countriesData = data.filter(country => country.flags && country.flags.svg && country.name);
-  }
+    countriesData = data.filter(country => 
+        country.flags && country.flags.svg && country.name
+    );
+}
 
-  // Generate a random flag from fetched data
-  function generateRandomFlag() {
+function generateRandomFlag() {
+    const flagDisplay = document.getElementById('flagDisplay');
+
     if (countriesData.length === 0) {
-      document.getElementById('flagDisplay').innerHTML = 'Loading countries...';
-      return;
+        flagDisplay.innerHTML = 'Loading countries...';
+        return;
     }
 
-    const randomCountry = countriesData[Math.floor(Math.random() * countriesData.length)];
+    const randomCountry = 
+        countriesData[Math.floor(Math.random() * countriesData.length)];
+
     const flagUrl = randomCountry.flags.svg;
     const countryName = randomCountry.name.common;
 
-    document.getElementById('flagDisplay').innerHTML = `
-      <img src="${flagUrl}" alt="Flag of ${countryName}">
-      <div class="country-name">${countryName}</div>
+    flagDisplay.innerHTML = `
+        <img src="${flagUrl}" alt="Flag of ${countryName}">
+        <div class="country-name">${countryName}</div>
     `;
-  }
+}
 
-  // Load countries on page load
-  fetchCountries();
+fetchCountries();
 </script>
 
 </body>

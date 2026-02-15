@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess the Number Game</title>
+    <title>Guess the Number</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -11,128 +12,128 @@
 
         body {
             margin: 0;
-            padding: 0;
-            color: black;
-            background: rgb(162, 224, 227);
+            padding-top: 56px; /* Prevent navbar overlap */
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
         }
 
-        a {
-            color: #536DFE;
-            transition: 0.5s;
-        }
+        /* ================= NAVBAR ================= */
 
-        a:hover {
-            color: rgb(83, 80, 255);
-            font-size: 29px;
-        }
-
-        /* Navbar container */
         .navbar {
             width: 100%;
             height: 56px;
-            background-color: #000000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+
             display: flex;
-            gap: 45px;
             align-items: center;
             padding: 0 40px;
+            gap: 20px;
+
+            background: rgba(200, 200, 255, 0.093);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* Container for logo and text */
         .navbar-content {
             display: flex;
             align-items: center;
+            gap: 20px;
         }
 
-        /* Logo styling (increased size, border-radius, and margin-top for positioning) */
         .navbar img {
-            width: 40px; /* Increased size */
-            height: 40px; /* Increased size */
-            border-radius: 15px; /* Rounded corners */
-            margin-right: 10px;
-            margin-top: 5px; /* Added margin to lower the logo */
-            transition: transform 0.3s ease; /* Smooth transition for scaling */
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
         }
 
-        /* Scale up logo when hovered */
         .navbar img:hover {
-            transform: scale(1.2); /* Make the logo 20% bigger */
+            transform: scale(1.1);
         }
 
-        /* Main title styling */
+        .navbar a {
+            color: #536DFE;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .navbar a:hover {
+            transform: scale(1.05);
+        }
+
+        .separator {
+            color: #9dacff;
+            font-size: 20px;
+        }
+
+        /* ================= PAGE CONTENT ================= */
+
         .main-title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100px;
-            background-color: #4c5eaf;
-            text-align: center;
-            color: #bfc9ff;
-            font-size: 80px;
+            font-size: 42px;
             font-weight: bold;
+            margin: 40px 40px 20px 40px;
         }
 
-        /* Content Section */
         .content {
-            text-align: center;
-            color: #4c5eaf;
-            font-size: 30px;
-            margin-top: 20px;
+            margin: 0 40px 30px 40px;
+            font-size: 18px;
         }
 
-        /* Guessing Game Styles */
+        /* ================= GAME SECTION ================= */
+
         .game-container {
+            margin: 0 40px 40px 40px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
+            align-items: flex-start;
         }
 
         .game-container input {
-            padding: 15px;
-            font-size: 24px; /* Increased font size for better readability */
-            width: 200px; /* Increased width to make the box bigger */
-            text-align: center;
-            margin: 10px 0;
+            padding: 12px;
+            font-size: 18px;
+            width: 220px;
+            margin: 15px 0;
         }
 
         .game-container button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 18px;
             background-color: #4c5eaf;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: 0.3s ease;
         }
 
         .game-container button:hover {
             background-color: #2f4a88;
+            transform: translateY(-3px);
         }
 
-        .feedback {
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
+        .feedback,
         .message {
-            font-size: 24px;
-            margin-top: 20px;
+            font-size: 18px;
+            margin-top: 15px;
         }
 
-        /* Styling for the separator */
-        .separator {
-            font-size: 30px;  /* Adjust size */
-            color: #fff;      /* White color */
-            margin: 0 15px;   /* Add space around */
-        }
     </style>
 </head>
 
 <body>
+
+    <!-- NAVBAR -->
     <div class="navbar">
         <div class="navbar-content">
             <a href="/">
-                <img src="/images/logo2.png" alt="Logo" />
+                <img src="/images/WardenmonsterLogo.png" alt="Logo">
             </a>
             <a href="/games">Games</a>
             <div class="separator">|</div>
@@ -140,18 +141,16 @@
         </div>
     </div>
 
-    <!-- Main Title Section -->
+    <!-- TITLE -->
     <div class="main-title">
-        Guess the Number Page
+        Guess the Number
     </div>
 
-    <!-- Guess the Number Game Content -->
-    <div class="game-container">
-        <div class="content">
-            And yes, for the people in my current class, this is my webpage.
-        </div>
 
-        <input type="number" id="guessInput" placeholder="Enter number" min="1" max="100" />
+
+    <!-- GAME -->
+    <div class="game-container">
+        <input type="number" id="guessInput" placeholder="Enter number" min="1" max="100">
         <button onclick="checkGuess()">Guess</button>
 
         <div class="feedback" id="feedback"></div>
@@ -159,18 +158,15 @@
     </div>
 
     <script>
-        // Generate a random number between 1 and 100
         let randomNumber = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
 
-        // Function to check the user's guess
         function checkGuess() {
             const guess = parseInt(document.getElementById('guessInput').value);
             const feedback = document.getElementById('feedback');
             const message = document.getElementById('message');
             attempts++;
 
-            // Validate input
             if (isNaN(guess) || guess < 1 || guess > 100) {
                 feedback.textContent = "Please enter a number between 1 and 100.";
                 return;
@@ -187,15 +183,16 @@
             }
         }
 
-        // Reset the game after winning
         function resetGame() {
             setTimeout(() => {
                 randomNumber = Math.floor(Math.random() * 100) + 1;
                 attempts = 0;
                 document.getElementById('guessInput').value = "";
                 document.getElementById('feedback').textContent = "";
+                document.getElementById('message').textContent = "";
             }, 2000);
         }
     </script>
+
 </body>
 </html>
