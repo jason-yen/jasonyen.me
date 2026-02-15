@@ -1,207 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Virtually Impossible Platformer Game</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtually Impossible Platformer Game</title>
 
-    body {
-      margin: 0;
-      padding-top: 56px; /* navbar offset */
-      font-family: Arial, sans-serif;
-      background-color: #f5f6fa;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    a {
-      color: #536DFE;
-      transition: 0.3s;
-      text-decoration: none;
-    }
+        body {
+            margin: 0;
+            padding-top: 56px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+        }
 
-    a:hover {
-      transform: scale(1.05);
-    }
+        /* ================= NAVBAR ================= */
+        .navbar {
+            width: 100%;
+            height: 56px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 20px;
+            background: rgba(200, 200, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
 
-    /* ================= NAVBAR ================= */
-    .navbar {
-      width: 100%;
-      height: 56px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 9999;
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-      display: flex;
-      align-items: center;
-      padding: 0 40px;
-      gap: 20px;
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
 
-      background: rgba(200, 200, 255, 0.093);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+        .navbar img:hover {
+            transform: scale(1.1);
+        }
 
-      border-bottom: 1px solid rgba(200, 200, 255, 0.2);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
+        .navbar a {
+            color: #536DFE;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
 
-    .navbar-content {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+        .navbar a:hover {
+            transform: scale(1.05);
+        }
 
-    .navbar img {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
+        .separator {
+            color: #9dacff;
+            font-size: 20px;
+        }
 
-    .navbar img:hover {
-      transform: scale(1.1);
-    }
+        /* ================= PAGE CONTENT ================= */
+        .main-title {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 40px 40px 20px 40px;
+        }
 
-    .navbar a {
-      color: #536DFE;
-      font-weight: 500;
-    }
+        /* ================= BUTTON ================= */
+        .restart-btn {
+            display: inline-block;
+            margin: 0 40px 20px 40px;
+            padding: 12px 25px;
+            background-color: #4c5eaf;
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
 
-    .separator {
-      color: #9dacff;
-      font-size: 20px;
-    }
+        .restart-btn:hover {
+            background-color: #2f4a88;
+            transform: translateY(-3px);
+        }
 
-    /* ================= PAGE CONTENT ================= */
-    .main-title {
-      font-size: 42px;
-      font-weight: bold;
-      margin: 40px 40px 20px 40px;
-    }
-
-    .content {
-      margin: 0 40px 20px 40px;
-      font-size: 18px;
-      color: #4c5eaf;
-    }
-
-    /* ================= CANVAS ================= */
-    canvas {
-      display: block;
-      margin: 20px auto 40px auto;
-      background: #87CEEB;
-      border: 3px solid #000;
-      border-radius: 10px;
-    }
-  </style>
+        /* ================= CANVAS ================= */
+        canvas {
+            display: block;
+            margin: 20px 40px 40px 40px;
+            background: #87CEEB;
+            border: 3px solid #000;
+            border-radius: 10px;
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <div class="navbar-content">
-      <a href="/">
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="navbar-content">
+            <a href="/">
                 <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-      </a>
-      <a href="/games">Games</a>
-      <div class="separator">|</div>
-      <a href="/tools">Tools</a>
+            </a>
+            <a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
+        </div>
     </div>
-  </div>
 
-  <!-- TITLE -->
-  <div class="main-title">Virtually Impossible Platformer Game</div>
+    <!-- MAIN TITLE -->
+    <div class="main-title">
+        Virtually Impossible Platformer Game
+    </div>
 
-  <!-- DESCRIPTION -->
-  <div class="content">
-    Disclaimer: Press enter for dev tool (beta)
-    <div id="message"></div>
-  </div>
+    <!-- RESTART BUTTON -->
+    <button class="restart-btn" onclick="fullRestart()">Restart Game</button>
 
-  <!-- GAME CANVAS -->
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <!-- GAME CANVAS -->
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
 
-  <script>
-    // Your existing platformer JS code goes here
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-    const gravity = 1.2;
-    const player = { x: 50, y: 300, width: 30, height: 30, color: 'red', ySpeed: 0, xSpeed: 0, grounded: false, flyMode: false, trail: [] };
-    const keys = { left: false, right: false, jumpPressed: false };
-    let currentLevel = 1;
-    let platforms = [], spikes = [], enemies = [];
+        let gravity = 0.9;
+        const friction = 0.85;
+        let jumpPower = -16;
+        let moveSpeed = 7;
+        let deathCount = 0;
+        let screenShake = 0;
+        let wind = 0;
+        let reverseGravityTimer = 0;
+        let lavaHeight = 400;
+        let fallingSpikes = [];
 
-    const level1Platforms = [ { x:0,y:370,width:800,height:30 }, { x:200,y:250,width:80,height:10 }, { x:400,y:180,width:80,height:10 }, { x:600,y:100,width:80,height:10 } ];
-    const level1Spikes = [ { x:300,y:355,width:30,height:15 }, { x:500,y:355,width:30,height:15 } ];
-    const level1Enemies = [ { x:100,y:340,width:30,height:30,speed:2,range:100,direction:1,originX:100 } ];
-    const goal = { x: canvas.width-30, y:30, radius:20, color:'gold' };
+        const player = {
+            x: 50,
+            y: 300,
+            width: 28,
+            height: 28,
+            xVel: 0,
+            yVel: 0,
+            grounded: false,
+            coyoteTime: 0,
+            jumpBuffer: 0
+        };
 
-    function resetPlayer() { player.x=50; player.y=300; player.xSpeed=0; player.ySpeed=0; player.grounded=false; player.flyMode=false; player.trail=[]; }
+        let platforms, spikes, enemies;
+        const goal = { x: 760, y: 30, radius: 10 };
 
-    function switchLevel() {
-      const distance = Math.sqrt((player.x + player.width/2 - goal.x)**2 + (player.y + player.height/2 - goal.y)**2);
-      if(distance <= goal.radius + player.width/2){
-        currentLevel++;
-        resetPlayer();
-        if(currentLevel===2){ /* load level2 platforms/spikes/enemies */ }
-        else if(currentLevel===3){ /* load level3 platforms/spikes/enemies */ }
-        else { alert("You've completed all levels!"); currentLevel=1; platforms=level1Platforms; spikes=level1Spikes; enemies=level1Enemies; }
-      }
-    }
-
-    document.addEventListener('keydown', e=>{
-      if(e.code==='ArrowLeft') keys.left=true;
-      if(e.code==='ArrowRight') keys.right=true;
-      if(e.code==='Space'){ if(!keys.jumpPressed && player.grounded){ player.ySpeed=-18; player.grounded=false; } keys.jumpPressed=true; }
-      if(e.code==='Enter'){ player.flyMode=!player.flyMode; if(player.flyMode) player.ySpeed=-5; }
-    });
-
-    document.addEventListener('keyup', e=>{
-      if(e.code==='ArrowLeft') keys.left=false;
-      if(e.code==='ArrowRight') keys.right=false;
-      if(e.code==='Space') keys.jumpPressed=false;
-    });
-
-    function updateEnemies(){ for(const e of enemies){ e.x += e.speed*e.direction; if(e.x>e.originX+e.range||e.x<e.originX) e.direction*=-1; } }
-
-    function updatePlayer(){
-      player.xSpeed=0; if(keys.left) player.xSpeed=-5; if(keys.right) player.xSpeed=5;
-      if(!player.flyMode) player.ySpeed+=gravity; else player.ySpeed=-3;
-      player.x+=player.xSpeed; player.y+=player.ySpeed;
-      player.grounded=false;
-      for(const p of platforms){
-        if(player.x<p.x+p.width && player.x+player.width>p.x && player.y+player.height<=p.y+player.ySpeed && player.y+player.height+player.ySpeed>p.y){
-          player.y=p.y-player.height; player.ySpeed=0; player.grounded=true;
+        function loadLevel() {
+            platforms = [
+                {x:0,y:370,width:800,height:30},
+                {x:200,y:250,width:80,height:10},
+                {x:400,y:180,width:80,height:10},
+                {x:600,y:100,width:80,height:10,fake:true}
+            ];
+            spikes = [
+                {x:300,y:355,width:30,height:15},
+                {x:500,y:355,width:30,height:15}
+            ];
+            enemies = [
+                {x:100,y:340,width:30,height:30,speed:4,range:150,direction:1,originX:100}
+            ];
         }
-      }
-      if(player.x<0) player.x=0; if(player.x+player.width>canvas.width) player.x=canvas.width-player.width;
-      for(const s of spikes){
-        if(player.x<s.x+s.width && player.x+player.width>s.x && player.y<s.y+s.height && player.y+player.height>s.y){ resetPlayer(); }
-      }
-      for(const e of enemies){
-        if(player.x<e.x+e.width && player.x+player.width>e.x && player.y<e.y+e.height && player.y+player.height>e.y){ resetPlayer(); }
-      }
-      if(player.flyMode){ player.trail.push({x:player.x,y:player.y}); if(player.trail.length>10) player.trail.shift(); }
-    }
 
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      if(player.flyMode){ ctx.fillStyle='rgba(255,255,0,0.5)'; for(const t of player.trail){ ctx.beginPath(); ctx.arc(t.x+player.width/2,t.y+player.height/2,5,0,Math.PI*2); ctx.fill(); } }
-      ctx.fillStyle=player.color; ctx.fillRect(player.x,player.y,player.width,player.height);
-      ctx.fillStyle='green'; for(const p of platforms) ctx.fillRect(p.x,p.y,p.width,p.height);
-      ctx.fillStyle='black'; for(const s of spikes){ ctx.beginPath(); ctx.moveTo(s.x,s.y+s.height); ctx.lineTo(s.x+s.width/2,s.y); ctx.lineTo(s.x+s.width,s.y+s.height); ctx.closePath(); ctx.fill(); }
-      ctx.fillStyle='purple'; for(const e of enemies) ctx.fillRect(e.x,e.y,e.width,e.height);
-      ctx.beginPath(); ctx.arc(goal.x,goal.y,goal.radius,0,Math.PI*2); ctx.fillStyle=goal.color; ctx.fill(); ctx.closePath();
-    }
+        const keys = {};
+        document.addEventListener('keydown', e => {
+            keys[e.code] = true;
+            if (e.code === 'Space') player.jumpBuffer = 8;
+        });
+        document.addEventListener('keyup', e => keys[e.code] = false);
 
-    function gameLoop(){ updatePlayer(); updateEnemies(); draw(); switchLevel(); requestAnimationFrame(gameLoop); }
+        function resetPlayer() {
+            player.x = 50;
+            player.y = 300;
+            player.xVel = 0;
+            player.yVel = 0;
+            deathCount++;
+            screenShake = 20;
+        }
 
-    platforms=level1Platforms; spikes=level1Spikes; enemies=level1Enemies;
-    gameLoop();
-  </script>
+        function fullRestart() {
+            gravity = 0.9;
+            jumpPower = -16;
+            lavaHeight = 400;
+            wind = 0;
+            reverseGravityTimer = 0;
+            deathCount = 0;
+            fallingSpikes = [];
+            loadLevel();
+            resetPlayer();
+        }
+
+        function rectCollide(a,b){
+            return(
+                a.x < b.x + b.width &&
+                a.x + a.width > b.x &&
+                a.y < b.y + b.height &&
+                a.y + a.height > b.y
+            );
+        }
+
+        function update(){
+            if(Math.random()<0.01) wind=(Math.random()-0.5)*4;
+
+            reverseGravityTimer++;
+            if(reverseGravityTimer>480){
+                gravity*=-1;
+                jumpPower*=-1;
+                player.grounded=false;
+                reverseGravityTimer=0;
+            }
+
+            if(keys['ArrowLeft']) player.xVel-=moveSpeed;
+            if(keys['ArrowRight']) player.xVel+=moveSpeed;
+
+            player.xVel+=wind*0.1;
+            player.xVel*=friction;
+            player.yVel+=gravity;
+
+            if(player.grounded) player.coyoteTime=6;
+            else player.coyoteTime--;
+
+            if(player.jumpBuffer>0) player.jumpBuffer--;
+
+            if(player.jumpBuffer>0 && player.coyoteTime>0){
+                player.yVel=jumpPower+(Math.random()*2-1);
+                player.jumpBuffer=0;
+            }
+
+            player.x+=player.xVel;
+            player.y+=player.yVel;
+            player.grounded=false;
+
+            for(let p of platforms){
+                if(rectCollide(player,p)){
+                    if(p.fake){
+                        resetPlayer();
+                        return;
+                    }
+
+                    let prevBottom=player.y-player.yVel+player.height;
+                    let prevTop=player.y-player.yVel;
+
+                    if(gravity>0 && prevBottom<=p.y){
+                        player.y=p.y-player.height;
+                        player.yVel=0;
+                        player.grounded=true;
+                    } else if(gravity<0 && prevTop>=p.y+p.height){
+                        player.y=p.y+p.height;
+                        player.yVel=0;
+                        player.grounded=true;
+                    }
+                }
+            }
+
+            if(player.x<0) player.x=0;
+            if(player.x+player.width>canvas.width) player.x=canvas.width-player.width;
+            if(player.y>canvas.height+200 || player.y<-200) resetPlayer();
+
+            lavaHeight-=0.2;
+            if(player.y+player.height>lavaHeight) resetPlayer();
+
+            if(Math.random()<0.02) fallingSpikes.push({x:Math.random()*780,y:-20,width:20,height:20,speed:4});
+            fallingSpikes=fallingSpikes.filter(s=>{
+                s.y+=s.speed;
+                if(rectCollide(player,s)){ resetPlayer(); return false; }
+                return s.y<canvas.height+50;
+            });
+
+            for(let s of spikes) if(rectCollide(player,s)) resetPlayer();
+
+            for(let e of enemies){
+                e.x+=e.speed*e.direction;
+                if(e.x>e.originX+e.range||e.x<e.originX) e.direction*=-1;
+                if(rectCollide(player,e)) resetPlayer();
+            }
+
+            const dx=player.x+player.width/2-goal.x;
+            const dy=player.y+player.height/2-goal.y;
+            if(Math.sqrt(dx*dx+dy*dy)<goal.radius){
+                alert("YOU BEAT THE IMPOSSIBLE GAME?!");
+                fullRestart();
+            }
+
+            if(screenShake>0) screenShake--;
+        }
+
+        function draw(){
+            ctx.save();
+            if(screenShake>0) ctx.translate((Math.random()-0.5)*15,(Math.random()-0.5)*15);
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            ctx.fillStyle="green";
+            platforms.forEach(p=>ctx.fillRect(p.x,p.y,p.width,p.height));
+
+            ctx.fillStyle="black";
+            spikes.forEach(s=>{
+                ctx.beginPath();
+                ctx.moveTo(s.x,s.y+s.height);
+                ctx.lineTo(s.x+s.width/2,s.y);
+                ctx.lineTo(s.x+s.width,s.y+s.height);
+                ctx.fill();
+            });
+
+            fallingSpikes.forEach(s=>ctx.fillRect(s.x,s.y,s.width,s.height));
+
+            ctx.fillStyle="red";
+            ctx.fillRect(0,lavaHeight,800,400-lavaHeight);
+
+            ctx.fillStyle="purple";
+            enemies.forEach(e=>ctx.fillRect(e.x,e.y,e.width,e.height));
+
+            ctx.beginPath();
+            ctx.arc(goal.x,goal.y,goal.radius,0,Math.PI*2);
+            ctx.fillStyle="gold";
+            ctx.fill();
+
+            ctx.fillStyle="red";
+            ctx.fillRect(player.x,player.y,player.width,player.height);
+
+            ctx.fillStyle="black";
+            ctx.font="16px Arial";
+            ctx.fillText("Deaths: "+deathCount,10,20);
+
+            ctx.restore();
+        }
+
+        function loop(){ update(); draw(); requestAnimationFrame(loop); }
+
+        loadLevel();
+        loop();
+    </script>
 </body>
 </html>

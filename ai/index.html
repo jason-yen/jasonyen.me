@@ -153,6 +153,8 @@
 <div class="navbar">
   <div class="navbar-content">
     <a href="/">
+                      <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
+
     </a>
     <a href="/games">Games</a>
     <div class="separator">|</div>
@@ -178,6 +180,15 @@
 </div>
 
 <script>
+  function cleanQuery(input) {
+    return input
+      .toLowerCase()
+      .replace(/[^\w\s]/g, '') // remove punctuation
+      .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
+      .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
+      .trim();
+  }
+
   async function getResponse() {
     const inputEl = document.getElementById('user-input');
     const userInput = inputEl.value.trim();
@@ -189,34 +200,38 @@
     appendMessage('user-msg', userInput);
     inputEl.value = '';
 
-    const lc = userInput.toLowerCase();
-    if (["what is your name?", "who are you?"].includes(lc)) {
-      appendMessage('bot-msg', "I don't have a name, but you can call me Chatbot!");
-      return;
-    }
-    if (lc === "how are you?") {
-      appendMessage('bot-msg', "I'm just a bot, but I'm feeling binary great. How about you?");
-      return;
-    }
-
-    const encoded = encodeURIComponent(userInput);
-    const wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encoded}`;
+    const cleaned = cleanQuery(userInput);
 
     try {
-      const res = await fetch(wikiUrl);
-      const data = await res.json();
+      // STEP 1: Search Wikipedia first (smarter than direct summary)
+      const searchRes = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*`
+      );
+      const searchData = await searchRes.json();
 
-      const vague = data.extract?.toLowerCase().startsWith(userInput.toLowerCase() + " refers to");
-      if (data.extract && !vague) {
-        appendMessage('bot-msg', "From Wikipedia: " + data.extract);
-      } else {
-        const dictDef = await fetchDictionaryDefinition(userInput);
-        if (dictDef) {
-          appendMessage('bot-msg', "From Dictionary: " + dictDef);
-        } else {
-          appendMessage('bot-msg', "Sorry, I couldn't find any information on that topic.");
+      if (searchData.query.search.length > 0) {
+        const bestMatch = searchData.query.search[0].title;
+
+        // STEP 2: Get summary of best match
+        const summaryRes = await fetch(
+          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
+        );
+        const summaryData = await summaryRes.json();
+
+        if (summaryData.extract) {
+          appendMessage('bot-msg', "From Wikipedia: " + summaryData.extract);
+          return;
         }
       }
+
+      // STEP 3: Try dictionary if Wikipedia fails
+      const dictDef = await fetchDictionaryDefinition(cleaned);
+      if (dictDef) {
+        appendMessage('bot-msg', "From Dictionary: " + dictDef);
+      } else {
+        appendMessage('bot-msg', "Sorry, I couldn't find any information on that topic.");
+      }
+
     } catch (err) {
       console.error(err);
       appendMessage('bot-msg', "Sorry, there was an error fetching the information.");
@@ -256,6 +271,7 @@
     }
   }
 </script>
+
 
 </body>
 </html>
