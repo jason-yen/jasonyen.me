@@ -6,9 +6,7 @@
 <title>Wikipedia + Dictionary</title>
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -18,15 +16,8 @@
     color: black;
   }
 
-  a {
-    color: #536DFE;
-    text-decoration: none;
-    transition: 0.3s ease;
-  }
-
-  a:hover {
-    transform: scale(1.05);
-  }
+  a { color: #536DFE; text-decoration: none; transition: 0.3s ease; }
+  a:hover { transform: scale(1.05); }
 
   /* Navbar styling */
   .navbar {
@@ -47,44 +38,19 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
-  .navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  .navbar-content { display: flex; align-items: center; gap: 20px; }
 
-  .navbar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-  }
+  .navbar img { width: 40px; height: 40px; border-radius: 12px; transition: transform 0.3s ease; }
+  .navbar img:hover { transform: scale(1.1); }
 
-  .navbar img:hover {
-    transform: scale(1.1);
-  }
-
-  .separator {
-    color: #9dacff;
-    font-size: 20px;
-  }
-
-  .navbar a {
-    font-weight: 500;
-  }
+  .separator { color: #9dacff; font-size: 20px; }
+  .navbar a { font-weight: 500; }
 
   /* Main title styling */
-  .main-title {
-    font-size: 42px;
-    font-weight: bold;
-    margin: 40px 40px 20px 40px;
-  }
+  .main-title { font-size: 42px; font-weight: bold; margin: 40px 40px 20px 40px; }
 
   /* Content section */
-  .content {
-    margin: 0 40px 30px 40px;
-    font-size: 18px;
-  }
+  .content { margin: 0 40px 30px 40px; font-size: 18px; }
 
   /* Chatbox styling */
   .chatbox {
@@ -97,13 +63,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
-  .chatbox ul {
-    list-style: none;
-    padding: 0;
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
+  .chatbox ul { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; margin-bottom: 10px; }
 
   .chatbox li {
     padding: 10px;
@@ -111,15 +71,8 @@
     border-radius: 5px;
   }
 
-  .user-msg {
-    background-color: #d3f4ff;
-    text-align: right;
-  }
-
-  .bot-msg {
-    background-color: #e1e1e1;
-    text-align: left;
-  }
+  .user-msg { background-color: #d3f4ff; text-align: right; }
+  .bot-msg { background-color: #e1e1e1; text-align: left; }
 
   input[type="text"] {
     width: 75%;
@@ -153,22 +106,25 @@
 <div class="navbar">
   <div class="navbar-content">
     <a href="/">
-                      <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-
+      <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
     </a>
-    <a href="/games">Games</a>
-    <div class="separator">|</div>
-    <a href="/tools">Tools</a>
+<a href="/games">Games</a>
+            <div class="separator">|</div>
+            <a href="/tools">Tools</a>
+                        <div class="separator">|</div>
+
+            <a href="/donatejk">Donate</a>
+            <div class="separator">|</div>
+            <a href="/ai">Search</a>
+            <div class="separator">|</div>
+            <a href="/sounds">Sounds</a>
   </div>
 </div>
 
 <!-- Title -->
-<div class="main-title">Search Page (Beta)</div>
+<div class="main-title">Search Page</div>
 
-<!-- Instructions -->
-<div class="content">
-  Only type in the subject, no 'what is' or 'who is'. If it says '...refers to:' and nothing else, try asking in a different way.
-</div>
+
 
 <!-- Chatbox -->
 <div class="chatbox">
@@ -203,7 +159,7 @@
     const cleaned = cleanQuery(userInput);
 
     try {
-      // STEP 1: Search Wikipedia first (smarter than direct summary)
+      // STEP 1: Search Wikipedia
       const searchRes = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*`
       );
@@ -212,19 +168,38 @@
       if (searchData.query.search.length > 0) {
         const bestMatch = searchData.query.search[0].title;
 
-        // STEP 2: Get summary of best match
         const summaryRes = await fetch(
           `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
         );
         const summaryData = await summaryRes.json();
 
-        if (summaryData.extract) {
+        // Handle disambiguation pages
+        if (summaryData.type === 'disambiguation') {
+          // Sometimes pick the next search result if available
+          const nextMatch = searchData.query.search[1]?.title;
+          if (nextMatch) {
+            const altSummaryRes = await fetch(
+              `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(nextMatch)}`
+            );
+            const altSummary = await altSummaryRes.json();
+            if (altSummary.extract && !altSummary.extract.endsWith("may refer to:")) {
+              appendMessage('bot-msg', "From Wikipedia: " + altSummary.extract);
+              return;
+            }
+          }
+          // Otherwise fallback to friendly message
+          appendMessage('bot-msg', "This term is ambiguous. Try asking more specifically.");
+          return;
+        }
+
+        // Skip useless "may refer to:" messages
+        if (summaryData.extract && !summaryData.extract.endsWith("may refer to:")) {
           appendMessage('bot-msg', "From Wikipedia: " + summaryData.extract);
           return;
         }
       }
 
-      // STEP 3: Try dictionary if Wikipedia fails
+      // STEP 2: Try dictionary if Wikipedia fails
       const dictDef = await fetchDictionaryDefinition(cleaned);
       if (dictDef) {
         appendMessage('bot-msg', "From Dictionary: " + dictDef);
@@ -242,9 +217,9 @@
     try {
       const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
       if (!res.ok) return null;
-
       const data = await res.json();
-      return data?.[0]?.meanings?.[0]?.definitions?.[0]?.definition || null;
+      // Return multiple definitions joined
+      return data?.[0]?.meanings?.map(m => m.definitions?.[0]?.definition).join('; ') || null;
     } catch {
       return null;
     }
@@ -268,10 +243,10 @@
     if (index < text.length) {
       element.textContent += text.charAt(index);
       setTimeout(() => typeText(element, text, index + 1), 5);
+      element.parentElement.scrollTop = element.parentElement.scrollHeight; // keep scrolling
     }
   }
 </script>
-
 
 </body>
 </html>
