@@ -3,249 +3,252 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Wikipedia + Dictionary</title>
+<title>jasonyen.me</title>
 
 <style>
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-  body {
-    margin: 0;
-    padding-top: 56px;
-    font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    color: black;
-  }
+body {
+  margin: 0;
+  padding-top: 56px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: black;
+}
 
-  a { color: #536DFE; text-decoration: none; transition: 0.3s ease; }
-  a:hover { transform: scale(1.05); }
+a { color: #536DFE; text-decoration: none; }
 
-  /* Navbar styling */
-  .navbar {
-    width: 100%;
-    height: 56px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    gap: 20px;
-    background: rgba(200, 200, 255, 0.093);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  }
+.navbar {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 20px;
+  background: rgba(200, 200, 255, 0.093);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+}
 
-  .navbar-content { display: flex; align-items: center; gap: 20px; }
+.navbar-content { display: flex; align-items: center; gap: 20px; }
+.separator { color: #9dacff; font-size: 20px; }
 
-  .navbar img { width: 40px; height: 40px; border-radius: 12px; transition: transform 0.3s ease; }
-  .navbar img:hover { transform: scale(1.1); }
+.main-title { font-size: 42px; font-weight: bold; margin: 40px; }
 
-  .separator { color: #9dacff; font-size: 20px; }
-  .navbar a { font-weight: 500; }
+.chatbox {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px 40px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  /* Main title styling */
-  .main-title { font-size: 42px; font-weight: bold; margin: 40px 40px 20px 40px; }
+.chatbox ul {
+  list-style: none;
+  padding: 0;
+  max-height: 450px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
 
-  /* Content section */
-  .content { margin: 0 40px 30px 40px; font-size: 18px; }
+.chatbox li {
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
 
-  /* Chatbox styling */
-  .chatbox {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px 40px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+.user-msg { background-color: #d3f4ff; text-align: right; }
+.bot-msg { background-color: #e1e1e1; text-align: left; }
 
-  .chatbox ul { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; margin-bottom: 10px; }
+input[type="text"] {
+  width: 75%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  .chatbox li {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-  }
+button {
+  padding: 10px 20px;
+  margin-left: 5px;
+  background-color: #4c5eaf;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
 
-  .user-msg { background-color: #d3f4ff; text-align: right; }
-  .bot-msg { background-color: #e1e1e1; text-align: left; }
-
-  input[type="text"] {
-    width: 75%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 10px;
-  }
-
-  button {
-    padding: 12px 25px;
-    margin-left: 5px;
-    background-color: #4c5eaf;
-    color: white;
-    font-size: 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-
-  button:hover {
-    background-color: #2f4a88;
-    transform: translateY(-3px);
-  }
+button:hover { background-color: #2f4a88; }
 </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <div class="navbar">
   <div class="navbar-content">
-    <a href="/">
-      <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-    </a>
-<a href="/games">Games</a>
-            <div class="separator">|</div>
-            <a href="/tools">Tools</a>
-                        <div class="separator">|</div>
-
-            <a href="/donatejk">Donate</a>
-            <div class="separator">|</div>
-            <a href="/ai">Search</a>
-            <div class="separator">|</div>
-            <a href="/noises">Sounds</a>
+    <a href="/">Home</a>
+    <div class="separator">|</div>
+    <a href="/tools">Tools</a>
+    <div class="separator">|</div>
+    <a href="/ai">Search</a>
   </div>
 </div>
 
-<!-- Title -->
-<div class="main-title">Search Page</div>
+<div class="main-title">Smart Search</div>
 
-
-
-<!-- Chatbox -->
 <div class="chatbox">
   <ul id="chat-log">
-    <li class="bot-msg">Search anything.</li>
+    <li class="bot-msg">Ask me anything.</li>
   </ul>
-  <input type="text" id="user-input" placeholder="Type your question..." onkeydown="if(event.key === 'Enter'){ getResponse(); }">
+  <input type="text" id="user-input" placeholder="Type your question..."
+    onkeydown="if(event.key === 'Enter'){ getResponse(); }">
   <button onclick="getResponse()">Ask</button>
 </div>
 
 <script>
-  function cleanQuery(input) {
-    return input
-      .toLowerCase()
-      .replace(/[^\w\s]/g, '') // remove punctuation
-      .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
-      .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
-      .trim();
+
+function cleanQuery(input) {
+  return input
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
+    .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
+    .trim();
+}
+
+function detectType(input) {
+  if (input.match(/\b(define|meaning)\b/i)) return "dictionary";
+  if (input.match(/\b(who|what|when|where|why|how)\b/i)) return "wiki";
+  return "general";
+}
+
+async function getResponse() {
+  const inputEl = document.getElementById('user-input');
+  const userInput = inputEl.value.trim();
+  if (!userInput) return;
+
+  appendMessage('user-msg', userInput);
+  inputEl.value = '';
+
+  if (userInput.includes(" and ")) {
+    const parts = userInput.split(" and ");
+    for (let part of parts) {
+      await handleQuery(part.trim());
+    }
+  } else {
+    await handleQuery(userInput);
+  }
+}
+
+async function handleQuery(userInput) {
+  const cleaned = cleanQuery(userInput);
+  const type = detectType(userInput);
+
+  if (type === "dictionary") {
+    const def = await fetchDictionaryDefinition(cleaned);
+    if (def) {
+      appendMessage('bot-msg', `📖 Definition:\n\n${def}`);
+      return;
+    }
   }
 
-  async function getResponse() {
-    const inputEl = document.getElementById('user-input');
-    const userInput = inputEl.value.trim();
-    if (!userInput) {
-      appendMessage('bot-msg', "Please type a question before submitting.");
+  try {
+    const searchRes = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*&srinfo=suggestion`
+    );
+    const searchData = await searchRes.json();
+
+    if (searchData.query.search.length === 0 &&
+        searchData.query.searchinfo?.suggestion) {
+      appendMessage('bot-msg',
+        `Did you mean: ${searchData.query.searchinfo.suggestion}?`
+      );
       return;
     }
 
-    appendMessage('user-msg', userInput);
-    inputEl.value = '';
-
-    const cleaned = cleanQuery(userInput);
-
-    try {
-      // STEP 1: Search Wikipedia
-      const searchRes = await fetch(
-        `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*`
-      );
-      const searchData = await searchRes.json();
-
-      if (searchData.query.search.length > 0) {
-        const bestMatch = searchData.query.search[0].title;
-
-        const summaryRes = await fetch(
-          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
-        );
-        const summaryData = await summaryRes.json();
-
-        // Handle disambiguation pages
-        if (summaryData.type === 'disambiguation') {
-          // Sometimes pick the next search result if available
-          const nextMatch = searchData.query.search[1]?.title;
-          if (nextMatch) {
-            const altSummaryRes = await fetch(
-              `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(nextMatch)}`
-            );
-            const altSummary = await altSummaryRes.json();
-            if (altSummary.extract && !altSummary.extract.endsWith("may refer to:")) {
-              appendMessage('bot-msg', "From Wikipedia: " + altSummary.extract);
-              return;
-            }
-          }
-          // Otherwise fallback to friendly message
-          appendMessage('bot-msg', "This term is ambiguous. Try asking more specifically.");
-          return;
-        }
-
-        // Skip useless "may refer to:" messages
-        if (summaryData.extract && !summaryData.extract.endsWith("may refer to:")) {
-          appendMessage('bot-msg', "From Wikipedia: " + summaryData.extract);
-          return;
-        }
-      }
-
-      // STEP 2: Try dictionary if Wikipedia fails
-      const dictDef = await fetchDictionaryDefinition(cleaned);
-      if (dictDef) {
-        appendMessage('bot-msg', "From Dictionary: " + dictDef);
-      } else {
-        appendMessage('bot-msg', "Sorry, I couldn't find any information on that topic.");
-      }
-
-    } catch (err) {
-      console.error(err);
-      appendMessage('bot-msg', "Sorry, there was an error fetching the information.");
+    let results = searchData.query.search;
+    if (!results.length) {
+      appendMessage('bot-msg', "No results found.");
+      return;
     }
-  }
 
-  async function fetchDictionaryDefinition(word) {
-    try {
-      const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-      if (!res.ok) return null;
-      const data = await res.json();
-      // Return multiple definitions joined
-      return data?.[0]?.meanings?.map(m => m.definitions?.[0]?.definition).join('; ') || null;
-    } catch {
-      return null;
+    let bestMatch = results.find(r =>
+      r.title.toLowerCase() === cleaned.toLowerCase()
+    )?.title;
+
+    if (!bestMatch) {
+      bestMatch = results.sort((a, b) => {
+        const score = (title) => {
+          const words = cleaned.split(" ");
+          return words.filter(w =>
+            title.toLowerCase().includes(w)
+          ).length;
+        };
+        return score(b.title) - score(a.title);
+      })[0].title;
     }
-  }
 
-  function appendMessage(className, message) {
-    const chatLog = document.getElementById('chat-log');
-    const li = document.createElement('li');
-    li.className = className;
-    chatLog.appendChild(li);
-    chatLog.scrollTop = chatLog.scrollHeight;
+    const summaryRes = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
+    );
+    const summaryData = await summaryRes.json();
 
-    if (className === 'bot-msg') {
-      typeText(li, message);
-    } else {
-      li.textContent = message;
+    if (summaryData.type === 'disambiguation') {
+      appendMessage('bot-msg',
+        "This term is ambiguous. Please be more specific.");
+      return;
     }
-  }
 
-  function typeText(element, text, index = 0) {
-    if (index < text.length) {
-      element.textContent += text.charAt(index);
-      setTimeout(() => typeText(element, text, index + 1), 5);
-      element.parentElement.scrollTop = element.parentElement.scrollHeight; // keep scrolling
-    }
+    appendMessage('bot-msg',
+      `📘 ${bestMatch}\n\n${summaryData.extract}\n\nRead more:\n${summaryData.content_urls.desktop.page}`
+    );
+
+  } catch (err) {
+    appendMessage('bot-msg', "Error fetching data.");
   }
+}
+
+async function fetchDictionaryDefinition(word) {
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.[0]?.meanings
+      ?.map(m => m.definitions?.[0]?.definition)
+      .join('\n');
+  } catch {
+    return null;
+  }
+}
+
+function appendMessage(className, message) {
+  const chatLog = document.getElementById('chat-log');
+  const li = document.createElement('li');
+  li.className = className;
+  chatLog.appendChild(li);
+  chatLog.scrollTop = chatLog.scrollHeight;
+
+  if (className === 'bot-msg') {
+    typeText(li, message);
+  } else {
+    li.textContent = message;
+  }
+}
+
+function typeText(element, text, index = 0) {
+  if (index < text.length) {
+    element.textContent += text.charAt(index);
+    setTimeout(() => typeText(element, text, index + 1), 5);
+  }
+}
+
 </script>
 
 </body>

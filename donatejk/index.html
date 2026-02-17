@@ -3,7 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>jasonyen.me</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding-top: 56px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: black;
+}
+
+a { color: #536DFE; text-decoration: none; }
+
+.navbar {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 20px;
+  background: rgba(200, 200, 255, 0.093);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+}
+
+.navbar-content { display: flex; align-items: center; gap: 20px; }
+.separator { color: #9dacff; font-size: 20px; }
+
+.main-title { font-size: 42px; font-weight: bold; margin: 40px; }
+
+.chatbox {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px 40px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox ul {
+  list-style: none;
+  padding: 0;
+  max-height: 450px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chatbox li {
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
+
+.user-msg { background-color: #d3f4ff; text-align: right; }
+.bot-msg { background-color: #e1e1e1; text-align: left; }
+
+input[type="text"] {
+  width: 75%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 5px;
+  background-color: #4c5eaf;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover { background-color: #2f4a88; }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="navbar-content">
+    <a href="/">Home</a>
+    <div class="separator">|</div>
+    <a href="/tools">Tools</a>
+    <div class="separator">|</div>
+    <a href="/ai">Search</a>
+  </div>
+</div>
+
+<div class="main-title">Smart Search</div>
+
+<div class="chatbox">
+  <ul id="chat-log">
+    <li class="bot-msg">Ask me anything.</li>
+  </ul>
+  <input type="text" id="user-input" placeholder="Type your question..."
+    onkeydown="if(event.key === 'Enter'){ getResponse(); }">
+  <button onclick="getResponse()">Ask</button>
+</div>
+
+<script>
+
+function cleanQuery(input) {
+  return input
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
+    .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
+    .trim();
+}
+
+function detectType(input) {
+  if (input.match(/\b(define|meaning)\b/i)) return "dictionary";
+  if (input.match(/\b(who|what|when|where|why|how)\b/i)) return "wiki";
+  return "general";
+}
+
+async function getResponse() {
+  const inputEl = document.getElementById('user-input');
+  const userInput = inputEl.value.trim();
+  if (!userInput) return;
+
+  appendMessage('user-msg', userInput);
+  inputEl.value = '';
+
+  if (userInput.includes(" and ")) {
+    const parts = userInput.split(" and ");
+    for (let part of parts) {
+      await handleQuery(part.trim());
+    }
+  } else {
+    await handleQuery(userInput);
+  }
+}
+
+async function handleQuery(userInput) {
+  const cleaned = cleanQuery(userInput);
+  const type = detectType(userInput);
+
+  if (type === "dictionary") {
+    const def = await fetchDictionaryDefinition(cleaned);
+    if (def) {
+      appendMessage('bot-msg', `📖 Definition:\n\n${def}`);
+      return;
+    }
+  }
+
+  try {
+    const searchRes = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*&srinfo=suggestion`
+    );
+    const searchData = await searchRes.json();
+
+    if (searchData.query.search.length === 0 &&
+        searchData.query.searchinfo?.suggestion) {
+      appendMessage('bot-msg',
+        `Did you mean: ${searchData.query.searchinfo.suggestion}?`
+      );
+      return;
+    }
+
+    let results = searchData.query.search;
+    if (!results.length) {
+      appendMessage('bot-msg', "No results found.");
+      return;
+    }
+
+    let bestMatch = results.find(r =>
+      r.title.toLowerCase() === cleaned.toLowerCase()
+    )?.title;
+
+    if (!bestMatch) {
+      bestMatch = results.sort((a, b) => {
+        const score = (title) => {
+          const words = cleaned.split(" ");
+          return words.filter(w =>
+            title.toLowerCase().includes(w)
+          ).length;
+        };
+        return score(b.title) - score(a.title);
+      })[0].title;
+    }
+
+    const summaryRes = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
+    );
+    const summaryData = await summaryRes.json();
+
+    if (summaryData.type === 'disambiguation') {
+      appendMessage('bot-msg',
+        "This term is ambiguous. Please be more specific.");
+      return;
+    }
+
+    appendMessage('bot-msg',
+      `📘 ${bestMatch}\n\n${summaryData.extract}\n\nRead more:\n${summaryData.content_urls.desktop.page}`
+    );
+
+  } catch (err) {
+    appendMessage('bot-msg', "Error fetching data.");
+  }
+}
+
+async function fetchDictionaryDefinition(word) {
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.[0]?.meanings
+      ?.map(m => m.definitions?.[0]?.definition)
+      .join('\n');
+  } catch {
+    return null;
+  }
+}
+
+function appendMessage(className, message) {
+  const chatLog = document.getElementById('chat-log');
+  const li = document.createElement('li');
+  li.className = className;
+  chatLog.appendChild(li);
+  chatLog.scrollTop = chatLog.scrollHeight;
+
+  if (className === 'bot-msg') {
+    typeText(li, message);
+  } else {
+    li.textContent = message;
+  }
+}
+
+function typeText(element, text, index = 0) {
+  if (index < text.length) {
+    element.textContent += text.charAt(index);
+    setTimeout(() => typeText(element, text, index + 1), 5);
+  }
+}
+
+</script>
+
+</body>
+</html>
 
     <style>
         * {
