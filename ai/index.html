@@ -3,104 +3,161 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>jasonyen.me</title>
+<title>jasonyen.me - Smart Search</title>
 
 <style>
 * { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  padding-top: 56px;
-  font-family: Arial, sans-serif;
-  background-color: #f5f6fa;
-  color: black;
+    margin: 0;
+    padding-top: 56px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
 }
 
-a { color: #536DFE; text-decoration: none; }
-
+/* ================= NAVBAR ================= */
 .navbar {
-  width: 100%;
-  height: 56px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  padding: 0 40px;
-  gap: 20px;
-  background: rgba(200, 200, 255, 0.093);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+    width: 100%;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 20px;
+    background: rgba(200, 200, 255, 0.093);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.navbar-content { display: flex; align-items: center; gap: 20px; }
+.navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+.navbar img:hover { transform: scale(1.1); }
+
+.navbar a {
+    color: #536DFE;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+.navbar a:hover { transform: scale(1.05); }
+
 .separator { color: #9dacff; font-size: 20px; }
 
-.main-title { font-size: 42px; font-weight: bold; margin: 40px; }
+/* ================= MAIN TITLE ================= */
+.main-title a {
+    color: black;
+    text-decoration: none;
+}
+.main-title a:hover { color: black; text-decoration: none; }
 
+.main-title {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 40px 40px 20px 40px;
+}
+
+/* ================= PAGE CONTENT ================= */
+.content {
+    margin: 0 40px 30px 40px;
+    font-size: 18px;
+}
+
+/* ================= CHATBOX ================= */
 .chatbox {
-  width: 100%;
-  max-width: 700px;
-  margin: 20px 40px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    margin: 20px 40px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .chatbox ul {
-  list-style: none;
-  padding: 0;
-  max-height: 450px;
-  overflow-y: auto;
-  margin-bottom: 10px;
+    list-style: none;
+    padding: 0;
+    max-height: 450px;
+    overflow-y: auto;
+    margin-bottom: 10px;
 }
 
 .chatbox li {
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 6px;
-  white-space: pre-wrap;
+    padding: 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    white-space: pre-wrap;
 }
 
 .user-msg { background-color: #d3f4ff; text-align: right; }
 .bot-msg { background-color: #e1e1e1; text-align: left; }
 
 input[type="text"] {
-  width: 75%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 button {
-  padding: 10px 20px;
-  margin-left: 5px;
-  background-color: #4c5eaf;
-  color: white;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+    padding: 10px 20px;
+    margin-left: 5px;
+    background-color: #4c5eaf;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover { background-color: #2f4a88; }
 </style>
 </head>
+
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-  <div class="navbar-content">
-    <a href="/">Home</a>
-    <div class="separator">|</div>
-    <a href="/tools">Tools</a>
-    <div class="separator">|</div>
-    <a href="/ai">Search</a>
-  </div>
+    <div class="navbar-content">
+        <a href="/">
+            <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
+        </a> 
+        <a href="/games">Games</a>
+        <div class="separator">|</div>
+        <a href="/tools">Tools</a>
+        <div class="separator">|</div>
+        <a href="/donatejk">Donate</a>
+        <div class="separator">|</div>
+        <a href="/ai">Search</a>
+        <div class="separator">|</div>
+        <a href="/noises">Sounds</a>
+    </div>
 </div>
 
-<div class="main-title">Smart Search</div>
+<!-- MAIN TITLE -->
+<div class="main-title">
+    <a href="/realsound">Smart Search</a>
+</div>
 
+<!-- DESCRIPTION -->
+<div class="content">
+    Ask questions and get AI-style answers from Wikipedia and Britannica.
+</div>
+
+<!-- CHATBOX -->
 <div class="chatbox">
   <ul id="chat-log">
     <li class="bot-msg">Ask me anything.</li>
@@ -111,22 +168,24 @@ button:hover { background-color: #2f4a88; }
 </div>
 
 <script>
-
-function cleanQuery(input) {
-  return input
-    .toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
-    .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
-    .trim();
-}
-
+// ================= HELPERS =================
 function detectType(input) {
-  if (input.match(/\b(define|meaning)\b/i)) return "dictionary";
-  if (input.match(/\b(who|what|when|where|why|how)\b/i)) return "wiki";
+  if (/^(define|meaning of)/i.test(input)) return "definition";
+  if (/^(why|how)/i.test(input)) return "explanation";
   return "general";
 }
 
+function cleanText(text) {
+    let parser = new DOMParser();
+    let decoded = parser.parseFromString(text, "text/html").body.textContent || "";
+    decoded = decoded.replace(/\[.*?\]/g, ""); // remove [1]
+    decoded = decoded.replace(/PMC\s\d+/g, "");
+    decoded = decoded.replace(/PMID\s\d+/g, "");
+    decoded = decoded.replace(/Archived from.*$/i, "");
+    return decoded.trim();
+}
+
+// ================= SEARCH =================
 async function getResponse() {
   const inputEl = document.getElementById('user-input');
   const userInput = inputEl.value.trim();
@@ -134,100 +193,77 @@ async function getResponse() {
 
   appendMessage('user-msg', userInput);
   inputEl.value = '';
+  appendMessage('bot-msg', "Thinking...");
 
-  if (userInput.includes(" and ")) {
-    const parts = userInput.split(" and ");
-    for (let part of parts) {
-      await handleQuery(part.trim());
-    }
-  } else {
-    await handleQuery(userInput);
-  }
+  const type = detectType(userInput);
+  const answer = await fetchMergedAnswer(userInput, type);
+
+  document.getElementById('chat-log').lastChild.remove();
+  appendMessage('bot-msg', answer);
 }
 
-async function handleQuery(userInput) {
-  const cleaned = cleanQuery(userInput);
-  const type = detectType(userInput);
+// ================= MERGED ANSWER =================
+async function fetchMergedAnswer(query, type) {
+  let wikiAnswer = await fetchWikipediaSummary(query);
+  let britAnswer = await fetchBritannica(query);
 
-  if (type === "dictionary") {
-    const def = await fetchDictionaryDefinition(cleaned);
-    if (def) {
-      appendMessage('bot-msg', `📖 Definition:\n\n${def}`);
-      return;
-    }
-  }
+  // If Wikipedia returned a disambiguation prompt
+  if (wikiAnswer && wikiAnswer.isDisambiguation) return wikiAnswer.message;
 
+  let combined = "";
+  if (wikiAnswer && wikiAnswer.text) combined += `📘 Wikipedia:\n${wikiAnswer.text}\n\n`;
+  if (britAnswer) combined += `📗 Britannica:\n${britAnswer}\n\n`;
+
+  if (!combined) return "I couldn't find anything relevant.";
+
+  return combined;
+}
+
+// ================= WIKIPEDIA =================
+async function fetchWikipediaSummary(query) {
   try {
+    // Step 1: search
     const searchRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*&srinfo=suggestion`
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=3`
     );
     const searchData = await searchRes.json();
+    const results = searchData.query.search;
+    if (!results.length) return null;
 
-    if (searchData.query.search.length === 0 &&
-        searchData.query.searchinfo?.suggestion) {
-      appendMessage('bot-msg',
-        `Did you mean: ${searchData.query.searchinfo.suggestion}?`
-      );
-      return;
-    }
+    // Pick the top match
+    const topTitle = results[0].title;
 
-    let results = searchData.query.search;
-    if (!results.length) {
-      appendMessage('bot-msg', "No results found.");
-      return;
-    }
-
-    let bestMatch = results.find(r =>
-      r.title.toLowerCase() === cleaned.toLowerCase()
-    )?.title;
-
-    if (!bestMatch) {
-      bestMatch = results.sort((a, b) => {
-        const score = (title) => {
-          const words = cleaned.split(" ");
-          return words.filter(w =>
-            title.toLowerCase().includes(w)
-          ).length;
-        };
-        return score(b.title) - score(a.title);
-      })[0].title;
-    }
-
+    // Step 2: get full summary
     const summaryRes = await fetch(
-      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topTitle)}`
     );
     const summaryData = await summaryRes.json();
 
-    if (summaryData.type === 'disambiguation') {
-      appendMessage('bot-msg',
-        "This term is ambiguous. Please be more specific.");
-      return;
+    if (summaryData.type === "disambiguation") {
+      return { isDisambiguation: true,
+               message: "The term has multiple meanings. Please be more specific, e.g., " +
+                        summaryData.title + "."
+             };
     }
 
-    appendMessage('bot-msg',
-      `📘 ${bestMatch}\n\n${summaryData.extract}\n\nRead more:\n${summaryData.content_urls.desktop.page}`
-    );
-
-  } catch (err) {
-    appendMessage('bot-msg', "Error fetching data.");
-  }
-}
-
-async function fetchDictionaryDefinition(word) {
-  try {
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data?.[0]?.meanings
-      ?.map(m => m.definitions?.[0]?.definition)
-      .join('\n');
+    return { text: cleanText(summaryData.extract) };
   } catch {
     return null;
   }
 }
 
+// ================= BRITANNICA =================
+async function fetchBritannica(query) {
+  try {
+    const res = await fetch(`https://www.britannica.com/search?query=${encodeURIComponent(query)}`);
+    const html = await res.text();
+    const match = html.match(/<meta name="description" content="([^"]+)"/i);
+    if (match && match[1]) return cleanText(match[1]);
+    return "";
+  } catch { return ""; }
+}
+
+// ================= CHAT UTILS =================
 function appendMessage(className, message) {
   const chatLog = document.getElementById('chat-log');
   const li = document.createElement('li');
@@ -235,11 +271,8 @@ function appendMessage(className, message) {
   chatLog.appendChild(li);
   chatLog.scrollTop = chatLog.scrollHeight;
 
-  if (className === 'bot-msg') {
-    typeText(li, message);
-  } else {
-    li.textContent = message;
-  }
+  if (className === 'bot-msg') typeText(li, message);
+  else li.textContent = message;
 }
 
 function typeText(element, text, index = 0) {
@@ -248,7 +281,6 @@ function typeText(element, text, index = 0) {
     setTimeout(() => typeText(element, text, index + 1), 5);
   }
 }
-
 </script>
 
 </body>
