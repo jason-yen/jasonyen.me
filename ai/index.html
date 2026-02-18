@@ -29,7 +29,6 @@ body {
     gap: 20px;
     background: rgba(200, 200, 255, 0.093);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(200, 200, 255, 0.2);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
@@ -63,18 +62,10 @@ body {
     color: black;
     text-decoration: none;
 }
-.main-title a:hover { color: black; text-decoration: none; }
-
 .main-title {
     font-size: 42px;
     font-weight: bold;
     margin: 40px 40px 20px 40px;
-}
-
-/* ================= PAGE CONTENT ================= */
-.content {
-    margin: 0 40px 30px 40px;
-    font-size: 18px;
 }
 
 /* ================= CHATBOX ================= */
@@ -101,6 +92,7 @@ body {
     margin: 6px 0;
     border-radius: 6px;
     white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .user-msg { background-color: #d3f4ff; text-align: right; }
@@ -122,14 +114,19 @@ button {
     border: none;
     cursor: pointer;
 }
-
 button:hover { background-color: #2f4a88; }
+
+/* ================= RESPONSIVE ================= */
+@media(max-width: 768px) {
+    .navbar { padding: 0 10px; }
+    .main-title { font-size: 36px; margin: 30px 10px 15px 10px; }
+    input[type="text"] { width: 70%; }
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-content">
         <a href="/">
@@ -147,13 +144,10 @@ button:hover { background-color: #2f4a88; }
     </div>
 </div>
 
-<!-- MAIN TITLE -->
 <div class="main-title">
-    <a href="/realsound">Smart Search</a>
+    <a href="/realsound">Search Engine</a>
 </div>
 
-
-<!-- CHATBOX -->
 <div class="chatbox">
   <ul id="chat-log">
     <li class="bot-msg">Ask me anything.</li>
@@ -164,24 +158,81 @@ button:hover { background-color: #2f4a88; }
 </div>
 
 <script>
-// ================= HELPERS =================
-function detectType(input) {
-  if (/^(define|meaning of)/i.test(input)) return "definition";
-  if (/^(why|how)/i.test(input)) return "explanation";
-  return "general";
+
+// ================= QUERY CLEANER =================
+function cleanQueryForSearch(query) {
+  const stopWords = [
+    "what","is","a","an","the",
+    "explain","explained",
+    "tell","me","about",
+    "please","of","in","on","and"
+  ];
+
+  return query
+    .toLowerCase()
+    .replace(/[^\w\s]/gi,'') // remove punctuation
+    .split(" ")
+    .filter(word => !stopWords.includes(word))
+    .join(" ")
+    .trim();
 }
 
+// ================= CLEAN TEXT =================
 function cleanText(text) {
     let parser = new DOMParser();
     let decoded = parser.parseFromString(text, "text/html").body.textContent || "";
-    decoded = decoded.replace(/\[.*?\]/g, ""); // remove [1]
+    decoded = decoded.replace(/\[.*?\]/g, "");
     decoded = decoded.replace(/PMC\s\d+/g, "");
     decoded = decoded.replace(/PMID\s\d+/g, "");
     decoded = decoded.replace(/Archived from.*$/i, "");
     return decoded.trim();
 }
 
-// ================= SEARCH =================
+// ================= SMART SUMMARIZER =================
+function smartSummarize(text, query, maxSentences = 5) {
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    const keywords = query.toLowerCase().split(" ");
+
+    const scored = sentences.map(sentence => {
+        let score = 0;
+        const lower = sentence.toLowerCase();
+        keywords.forEach(word => {
+            if (lower.includes(word)) score += 2;
+        });
+        score += sentence.length > 40 ? 1 : 0;
+        return { sentence, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+
+    return scored
+        .slice(0, maxSentences)
+        .map(s => s.sentence.trim())
+        .join(" ");
+}
+
+// ================= BETTER MATCH =================
+function getBestMatch(query, results) {
+    query = query.toLowerCase();
+    let best = results[0];
+    let bestScore = 0;
+
+    results.forEach(result => {
+        const title = result.title.toLowerCase();
+        let score = 0;
+        if (title === query) score += 3;
+        if (title.includes(query)) score += 2;
+        if (query.includes(title)) score += 1;
+        if (score > bestScore) {
+            best = result;
+            bestScore = score;
+        }
+    });
+
+    return best.title;
+}
+
+// ================= MAIN SEARCH =================
 async function getResponse() {
   const inputEl = document.getElementById('user-input');
   const userInput = inputEl.value.trim();
@@ -191,58 +242,74 @@ async function getResponse() {
   inputEl.value = '';
   appendMessage('bot-msg', "Thinking...");
 
-  const type = detectType(userInput);
-  const answer = await fetchMergedAnswer(userInput, type);
+  try {
+      const answer = await fetchMergedAnswer(userInput);
 
-  document.getElementById('chat-log').lastChild.remove();
-  appendMessage('bot-msg', answer);
+      document.getElementById('chat-log').lastChild.remove();
+      appendMessage('bot-msg', answer);
+  } catch {
+      document.getElementById('chat-log').lastChild.textContent = "Sorry, something went wrong.";
+  }
 }
 
-// ================= MERGED ANSWER =================
-async function fetchMergedAnswer(query, type) {
-  let wikiAnswer = await fetchWikipediaSummary(query);
-  let britAnswer = await fetchBritannica(query);
+async function fetchMergedAnswer(query) {
 
-  // If Wikipedia returned a disambiguation prompt
-  if (wikiAnswer && wikiAnswer.isDisambiguation) return wikiAnswer.message;
+  const cleanedQuery = cleanQueryForSearch(query) || query;
 
-  let combined = "";
-  if (wikiAnswer && wikiAnswer.text) combined += `📘 Wikipedia:\n${wikiAnswer.text}\n\n`;
-  if (britAnswer) combined += `📗 Britannica:\n${britAnswer}\n\n`;
+  let wikiAnswer = await fetchWikipediaSummary(cleanedQuery);
+  let britAnswer = await fetchBritannica(cleanedQuery);
 
-  if (!combined) return "I couldn't find anything relevant.";
+  if (wikiAnswer && wikiAnswer.isDisambiguation)
+      return wikiAnswer.message;
 
-  return combined;
+  let combinedText = "";
+
+  if (wikiAnswer && wikiAnswer.text)
+      combinedText += wikiAnswer.text + " ";
+
+  if (britAnswer)
+      combinedText += britAnswer + " ";
+
+  if (!combinedText)
+      return "I couldn't find anything relevant.";
+
+  let summary = smartSummarize(combinedText, cleanedQuery, 5);
+
+  return summary + `
+
+Related searches:
+- ${cleanedQuery} history
+- ${cleanedQuery} causes
+- ${cleanedQuery} impact
+- ${cleanedQuery} explained`;
 }
 
 // ================= WIKIPEDIA =================
 async function fetchWikipediaSummary(query) {
   try {
-    // Step 1: search
     const searchRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=3`
+      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=5`
     );
     const searchData = await searchRes.json();
     const results = searchData.query.search;
     if (!results.length) return null;
 
-    // Pick the top match
-    const topTitle = results[0].title;
+    const topTitle = getBestMatch(query, results);
 
-    // Step 2: get full summary
     const summaryRes = await fetch(
       `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topTitle)}`
     );
     const summaryData = await summaryRes.json();
 
     if (summaryData.type === "disambiguation") {
-      return { isDisambiguation: true,
-               message: "The term has multiple meanings. Please be more specific, e.g., " +
-                        summaryData.title + "."
-             };
+      return {
+        isDisambiguation: true,
+        message: `This term has multiple meanings. Try being more specific (e.g., "${summaryData.title} (film)").`
+      };
     }
 
     return { text: cleanText(summaryData.extract) };
+
   } catch {
     return null;
   }
@@ -277,6 +344,7 @@ function typeText(element, text, index = 0) {
     setTimeout(() => typeText(element, text, index + 1), 5);
   }
 }
+
 </script>
 
 </body>
