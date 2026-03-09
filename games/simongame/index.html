@@ -1,278 +1,458 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jasonyen.me</title>
+<title>jasonyen.me</title>
 
 <style>
 * {
-    box-sizing: border-box;
+box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding-top: 56px;
-    font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    color: black;
+margin: 0;
+padding-top: 56px;
+padding-bottom: 150px;
+font-family: Arial, sans-serif;
+background-color: #f5f6fa;
+color: black;
 }
 
 a {
-    color: #536DFE;
-    text-decoration: none;
-    transition: 0.3s ease;
+color: #536DFE;
+text-decoration: none;
+transition: 0.3s ease;
 }
 
 a:hover {
-    transform: scale(1.05);
+transform: scale(1.05);
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 
 .navbar {
-    width: 100%;
-    height: 56px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    gap: 20px;
-    background: rgba(200, 200, 255, 0.093);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+width: 100%;
+height: 56px;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 9999;
+display: flex;
+align-items: center;
+padding: 0 40px;
+gap: 20px;
+background: rgba(200, 200, 255, 0.093);
+backdrop-filter: blur(15px);
+border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+display: flex;
+align-items: center;
+gap: 20px;
 }
 
 .navbar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-}
-
-.navbar img:hover {
-    transform: scale(1.1);
+width: 40px;
+height: 40px;
+border-radius: 12px;
 }
 
 .separator {
-    color: #9dacff;
-    font-size: 20px;
+color: #9dacff;
+font-size: 20px;
 }
 
 .navbar a {
-    font-weight: 500;
+font-weight: 500;
 }
 
-/* ================= PAGE CONTENT ================= */
+/* PAGE CONTENT */
 
 .main-title {
-    font-size: 42px;
-    font-weight: bold;
-    margin: 40px 40px 20px 40px;
+font-size: 42px;
+font-weight: bold;
+margin: 40px 40px 20px 40px;
 }
 
-.content {
-    margin: 0 40px 30px 40px;
-    font-size: 18px;
-}
-
-/* ================= GAME BOARD ================= */
+/* GAME BOARD */
 
 #game-board {
-    display: grid;
-    grid-template-columns: repeat(2, 150px);
-    grid-template-rows: repeat(2, 150px);
-    gap: 10px;
-    margin: 20px 40px;
+display: grid;
+grid-template-columns: repeat(2,150px);
+grid-template-rows: repeat(2,150px);
+gap: 10px;
+margin: 20px 40px;
 }
 
 .color-btn {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
+width:150px;
+height:150px;
+border-radius:10px;
+cursor:pointer;
+opacity:0.75;
+transition:all .15s ease;
 }
 
-#green { background-color: green; }
-#red { background-color: red; }
-#yellow { background-color: yellow; }
-#blue { background-color: blue; }
+#green {background:#00c853;}
+#red {background:#ff1744;}
+#yellow {background:#ffd600;}
+#blue {background:#2979ff;}
 
 .color-btn.active {
-    opacity: 1;
+opacity:1;
+transform:scale(1.15);
+filter:brightness(1.7);
+box-shadow:
+0 0 15px white,
+0 0 30px currentColor,
+0 0 60px currentColor;
 }
 
-/* ================= BUTTONS ================= */
+.color-btn.dim {
+opacity:0.3;
+}
+
+/* BUTTONS */
 
 button {
-    display: inline-block;
-    margin: 15px 40px 0 40px;
-    padding: 12px 25px;
-    background-color: #4c5eaf;
-    color: white;
-    font-size: 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease;
+display:inline-block;
+margin:15px 40px 0 40px;
+padding:12px 25px;
+background-color:#4c5eaf;
+color:white;
+font-size:20px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+transition:0.3s ease;
 }
 
 button:hover {
-    background-color: #2f4a88;
-    transform: translateY(-3px);
+background-color:#2f4a88;
+transform:translateY(-3px);
 }
 
 #score {
-    margin: 20px 40px 0 40px;
-    font-size: 18px;
+margin:20px 40px 0 40px;
+font-size:18px;
+}
+
+#highscore {
+margin:5px 40px 0 40px;
+font-size:16px;
+color:#555;
 }
 
 #game-over {
-    margin: 10px 40px 0 40px;
-    font-size: 18px;
-    font-weight: bold;
-    color: red;
+margin:10px 40px 0 40px;
+font-size:18px;
+font-weight:bold;
+color:red;
+}
+
+#countdown {
+margin:10px 40px;
+font-size:40px;
+font-weight:bold;
+height:50px;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="navbar">
-    <div class="navbar-content">
-        <a href="/">
-                <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-        </a>
-<a href="/games">Games</a>
-            <div class="separator">|</div>
-            <a href="/tools">Tools</a>
-                        <div class="separator">|</div>
+<div class="navbar-content">
+<a href="/">
+<img src="/images/WardenmonsterLogo.PNG" alt="Logo">
+</a>
 
-            <a href="/donatejk">Donate</a>
-            <div class="separator">|</div>
-            <a href="/ai">Search</a>
-            <div class="separator">|</div>
-            <a href="/noises">Sounds</a>
-    </div>
+<a href="/games">Games</a>
+
+<div class="separator">|</div>
+
+<a href="/tools">Tools</a>
+
+<div class="separator">|</div>
+
+<a href="/donatejk">Donate</a>
+
+<div class="separator">|</div>
+
+<a href="/ai">Search</a>
+
+<div class="separator">|</div>
+
+<a href="/noises">Sounds</a>
+
+</div>
 </div>
 
 <div class="main-title">
-    Copy the Pattern 
+Copy the Pattern
 </div>
 
+<div id="countdown"></div>
+
 <div id="game-board">
-    <div class="color-btn" id="green"></div>
-    <div class="color-btn" id="red"></div>
-    <div class="color-btn" id="yellow"></div>
-    <div class="color-btn" id="blue"></div>
+<div class="color-btn" id="green"></div>
+<div class="color-btn" id="red"></div>
+<div class="color-btn" id="yellow"></div>
+<div class="color-btn" id="blue"></div>
 </div>
 
 <p id="score">Score: 0</p>
+<p id="highscore">High Score: 0</p>
+
 <button id="start-btn">Start Game</button>
+
 <p id="game-over"></p>
 
 <script>
-let gameSequence = [];
-let playerSequence = [];
-let score = 0;
-let gameStarted = false;
-let level = 0;
 
-const colors = ['green', 'red', 'yellow', 'blue'];
-const buttons = document.querySelectorAll('.color-btn');
-const startButton = document.getElementById('start-btn');
-const scoreDisplay = document.getElementById('score');
-const gameOverDisplay = document.getElementById('game-over');
+let gameSequence=[]
+let playerSequence=[]
+let score=0
+let speed=700
+let gameStarted=false
 
-startButton.addEventListener('click', startGame);
-buttons.forEach(button => {
-    button.addEventListener('click', handlePlayerClick);
-});
+const colors=['green','red','yellow','blue']
 
-function startGame() {
-    if (gameStarted) return;
-    gameStarted = true;
-    gameSequence = [];
-    playerSequence = [];
-    level = 0;
-    score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
-    gameOverDisplay.textContent = '';
-    startButton.style.display = 'none';
-    nextRound();
+const buttons=document.querySelectorAll('.color-btn')
+const startButton=document.getElementById('start-btn')
+const scoreDisplay=document.getElementById('score')
+const highscoreDisplay=document.getElementById('highscore')
+const gameOverDisplay=document.getElementById('game-over')
+const countdownDisplay=document.getElementById('countdown')
+
+/* HIGH SCORE */
+
+let highscore=localStorage.getItem("patternHighscore")||0
+highscoreDisplay.textContent="High Score: "+highscore
+
+/* AUDIO */
+
+const audioCtx=new(window.AudioContext||window.webkitAudioContext)()
+
+const tones={
+green:261.6,
+red:329.6,
+yellow:392,
+blue:523
 }
 
-function nextRound() {
-    level++;
-    playerSequence = [];
-    gameSequence.push(colors[Math.floor(Math.random() * 4)]);
-    playSequence();
+function playTone(color){
+
+const osc=audioCtx.createOscillator()
+const gain=audioCtx.createGain()
+
+osc.frequency.value=tones[color]
+
+osc.connect(gain)
+gain.connect(audioCtx.destination)
+
+gain.gain.setValueAtTime(.3,audioCtx.currentTime)
+gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.4)
+
+osc.start()
+osc.stop(audioCtx.currentTime+.4)
+
 }
 
-function playSequence() {
-    let i = 0;
-    buttons.forEach(button => button.disabled = true);
-    const interval = setInterval(() => {
-        flashButton(gameSequence[i]);
-        i++;
-        if (i >= gameSequence.length) {
-            clearInterval(interval);
-            buttons.forEach(button => button.disabled = false);
-        }
-    }, 600);
+/* VIBRATION */
+
+function vibrate(){
+if(navigator.vibrate) navigator.vibrate(40)
 }
 
-function flashButton(color) {
-    const button = document.getElementById(color);
-    button.classList.add('active');
-    setTimeout(() => {
-        button.classList.remove('active');
-    }, 300);
+/* EVENTS */
+
+startButton.onclick=startCountdown
+
+buttons.forEach(button=>{
+button.onclick=handlePlayerClick
+})
+
+/* COUNTDOWN */
+
+function startCountdown(){
+
+startButton.style.display="none"
+
+let count=3
+countdownDisplay.textContent=count
+
+const timer=setInterval(()=>{
+
+count--
+
+if(count>0){
+countdownDisplay.textContent=count
+}
+else if(count===0){
+countdownDisplay.textContent="GO!"
+}
+else{
+
+clearInterval(timer)
+countdownDisplay.textContent=""
+startGame()
+
 }
 
-function handlePlayerClick(event) {
-    if (!gameStarted) return;
-    const color = event.target.id;
-    playerSequence.push(color);
-    flashButton(color);
-    checkPlayerSequence();
+},800)
+
 }
 
-function checkPlayerSequence() {
-    for (let i = 0; i < playerSequence.length; i++) {
-        if (playerSequence[i] !== gameSequence[i]) {
-            gameOver();
-            return;
-        }
-    }
+/* START GAME */
 
-    if (playerSequence.length === gameSequence.length) {
-        score++;
-        scoreDisplay.textContent = `Score: ${score}`;
-        setTimeout(nextRound, 1000);
-    }
+function startGame(){
+
+gameStarted=true
+gameSequence=[]
+playerSequence=[]
+score=0
+speed=700
+
+scoreDisplay.textContent="Score: 0"
+gameOverDisplay.textContent=""
+
+nextRound()
+
 }
 
-function gameOver() {
-    startButton.style.display = 'inline-block';
-    gameOverDisplay.textContent = `Game Over! Your final score is: ${score}`;
-    gameStarted = false;
-    gameSequence = [];
-    playerSequence = [];
+/* NEXT ROUND */
+
+function nextRound(){
+
+playerSequence=[]
+
+speed=Math.max(250,speed-15)
+
+const randomColor=colors[Math.floor(Math.random()*4)]
+
+gameSequence.push(randomColor)
+
+playSequence()
+
 }
+
+/* PLAY SEQUENCE */
+
+function playSequence(){
+
+let i=0
+
+buttons.forEach(b=>b.disabled=true)
+
+const interval=setInterval(()=>{
+
+flashButton(gameSequence[i])
+
+i++
+
+if(i>=gameSequence.length){
+
+clearInterval(interval)
+buttons.forEach(b=>b.disabled=false)
+
+}
+
+},speed)
+
+}
+
+/* FLASH */
+
+function flashButton(color){
+
+const button=document.getElementById(color)
+
+playTone(color)
+vibrate()
+
+buttons.forEach(b=>{
+if(b.id!==color) b.classList.add("dim")
+})
+
+button.classList.add('active')
+
+setTimeout(()=>{
+
+button.classList.remove('active')
+buttons.forEach(b=>b.classList.remove("dim"))
+
+},speed*.6)
+
+}
+
+/* PLAYER CLICK */
+
+function handlePlayerClick(event){
+
+if(!gameStarted) return
+
+const color=event.target.id
+
+playerSequence.push(color)
+
+flashButton(color)
+
+checkPlayerSequence()
+
+}
+
+/* CHECK */
+
+function checkPlayerSequence(){
+
+for(let i=0;i<playerSequence.length;i++){
+
+if(playerSequence[i]!==gameSequence[i]){
+
+gameOver()
+return
+
+}
+
+}
+
+if(playerSequence.length===gameSequence.length){
+
+score++
+scoreDisplay.textContent="Score: "+score
+
+setTimeout(nextRound,800)
+
+}
+
+}
+
+/* GAME OVER */
+
+function gameOver(){
+
+gameStarted=false
+
+if(score>highscore){
+
+highscore=score
+localStorage.setItem("patternHighscore",highscore)
+highscoreDisplay.textContent="High Score: "+highscore
+
+}
+
+gameOverDisplay.textContent="Game Over! Your final score is: "+score
+
+startButton.style.display="inline-block"
+
+}
+
 </script>
 
 </body>
