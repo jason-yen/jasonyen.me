@@ -4,155 +4,397 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>jasonyen.me</title>
+
 <style>
-  * { box-sizing: border-box; }
-  body { margin:0; padding-top:56px; font-family:Arial,sans-serif; background:#f5f6fa; color:black; }
+*{box-sizing:border-box;}
 
-  /* Navbar styling */
-  .navbar { width:100%; height:56px; position:fixed; top:0; left:0; z-index:9999; display:flex; align-items:center; padding:0 40px; gap:20px; background: rgba(200,200,255,0.093); backdrop-filter: blur(15px); border-bottom:1px solid rgba(200,200,255,0.2); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
-  .navbar-content { display:flex; align-items:center; gap:20px; }
-  .navbar img { width:40px;height:40px;border-radius:12px; transition: transform 0.3s ease; }
-  .navbar img:hover { transform:scale(1.1); }
-  .separator { color:#9dacff; font-size:20px; }
-  .navbar a { color:#536DFE; font-weight:500; text-decoration:none; transition:0.3s ease; }
-  .navbar a:hover { transform: scale(1.05); }
+body{
+margin:0;
+padding-top:56px;
+font-family:Arial,sans-serif;
+background:#f5f6fa;
+color:black;
+}
 
-  .main-title { font-size:42px; font-weight:bold; margin:40px 40px 20px 40px; }
-  .game-container { margin:20px 40px; display:flex; flex-direction:column; align-items:flex-start; }
-  .grid { display:grid; grid-template-columns:repeat(3,100px); grid-template-rows:repeat(3,100px); gap:5px; }
-  .cell { width:100px; height:100px; background:#f0f0f0; text-align:center; font-size:36px; line-height:100px; border:2px solid #ccc; cursor:pointer; font-weight:bold; }
-  .cell.taken { pointer-events:none; }
-  #message { font-size:18px; margin-top:15px; }
-  #replayButton { display:none; margin-top:15px; padding:12px 25px; background-color:#4c5eaf; color:white; font-size:20px; border-radius:8px; cursor:pointer; border:none; }
-  #replayButton:hover { background-color:#2f4a88; transform: translateY(-3px); }
+/* Navbar */
+
+.navbar{
+width:100%;
+height:56px;
+position:fixed;
+top:0;
+left:0;
+z-index:9999;
+display:flex;
+align-items:center;
+padding:0 40px;
+gap:20px;
+background:rgba(200,200,255,0.093);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(200,200,255,0.2);
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+.navbar-content{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.navbar img{
+width:40px;
+height:40px;
+border-radius:12px;
+transition:transform 0.3s ease;
+}
+
+.navbar img:hover{
+transform:scale(1.1);
+}
+
+.separator{
+color:#9dacff;
+font-size:20px;
+}
+
+.navbar a{
+color:#536DFE;
+font-weight:500;
+text-decoration:none;
+transition:0.3s ease;
+}
+
+.navbar a:hover{
+transform:scale(1.05);
+}
+
+/* Title */
+
+.main-title{
+font-size:42px;
+font-weight:bold;
+margin:40px 40px 20px 40px;
+}
+
+/* Game */
+
+.game-container{
+margin:20px 40px;
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,100px);
+grid-template-rows:repeat(3,100px);
+gap:5px;
+}
+
+.cell{
+width:100px;
+height:100px;
+background:#f0f0f0;
+text-align:center;
+font-size:36px;
+line-height:100px;
+border:2px solid #ccc;
+cursor:pointer;
+font-weight:bold;
+transition:all 0.25s ease;
+}
+
+.cell.taken{
+pointer-events:none;
+animation:pop 0.2s ease;
+}
+
+/* Piece animation */
+
+@keyframes pop{
+0%{transform:scale(0.6);opacity:0;}
+100%{transform:scale(1);opacity:1;}
+}
+
+/* Winning highlight */
+
+.winner{
+background:#9bffb0;
+border-color:#2ecc71;
+color:#0a5c1a;
+box-shadow:0 0 10px rgba(46,204,113,0.7);
+}
+
+/* Message */
+
+#message{
+font-size:18px;
+margin-top:15px;
+}
+
+/* Replay */
+
+#replayButton{
+display:none;
+margin-top:15px;
+padding:12px 25px;
+background-color:#4c5eaf;
+color:white;
+font-size:20px;
+border-radius:8px;
+cursor:pointer;
+border:none;
+transition:0.2s;
+}
+
+#replayButton:hover{
+background-color:#2f4a88;
+transform:translateY(-3px);
+}
+
 </style>
 </head>
+
 <body>
 
 <!-- Navbar -->
+
 <div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/WardenmonsterLogo.PNG" alt="Logo"></a>
-    <a href="/games">Games</a>
-    <div class="separator">|</div>
-    <a href="/tools">Tools</a>
-    <div class="separator">|</div>
-    <a href="/donatejk">Donate</a>
-    <div class="separator">|</div>
-    <a href="/ai">Search</a>
-    <div class="separator">|</div>
-    <a href="/noises">Sounds</a>
-  </div>
+<div class="navbar-content">
+
+<a href="/"><img src="/images/WardenmonsterLogo.PNG"></a>
+
+<a href="/games">Games</a>
+<div class="separator">|</div>
+<a href="/tools">Tools</a>
+<div class="separator">|</div>
+<a href="/donatejk">Donate</a>
+<div class="separator">|</div>
+<a href="/ai">Search</a>
+<div class="separator">|</div>
+<a href="/noises">Sounds</a>
+
+</div>
 </div>
 
-<!-- Main title -->
+<!-- Title -->
+
 <div class="main-title">Tic-Tac-Toe</div>
 
-<!-- Game Section -->
+<!-- Game -->
+
 <div class="game-container">
-  <div class="grid">
-    <div class="cell" onclick="makeMove(0)"></div>
-    <div class="cell" onclick="makeMove(1)"></div>
-    <div class="cell" onclick="makeMove(2)"></div>
-    <div class="cell" onclick="makeMove(3)"></div>
-    <div class="cell" onclick="makeMove(4)"></div>
-    <div class="cell" onclick="makeMove(5)"></div>
-    <div class="cell" onclick="makeMove(6)"></div>
-    <div class="cell" onclick="makeMove(7)"></div>
-    <div class="cell" onclick="makeMove(8)"></div>
-  </div>
-  <div id="message"></div>
-  <button id="replayButton" onclick="resetGame()">Replay</button>
+
+<div class="grid">
+
+<div class="cell" onclick="makeMove(0)"></div>
+<div class="cell" onclick="makeMove(1)"></div>
+<div class="cell" onclick="makeMove(2)"></div>
+
+<div class="cell" onclick="makeMove(3)"></div>
+<div class="cell" onclick="makeMove(4)"></div>
+<div class="cell" onclick="makeMove(5)"></div>
+
+<div class="cell" onclick="makeMove(6)"></div>
+<div class="cell" onclick="makeMove(7)"></div>
+<div class="cell" onclick="makeMove(8)"></div>
+
+</div>
+
+<div id="message"></div>
+
+<button id="replayButton" onclick="resetGame()">Replay</button>
+
 </div>
 
 <script>
+
 let board = Array(9).fill("");
-let currentPlayer = "X";
-let gameOver = false;
-const patterns = [
-  [0,1,2],[3,4,5],[6,7,8],
-  [0,3,6],[1,4,7],[2,5,8],
-  [0,4,8],[2,4,6]
+let currentPlayer="X";
+let gameOver=false;
+
+const patterns=[
+[0,1,2],[3,4,5],[6,7,8],
+[0,3,6],[1,4,7],[2,5,8],
+[0,4,8],[2,4,6]
 ];
 
 function makeMove(index){
-  if(gameOver || board[index]!=="") return;
-  board[index] = currentPlayer;
-  const cell = document.getElementsByClassName("cell")[index];
-  cell.textContent = currentPlayer;
-  cell.classList.add("taken");
 
-  if(checkWinner()){
-    document.getElementById("message").textContent = currentPlayer + " wins!";
-    document.getElementById("replayButton").style.display="inline-block";
-    gameOver=true; return;
-  }
-  if(board.every(cell=>cell!=="")){
-    document.getElementById("message").textContent="Tie!";
-    document.getElementById("replayButton").style.display="inline-block";
-    gameOver=true; return;
-  }
+if(gameOver || board[index]!=="") return;
 
-  currentPlayer = currentPlayer==="X"?"O":"X";
-  if(currentPlayer==="O" && !gameOver) setTimeout(computerMove,200);
+board[index]=currentPlayer;
+
+const cell=document.getElementsByClassName("cell")[index];
+cell.textContent=currentPlayer;
+cell.classList.add("taken");
+
+if(checkWinner(currentPlayer)){
+endGame(currentPlayer+" wins!");
+return;
 }
 
-function checkWinner(){
-  return patterns.some(([a,b,c])=>board[a] && board[a]===board[b] && board[a]===board[c]);
+if(board.every(c=>c!=="")){
+endGame("Tie!");
+return;
 }
 
-// Minimax algorithm
-function minimax(newBoard, player){
-  const availSpots = newBoard.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-  if(checkWinnerStatic(newBoard,"X")) return {score:-10};
-  if(checkWinnerStatic(newBoard,"O")) return {score:10};
-  if(availSpots.length===0) return {score:0};
+currentPlayer=currentPlayer==="X"?"O":"X";
 
-  const moves=[];
-  for(const i of availSpots){
-    const move={index:i};
-    newBoard[i] = player;
-    const result = minimax(newBoard, player==="O"?"X":"O");
-    move.score = result.score;
-    newBoard[i] = "";
-    moves.push(move);
-  }
-
-  let bestMove;
-  if(player==="O"){
-    let bestScore=-Infinity;
-    for(const m of moves){if(m.score>bestScore){bestScore=m.score; bestMove=m; bestScore=m.score;}}
-  } else {
-    let bestScore=Infinity;
-    for(const m of moves){if(m.score<bestScore){bestMove=m; bestScore=m.score;}}
-  }
-  return bestMove;
+if(currentPlayer==="O"){
+setTimeout(computerMove,200);
 }
 
-function checkWinnerStatic(bd, player){
-  return patterns.some(([a,b,c])=>bd[a]===player && bd[b]===player && bd[c]===player);
 }
 
-// AI move
+function checkWinner(player){
+
+for(const [a,b,c] of patterns){
+
+if(
+board[a]===player &&
+board[b]===player &&
+board[c]===player
+){
+
+highlightWin([a,b,c]);
+return true;
+
+}
+
+}
+
+return false;
+
+}
+
+function highlightWin(cells){
+
+const allCells=document.getElementsByClassName("cell");
+
+for(const i of cells){
+allCells[i].classList.add("winner");
+}
+
+}
+
+function endGame(text){
+
+document.getElementById("message").textContent=text;
+document.getElementById("replayButton").style.display="inline-block";
+gameOver=true;
+
+}
+
+/* AI */
+
 function computerMove(){
-  // Hardcoded: if player starts bottom-right, AI goes top-left
-  if(board[8]==="X" && board.filter(v=>v!=="").length===1 && board[0]===""){
-    makeMove(0);
-    return;
-  }
 
-  const best = minimax(board,"O");
-  if(best) makeMove(best.index);
+let bestScore=-Infinity;
+let move;
+
+for(let i=0;i<9;i++){
+
+if(board[i]===""){
+
+board[i]="O";
+
+let score=minimax(board,0,false);
+
+board[i]="";
+
+if(score>bestScore){
+bestScore=score;
+move=i;
+}
+
+}
+
+}
+
+makeMove(move);
+
+}
+
+function minimax(bd,depth,isMax){
+
+if(checkWinnerBoard(bd,"O")) return 10-depth;
+if(checkWinnerBoard(bd,"X")) return depth-10;
+if(bd.every(c=>c!=="")) return 0;
+
+if(isMax){
+
+let best=-Infinity;
+
+for(let i=0;i<9;i++){
+
+if(bd[i]===""){
+
+bd[i]="O";
+best=Math.max(best,minimax(bd,depth+1,false));
+bd[i]="";
+
+}
+
+}
+
+return best;
+
+}else{
+
+let best=Infinity;
+
+for(let i=0;i<9;i++){
+
+if(bd[i]===""){
+
+bd[i]="X";
+best=Math.min(best,minimax(bd,depth+1,true));
+bd[i]="";
+
+}
+
+}
+
+return best;
+
+}
+
+}
+
+function checkWinnerBoard(bd,player){
+
+return patterns.some(([a,b,c])=>
+bd[a]===player &&
+bd[b]===player &&
+bd[c]===player
+);
+
 }
 
 function resetGame(){
-  board = Array(9).fill("");
-  const cells = document.getElementsByClassName("cell");
-  for(const c of cells){c.textContent=""; c.classList.remove("taken");}
-  document.getElementById("message").textContent="";
-  document.getElementById("replayButton").style.display="none";
-  currentPlayer="X"; gameOver=false;
+
+board=Array(9).fill("");
+
+const cells=document.getElementsByClassName("cell");
+
+for(const c of cells){
+c.textContent="";
+c.classList.remove("taken");
+c.classList.remove("winner");
 }
+
+document.getElementById("message").textContent="";
+document.getElementById("replayButton").style.display="none";
+
+currentPlayer="X";
+gameOver=false;
+
+}
+
 </script>
+
 </body>
 </html>
+
