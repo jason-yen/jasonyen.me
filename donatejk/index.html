@@ -1,429 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>jasonyen.me</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate - jasonyen.me</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin:0; padding:0; }
 
 body {
-  margin: 0;
-  padding-top: 56px;
-  font-family: Arial, sans-serif;
-  background-color: #f5f6fa;
-  color: black;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    background-color: #f5f6fa;
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+    line-height: 1.6;
 }
 
-a { color: #536DFE; text-decoration: none; }
-
+/* ================= NAVBAR ================= */
 .navbar {
-  width: 100%;
-  height: 56px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  padding: 0 40px;
-  gap: 20px;
-  background: rgba(200, 200, 255, 0.093);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(200, 200, 255, 0.2);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(20px);
+    z-index: 9999;
 }
 
-.navbar-content { display: flex; align-items: center; gap: 20px; }
-.separator { color: #9dacff; font-size: 20px; }
-
-.main-title { font-size: 42px; font-weight: bold; margin: 40px; }
-
-.chatbox {
-  width: 100%;
-  max-width: 700px;
-  margin: 20px 40px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
-.chatbox ul {
-  list-style: none;
-  padding: 0;
-  max-height: 450px;
-  overflow-y: auto;
-  margin-bottom: 10px;
+.navbar a {
+    color: #536DFE;
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
 }
 
-.chatbox li {
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 6px;
-  white-space: pre-wrap;
+/* underline animation */
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 3px;
+    background: #536DFE;
+    border-radius: 2px;
+    transition: width 0.3s ease;
 }
 
-.user-msg { background-color: #d3f4ff; text-align: right; }
-.bot-msg { background-color: #e1e1e1; text-align: left; }
-
-input[type="text"] {
-  width: 75%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.navbar a:hover::after {
+    width: 100%;
 }
 
-button {
-  padding: 10px 20px;
-  margin-left: 5px;
-  background-color: #4c5eaf;
-  color: white;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+/* LOGO */
+.nav-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: block;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-button:hover { background-color: #2f4a88; }
+.nav-logo:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* ================= MAIN ================= */
+.main-content { 
+    margin-top: 80px; 
+    padding: 20px 30px;
+}
+
+h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+}
+
+/* ================= SECTION ================= */
+.section {
+    margin-bottom: 35px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+body.dark .section {
+    border-bottom: 2px solid rgba(255,255,255,0.25);
+}
+
+/* ================= BUTTON ================= */
+.game-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #4c5eaf;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* ================= IMAGE ================= */
+.rickroll-gif {
+    width:100%;
+    max-width: 400px;
+    border-radius:12px;
+    margin-top: 20px;
+    animation: floatImage 3.5s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(83,109,254,0.4);
+}
+
+@keyframes floatImage {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+}
+
+/* ================= DARK MODE ================= */
+body.dark {
+    color: #e6e6e6;
+    background: linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+    background-size: 400% 400%;
+    animation: gradientMove 18s ease infinite;
+}
+
+@keyframes gradientMove {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ================= TOGGLE ================= */
+.toggle {
+    width:65px;
+    height:34px;
+    border-radius:50px;
+    cursor:pointer;
+    position:relative;
+    background: #dcdde1;
+    border: 2px solid rgba(0,0,0,0.2);
+}
+
+body.dark .toggle {
+    background: #2f3640;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.toggle.active {
+    background:#536DFE;
+    border: 2px solid #536DFE;
+    box-shadow: 0 0 10px rgba(83,109,254,0.6);
+}
+
+.toggle-circle {
+    width:28px;
+    height:28px;
+    background:white;
+    position:absolute;
+    top:1px;
+    left:2px;
+    border-radius:50%;
+    transition:0.35s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.toggle.active .toggle-circle {
+    left:33px;
+}
+
+/* ================= FX ================= */
+.cursor-glow {
+    position: fixed;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(83,109,254,0.25), transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.dust {
+    position: fixed;
+    width:6px; height:6px;
+    background: rgba(120,150,255,0.7);
+    border-radius:50%;
+    filter:blur(2px);
+    animation: dustFade 1s linear forwards;
+}
+
+@keyframes dustFade {
+    to { opacity:0; transform:translateY(-20px) scale(0.5); }
+}
+
 </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-  <div class="navbar-content">
-    <a href="/">Home</a>
-    <div class="separator">|</div>
-    <a href="/tools">Tools</a>
-    <div class="separator">|</div>
-    <a href="/ai">Search</a>
-  </div>
+    <div class="navbar-content">
+        <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+    </div>
+    <div class="toggle" id="toggle">
+        <div class="toggle-circle" id="icon">🌙</div>
+    </div>
 </div>
 
-<div class="main-title">Smart Search</div>
+<!-- MAIN -->
+<div class="main-content">
+    <h1>Donate</h1>
 
-<div class="chatbox">
-  <ul id="chat-log">
-    <li class="bot-msg">Ask me anything.</li>
-  </ul>
-  <input type="text" id="user-input" placeholder="Type your question..."
-    onkeydown="if(event.key === 'Enter'){ getResponse(); }">
-  <button onclick="getResponse()">Ask</button>
-</div>
-
-<script>
-
-function cleanQuery(input) {
-  return input
-    .toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .replace(/^(what is|who is|what are|who are|tell me about|define|explain|how does|how do|why is|why does)\s+/i, '')
-    .replace(/\b(the|a|an|is|are|was|were|do|does|did|of|in|on|at|to|for|and)\b/g, '')
-    .trim();
-}
-
-function detectType(input) {
-  if (input.match(/\b(define|meaning)\b/i)) return "dictionary";
-  if (input.match(/\b(who|what|when|where|why|how)\b/i)) return "wiki";
-  return "general";
-}
-
-async function getResponse() {
-  const inputEl = document.getElementById('user-input');
-  const userInput = inputEl.value.trim();
-  if (!userInput) return;
-
-  appendMessage('user-msg', userInput);
-  inputEl.value = '';
-
-  if (userInput.includes(" and ")) {
-    const parts = userInput.split(" and ");
-    for (let part of parts) {
-      await handleQuery(part.trim());
-    }
-  } else {
-    await handleQuery(userInput);
-  }
-}
-
-async function handleQuery(userInput) {
-  const cleaned = cleanQuery(userInput);
-  const type = detectType(userInput);
-
-  if (type === "dictionary") {
-    const def = await fetchDictionaryDefinition(cleaned);
-    if (def) {
-      appendMessage('bot-msg', `📖 Definition:\n\n${def}`);
-      return;
-    }
-  }
-
-  try {
-    const searchRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*&srinfo=suggestion`
-    );
-    const searchData = await searchRes.json();
-
-    if (searchData.query.search.length === 0 &&
-        searchData.query.searchinfo?.suggestion) {
-      appendMessage('bot-msg',
-        `Did you mean: ${searchData.query.searchinfo.suggestion}?`
-      );
-      return;
-    }
-
-    let results = searchData.query.search;
-    if (!results.length) {
-      appendMessage('bot-msg', "No results found.");
-      return;
-    }
-
-    let bestMatch = results.find(r =>
-      r.title.toLowerCase() === cleaned.toLowerCase()
-    )?.title;
-
-    if (!bestMatch) {
-      bestMatch = results.sort((a, b) => {
-        const score = (title) => {
-          const words = cleaned.split(" ");
-          return words.filter(w =>
-            title.toLowerCase().includes(w)
-          ).length;
-        };
-        return score(b.title) - score(a.title);
-      })[0].title;
-    }
-
-    const summaryRes = await fetch(
-      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestMatch)}`
-    );
-    const summaryData = await summaryRes.json();
-
-    if (summaryData.type === 'disambiguation') {
-      appendMessage('bot-msg',
-        "This term is ambiguous. Please be more specific.");
-      return;
-    }
-
-    appendMessage('bot-msg',
-      `📘 ${bestMatch}\n\n${summaryData.extract}\n\nRead more:\n${summaryData.content_urls.desktop.page}`
-    );
-
-  } catch (err) {
-    appendMessage('bot-msg', "Error fetching data.");
-  }
-}
-
-async function fetchDictionaryDefinition(word) {
-  try {
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data?.[0]?.meanings
-      ?.map(m => m.definitions?.[0]?.definition)
-      .join('\n');
-  } catch {
-    return null;
-  }
-}
-
-function appendMessage(className, message) {
-  const chatLog = document.getElementById('chat-log');
-  const li = document.createElement('li');
-  li.className = className;
-  chatLog.appendChild(li);
-  chatLog.scrollTop = chatLog.scrollHeight;
-
-  if (className === 'bot-msg') {
-    typeText(li, message);
-  } else {
-    li.textContent = message;
-  }
-}
-
-function typeText(element, text, index = 0) {
-  if (index < text.length) {
-    element.textContent += text.charAt(index);
-    setTimeout(() => typeText(element, text, index + 1), 5);
-  }
-}
-
-</script>
-
-</body>
-</html>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding-top: 56px; /* Prevent navbar overlap */
-            font-family: Arial, sans-serif;
-            background-color: #f5f6fa;
-        }
-
-        /* ================= NAVBAR ================= */
-
-        .navbar {
-            width: 100%;
-            height: 56px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            gap: 20px;
-
-            background: rgba(200, 200, 255, 0.093);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-
-            border-bottom: 1px solid rgba(200, 200, 255, 0.2);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .navbar-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .navbar img {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .navbar img:hover {
-            transform: scale(1.1);
-        }
-
-        .navbar a {
-            color: #536DFE;
-            font-weight: 500;
-            text-decoration: none;
-            transition: 0.3s ease;
-        }
-
-        .navbar a:hover {
-            transform: scale(1.05);
-        }
-
-        .separator {
-            color: #9dacff;
-            font-size: 20px;
-        }
-
-        /* ================= PAGE CONTENT ================= */
-
-        .main-title {
-            font-size: 42px;
-            font-weight: bold;
-            margin: 40px 40px 20px 40px;
-        }
-
-        .content {
-            margin: 0 40px 30px 40px;
-            font-size: 18px;
-        }
-
-        .rickroll-container {
-            margin: 20px 40px;
-        }
-
-        .rickroll-gif {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .gotcha-text {
-            font-size: 18px;
-            margin-top: 15px;
-        }
-
-        /* ================= BUTTON ================= */
-
-        .game-link {
-            display: inline-block;
-            margin: 20px 40px 40px 40px;
-            padding: 12px 25px;
-            background-color: #4c5eaf;
-            color: white;
-            font-size: 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: 0.3s ease;
-        }
-
-        .game-link:hover {
-            background-color: #2f4a88;
-            transform: translateY(-3px);
-        }
-
-    </style>
-</head>
-
-<body>
-
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <div class="navbar-content">
-            <a href="/">
-                <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-            </a>
-<a href="/games">Games</a>
-            <div class="separator">|</div>
-            <a href="/tools">Tools</a>
-                        <div class="separator">|</div>
-
-            <a href="/donatejk">Donate</a>
-            <div class="separator">|</div>
-            <a href="/ai">Search</a>
-            <div class="separator">|</div>
-            <a href="/noises">Sounds</a>
-        </div>
-    </div>
-
-    <!-- TITLE -->
-    <div class="main-title">
-        Donate
-    </div>
-
-    <!-- CONTENT -->
-    <div class="content">
+    <div class="section">
         Thank you so much for your generosity! Your support helps keep this site alive and thriving.
     </div>
 
-    <!-- RICKROLL SECTION -->
-    <div class="rickroll-container content">
-        <img 
-            src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" 
-            alt="Rickroll GIF" 
-            class="rickroll-gif">
-
-        <div class="gotcha-text">
-            <br>
-            You’ve been rickrolled.
-        </div>
+    <div class="section">
+        <img src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" class="rickroll-gif">
+        <div style="margin-top:15px;">You’ve been rickrolled.</div>
     </div>
 
-    <!-- BACK BUTTON -->
     <a href="/" class="game-link">Back to Home</a>
+</div>
+
+<script>
+const toggle = document.getElementById("toggle");
+const icon = document.getElementById("icon");
+
+if(localStorage.getItem("darkMode")==="on"){
+    document.body.classList.add("dark");
+    toggle.classList.add("active");
+    icon.textContent="☀️";
+}
+
+toggle.onclick=()=>{
+    document.body.classList.toggle("dark");
+    toggle.classList.toggle("active");
+
+    if(document.body.classList.contains("dark")){
+        icon.textContent="☀️";
+        localStorage.setItem("darkMode","on");
+    } else {
+        icon.textContent="🌙";
+        localStorage.setItem("darkMode","off");
+    }
+};
+
+/* cursor glow + sparkles */
+const glow=document.createElement("div");
+glow.className="cursor-glow";
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",e=>{
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
+
+    for(let i=0;i<2;i++){
+        let d=document.createElement("div");
+        d.className="dust";
+        d.style.left=(e.clientX+Math.random()*10-5)+"px";
+        d.style.top=(e.clientY+Math.random()*10-5)+"px";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(),1000);
+    }
+});
+</script>
 
 </body>
 </html>
