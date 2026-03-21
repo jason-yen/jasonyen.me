@@ -8,249 +8,226 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*{box-sizing:border-box;margin:0;padding:0;}
 
-body {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 18px;
-    background: #f5f6fa;
-    overflow-x: hidden;
-    transition: background 0.4s, color 0.4s;
-    line-height: 1.6;
+body{
+    font-family:'Fredoka',sans-serif;
+    font-size:18px;
+    background:#f5f6fa;
+    overflow-x:hidden;
+    transition:background 0.4s,color 0.4s;
+    line-height:1.6;
 }
 
 /* ================= NAVBAR ================= */
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(20px);
-    z-index: 9999;
+.navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(20px);
+    z-index:9999;
 }
 
-.navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: nowrap;
+.navbar-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
 }
 
-.navbar a {
-    color: #536DFE;
-    text-decoration: none;
-    font-size: 18px;
-    position: relative;
-    white-space: nowrap;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: transform 0.25s ease;
+.navbar a{
+    color:#536DFE;
+    text-decoration:none;
+    font-size:18px;
+    position:relative;
+    white-space:nowrap;
 }
 
-.navbar a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 0;
-    height: 3px;
-    background: #536DFE;
-    border-radius: 2px;
-    transition: width 0.3s ease;
+.navbar a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-3px;
+    width:0%;
+    height:3px;
+    background:#536DFE;
+    border-radius:2px;
+    transition:width 0.3s ease;
 }
 
-.navbar a:hover::after {
-    width: 100%;
+.navbar a:hover::after{
+    width:100%;
 }
 
-.navbar a:hover {
-    transform: scale(1.05);
+.nav-logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:block;
+    transition:transform 0.25s ease,box-shadow 0.25s ease;
 }
 
-.nav-logo {
-    width: 42px;
-    height: 42px;
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.nav-logo:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+.nav-logo:hover{
+    transform:scale(1.08);
+    box-shadow:0 8px 18px rgba(0,0,0,0.25);
 }
 
 /* ================= MAIN ================= */
-.main-content {
-    margin-top: 80px;
-    padding: 20px;
+.main-content{
+    margin-top:80px;
+    padding:20px;
 }
 
-h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    text-align: left;
+h1{
+    font-size:36px;
+    margin-bottom:20px;
 }
 
-/* ================= CHATBOX ================= */
-.chatbox {
-    max-width: 700px;
-    margin-top: 20px;
+/* ================= CHAT ================= */
+.chatbox{
+    max-width:700px;
+    margin-top:20px;
 }
 
-.chatbox ul {
-    list-style: none;
-    padding: 0;
-    max-height: 450px;
-    overflow-y: auto;
-    margin-bottom: 15px;
+.chatbox ul{
+    list-style:none;
+    max-height:450px;
+    overflow-y:auto;
+    margin-bottom:15px;
 }
 
-.chatbox li {
-    padding: 12px;
-    margin: 6px 0;
-    border-radius: 8px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    text-align: left;
+.chatbox li{
+    padding:12px;
+    margin:6px 0;
+    border-radius:8px;
+    white-space:pre-wrap;
 }
 
-.user-msg { background: #d3f4ff; text-align: right; }
-.bot-msg { background: #ececec; text-align: left; }
+.user-msg{background:#d3f4ff;text-align:right;}
+.bot-msg{background:#ececec;}
 
-/* ================= BUTTON ================= */
-.game-link {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #4c5eaf;
-    color: white;
-    font-size: 18px;
-    border-radius: 10px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ================= BUTTONS (MATCH CODE 1) ================= */
+.game-link{
+    display:inline-block;
+    margin:10px 10px 0 0;
+    padding:14px 26px;
+    background-color:#4c5eaf;
+    color:white;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:18px;
+    border:none;
+    cursor:pointer;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
 }
 
-.game-link:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
 }
 
 /* ================= INPUT ================= */
-#user-input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+#user-input{
+    flex:1;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
 }
 
 /* ================= DARK MODE ================= */
-body.dark {
-    color: #e6e6e6;
-    background: linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size: 400% 400%;
-    animation: gradientMove 18s ease infinite;
+body.dark{
+    color:#e6e6e6;
+    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+    background-size:400% 400%;
+    animation:gradientMove 18s ease infinite;
 }
 
-body.dark .chatbox li.bot-msg { background: #2a2e44; }
-body.dark .chatbox li.user-msg { background: #536DFE; }
-body.dark .game-link { background: #536DFE; color: white; }
-body.dark .game-link:hover { background: #2f4a88; }
+body.dark .bot-msg{background:#2a2e44;}
+body.dark .user-msg{background:#536DFE;}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
 /* ================= TOGGLE ================= */
-.toggle {
-    width: 65px;
-    height: 34px;
-    border-radius: 50px;
-    cursor: pointer;
-    position: relative;
-    background: #dcdde1;
-    border: 2px solid rgba(0,0,0,0.2);
+.toggle{
+    width:65px;height:34px;
+    border-radius:50px;
+    cursor:pointer;
+    position:relative;
+    background:#dcdde1;
+    border:2px solid rgba(0,0,0,0.2);
 }
 
-body.dark .toggle {
-    background: #2f3640;
-    border: 2px solid rgba(255,255,255,0.3);
+body.dark .toggle{
+    background:#2f3640;
+    border:2px solid rgba(255,255,255,0.3);
 }
 
-.toggle.active {
-    background: #536DFE;
-    border: 2px solid #536DFE;
-    box-shadow: 0 0 10px rgba(83,109,254,0.6);
+.toggle.active{
+    background:#536DFE;
+    border:2px solid #536DFE;
+    box-shadow:0 0 10px rgba(83,109,254,0.6);
 }
 
-.toggle-circle {
-    width: 28px;
-    height: 28px;
-    background: white;
-    position: absolute;
-    top: 1px;
-    left: 2px;
-    border-radius: 50%;
-    transition: 0.35s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
+.toggle-circle{
+    width:28px;height:28px;
+    background:white;
+    position:absolute;
+    top:1px;left:2px;
+    border-radius:50%;
+    transition:0.35s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.toggle.active .toggle-circle {
-    left: 33px;
-}
+.toggle.active .toggle-circle{left:33px;}
 
 /* ================= FX ================= */
-.cursor-glow {
-    position: fixed;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(83,109,254,0.25), transparent 70%);
-    pointer-events: none;
-    transform: translate(-50%, -50%);
+.cursor-glow{
+    position:fixed;
+    width:250px;height:250px;
+    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
 }
 
-.dust {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: rgba(120,150,255,0.7);
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(2px);
-    animation: dustFade 1s linear forwards;
+.dust{
+    position:fixed;
+    width:6px;height:6px;
+    background:rgba(120,150,255,0.7);
+    border-radius:50%;
+    filter:blur(2px);
+    animation:dustFade 1s linear forwards;
 }
 
-@keyframes dustFade {
-    to { opacity: 0; transform: translateY(-20px) scale(0.5); }
-}
-
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes dustFade{
+    to{opacity:0;transform:translateY(-20px) scale(0.5);}
 }
 
 /* ================= MOBILE ================= */
 @media(max-width:600px){
-    .main-content { padding: 15px; margin-top: 70px; }
-    h1 { font-size: 28px; }
-    #user-input, .game-link { font-size: 16px; padding: 10px 18px; }
-    .navbar { height: 55px; padding: 0 15px; }
-    .navbar-content { gap: 10px; flex-wrap: wrap; }
-    .cursor-glow, .dust { display: none; }
+    .navbar{padding:0 15px;height:55px;}
+    .navbar-content{gap:10px;flex-wrap:wrap;}
+    .main-content{margin-top:70px;padding:15px;}
+    h1{font-size:28px;}
+    .game-link{font-size:16px;padding:12px 20px;}
+    .cursor-glow,.dust{display:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-content">
         <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
@@ -264,7 +241,6 @@ body.dark .toggle {
     </div>
 </div>
 
-<!-- MAIN -->
 <div class="main-content">
     <h1>Search Engine (Beta)</h1>
 
@@ -281,115 +257,43 @@ body.dark .toggle {
 </div>
 
 <script>
-/* DARK MODE TOGGLE */
-const toggle = document.getElementById("toggle");
-const icon = document.getElementById("icon");
+const toggle=document.getElementById("toggle");
+const icon=document.getElementById("icon");
 
-if(localStorage.getItem("darkMode") === "on"){
+if(localStorage.getItem("darkMode")==="on"){
     document.body.classList.add("dark");
     toggle.classList.add("active");
-    icon.textContent = "☀️";
+    icon.textContent="☀️";
 }
 
-toggle.onclick = () => {
+toggle.onclick=()=>{
     document.body.classList.toggle("dark");
     toggle.classList.toggle("active");
     if(document.body.classList.contains("dark")){
-        icon.textContent = "☀️";
+        icon.textContent="☀️";
         localStorage.setItem("darkMode","on");
-    }else{
-        icon.textContent = "🌙";
+    } else {
+        icon.textContent="🌙";
         localStorage.setItem("darkMode","off");
     }
 };
 
-/* CURSOR GLOW + DUST */
-const glow = document.createElement("div");
-glow.className = "cursor-glow";
+const glow=document.createElement("div");
+glow.className="cursor-glow";
 document.body.appendChild(glow);
 
-document.addEventListener("mousemove", e => {
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
+document.addEventListener("mousemove",e=>{
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
     for(let i=0;i<2;i++){
-        let d = document.createElement("div");
-        d.className = "dust";
-        d.style.left = (e.clientX + Math.random()*10 -5) + "px";
-        d.style.top = (e.clientY + Math.random()*10 -5) + "px";
+        let d=document.createElement("div");
+        d.className="dust";
+        d.style.left=(e.clientX+Math.random()*10-5)+"px";
+        d.style.top=(e.clientY+Math.random()*10-5)+"px";
         document.body.appendChild(d);
         setTimeout(()=>d.remove(),1000);
     }
 });
-
-/* CHAT FUNCTIONALITY */
-document.getElementById("ask-btn").addEventListener("click", getResponse);
-document.getElementById("user-input").addEventListener("keydown", e => { if(e.key === "Enter") getResponse(); });
-
-function cleanQuery(query){
-    return query.toLowerCase().replace(/[^\w\s]/gi,'').split(" ").filter(w=>w.length>2).join(" ").trim();
-}
-
-function summarize(text, query){
-    const sentences = text.match(/[^.!?]+[.!?]*/g) || [text];
-    const keywords = query.split(" ");
-    const scored = sentences.map(s=>{
-        let score=0;
-        const lower=s.toLowerCase();
-        keywords.forEach(word=>{ if(lower.includes(word)) score+=2; });
-        return {sentence:s, score};
-    });
-    scored.sort((a,b)=>b.score-a.score);
-    return scored.slice(0,5).map(s=>s.sentence.trim()).join(" ");
-}
-
-async function getResponse(){
-    const input = document.getElementById("user-input");
-    const value = input.value.trim();
-    if(!value) return;
-    appendMessage("user-msg", value);
-    input.value = "";
-    appendMessage("bot-msg", "Thinking...");
-    try{
-        const answer = await fetchAnswer(value);
-        removeLastBot();
-        appendMessage("bot-msg", answer);
-    }catch{
-        removeLastBot();
-        appendMessage("bot-msg", "Sorry, something went wrong.");
-    }
-}
-
-async function fetchAnswer(query){
-    const cleaned = cleanQuery(query) || query;
-    const searchRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&format=json&origin=*&srlimit=1`);
-    const searchData = await searchRes.json();
-    if(!searchData.query || !searchData.query.search.length) return "I couldn't find anything about that.";
-    const title = searchData.query.search[0].title;
-    const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
-    const summaryData = await summaryRes.json();
-    if(summaryData.type==="disambiguation") return "That term has multiple meanings. Try being more specific.";
-    return summarize(summaryData.extract, cleaned);
-}
-
-function appendMessage(className, text){
-    const chatLog = document.getElementById("chat-log");
-    const li = document.createElement("li");
-    li.className = className;
-    chatLog.appendChild(li);
-    chatLog.scrollTop = chatLog.scrollHeight;
-    if(className==="bot-msg") typeText(li,text);
-    else li.textContent = text;
-}
-
-function removeLastBot(){
-    const chatLog = document.getElementById("chat-log");
-    const last = chatLog.lastElementChild;
-    if(last && last.classList.contains("bot-msg")) last.remove();
-}
-
-function typeText(el, text, i=0){
-    if(i<text.length){ el.textContent += text.charAt(i); setTimeout(()=>typeText(el,text,i+1),5); }
-}
 </script>
 
 </body>
