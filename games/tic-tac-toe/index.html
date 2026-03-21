@@ -81,74 +81,64 @@ body{
 .main-content{
     margin-top:80px;
     padding:20px 30px;
-    display:block;       /* instead of flex + center */
+    display:block;
 }
 
 h1{
     font-size:36px;
     margin-bottom:20px;
-    text-align:left;    /* aligns the title left */
+    text-align:left;
 }
 
 .game-container{
     margin-top:20px;
-    text-align:left;    /* aligns grid and buttons left */
+    text-align:left;
 }
 
+/* ================= GRID ================= */
 .grid{
     display:grid;
     grid-template-columns:repeat(3,100px);
-    gap:10px;
+    gap:12px;
+    justify-content:start; /* left-align on desktop */
 }
 
-/* MOBILE ADJUSTMENTS */
+/* Mobile adjustments */
 @media(max-width:600px){
-    .main-content{
-        margin-top:70px;
-        padding:10px;
-    }
-    h1{
-        font-size:28px;
-        text-align:left;
-    }
     .grid{
         grid-template-columns:repeat(3,70px);
         gap:8px;
-    }
-    .cell{
-        width:70px;
-        height:70px;
-        font-size:28px;
+        justify-content:start; /* left-align on mobile */
     }
 }
 
-/* ================= GAME ================= */
-.game-container{
-    margin-top:20px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,100px);
-    gap:10px;
-}
-
+/* ================= GAME CELLS ================= */
 .cell{
     width:100px;
     height:100px;
-    background:#ffffff;
-    border-radius:12px;
+    background:#f0f2ff;
+    border-radius:14px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:36px;
     cursor:pointer;
-    transition:0.2s;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    transition:transform 0.15s ease,box-shadow 0.15s ease,background 0.2s;
+    box-shadow:0 6px 16px rgba(0,0,0,0.15);
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    padding:12px; /* makes it more clickable */
+    box-sizing:border-box;
 }
 
 .cell:hover{
-    transform:scale(1.05);
+    transform:scale(1.07);
+    box-shadow:0 10px 22px rgba(0,0,0,0.25);
+}
+
+.cell:active{
+    transform:scale(0.92);
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .cell.taken{
@@ -161,21 +151,40 @@ h1{
     100%{transform:scale(1);opacity:1;}
 }
 
+/* ================= WIN/LOSE ================= */
 .winner{
     background:#9bffb0;
     box-shadow:0 0 12px rgba(46,204,113,0.7);
+    animation:winPulse 1s infinite alternate;
+}
+
+.loser{
+    background:#ff9b9b;
+    box-shadow:0 0 12px rgba(231,76,60,0.7);
+    animation:losePulse 1s infinite alternate;
+}
+
+@keyframes winPulse{
+    from{transform:scale(1);}
+    to{transform:scale(1.08);}
+}
+
+@keyframes losePulse{
+    from{transform:scale(1);}
+    to{transform:scale(0.95);}
 }
 
 /* ================= UI ================= */
 #message{
     margin-top:15px;
     font-size:18px;
-    text-align:center;
+    text-align:left;
+    padding-left:4px;
 }
 
 #replayButton{
-    display:none;
-    margin-top:15px;
+    display:inline-block;
+    margin-top:10px;
     padding:12px 24px;
     background:#4c5eaf;
     color:white;
@@ -202,6 +211,16 @@ body.dark{
 body.dark .cell{
     background:#1e2235;
     box-shadow:0 4px 15px rgba(0,0,0,0.5);
+}
+
+body.dark .winner{
+    background:#2ecc71;
+    box-shadow:0 0 15px rgba(46,204,113,0.9);
+}
+
+body.dark .loser{
+    background:#e74c3c;
+    box-shadow:0 0 15px rgba(231,76,60,0.9);
 }
 
 @keyframes gradientMove{
@@ -282,14 +301,11 @@ body.dark .toggle{
     h1{
         font-size:28px;
     }
-    .grid{
-        grid-template-columns:repeat(3,70px);
-        gap:8px;
-    }
     .cell{
         width:70px;
         height:70px;
         font-size:28px;
+        padding:8px;
     }
     .cursor-glow,.dust{
         display:none;
@@ -356,6 +372,11 @@ function checkWinner(p){
     for(const [a,b,c] of patterns){
         if(board[a]===p && board[b]===p && board[c]===p){
             [a,b,c].forEach(i=>document.getElementsByClassName("cell")[i].classList.add("winner"));
+            document.querySelectorAll(".cell").forEach((cell,idx)=>{
+                if(![a,b,c].includes(idx)){
+                    cell.classList.add("loser");
+                }
+            });
             return true;
         }
     }
@@ -416,7 +437,7 @@ function resetGame(){
     board=Array(9).fill("");
     document.querySelectorAll(".cell").forEach(c=>{
         c.textContent="";
-        c.classList.remove("taken","winner");
+        c.classList.remove("taken","winner","loser");
     });
     document.getElementById("message").textContent="";
     document.getElementById("replayButton").style.display="none";
