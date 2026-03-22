@@ -8,285 +8,236 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; margin:0; padding:0; font-family:'Fredoka',sans-serif; }
+*{box-sizing:border-box;margin:0;padding:0;}
 
-body {
+body{
+    font-family:'Fredoka',sans-serif;
     font-size:18px;
-    line-height:1.6;
     background-color:#f5f6fa;
-    color:black;
-    padding-top:60px;
-    transition: background 0.4s, color 0.4s;
     overflow-x:hidden;
+    transition: background 0.4s,color 0.4s;
+    line-height:1.6;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-    position: fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 30px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(20px);
-    z-index:9999;
+/* NAVBAR */
+.navbar{
+    position:fixed;top:0;width:100%;height:60px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(20px);z-index:9999;
 }
 
-.navbar-content {
-    display:flex;
-    align-items:center;
-    gap:30px;
+.navbar-content{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+
+.navbar a{
+    color:#536DFE;text-decoration:none;font-size:18px;
+    position:relative;white-space:nowrap;
 }
 
-.navbar a {
-    color:#536DFE;
-    text-decoration:none;
-    font-size:20px;
-    font-weight:500;
-    position:relative;
+.navbar a::after{
+    content:"";position:absolute;left:0;bottom:-3px;
+    width:0%;height:3px;background:#536DFE;
+    border-radius:2px;transition:width 0.3s ease;
 }
+.navbar a:hover::after{width:100%;}
 
-.navbar a::after {
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-4px;
-    width:0%;
-    height:3px;
-    background:#536DFE;
-    border-radius:2px;
-    transition: width 0.3s ease;
+.nav-logo{
+    width:42px;height:42px;border-radius:12px;
+    transition:transform .25s,box-shadow .25s;
 }
+.nav-logo:hover{transform:scale(1.08);box-shadow:0 8px 18px rgba(0,0,0,.25);}
 
-.navbar a:hover::after { width:100%; }
+/* MAIN */
+.main-content{margin-top:80px;padding:20px;}
+h1{font-size:36px;margin-bottom:20px;}
 
-.nav-logo {
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:block;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.nav-logo:hover { transform:scale(1.08); box-shadow:0 8px 18px rgba(0,0,0,0.25); }
-
-/* ================= MAIN ================= */
-.main-title {
-    font-size:42px;
-    font-weight:bold;
-    margin:40px 40px 20px 40px;
-}
-
-.content {
-    margin:0 40px 30px 40px;
-    font-size:18px;
-}
-
-/* ================= CALCULATOR ================= */
-.calculator {
-    width:300px;
-    margin:20px 40px 40px 40px;
+/* GLASS CALCULATOR */
+.calc-box{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:18px;
     padding:20px;
-    background-color:#ffffff;
-    border-radius:12px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08),0 0 20px rgba(120,140,255,0.2);
+    max-width:400px;
 }
 
-#display {
+body.dark .calc-box{
+    background:rgba(30,30,50,0.5);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* INPUT */
+.calc-input{
     width:100%;
-    height:50px;
-    background-color:#f0f0f0;
-    text-align:right;
-    font-size:24px;
-    padding:10px;
-    margin-bottom:20px;
-    border-radius:8px;
-    border:none;
+    padding:12px;
+    font-size:18px;
+    border-radius:10px;
+    border:1px solid rgba(0,0,0,0.1);
+    background:rgba(255,255,255,0.1);
+    margin-bottom:15px;
 }
 
-/* Button grid */
-.button-grid {
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-}
-
-.button {
-    height:60px;
-    background-color:#e4e7ff;
-    text-align:center;
-    font-size:20px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.3s ease;
-}
-
-.button:hover { background-color:#d0d6ff; transform:translateY(-2px); }
-
-.button.operator { background-color:#4c5eaf; color:white; }
-.button.operator:hover { background-color:#2f4a88; }
-
-.button.clear { background-color:#ff4c4c; color:white; }
-.button.clear:hover { background-color:#d93b3b; }
-
-.button.equal { background-color:#4caf50; color:white; }
-.button.equal:hover { background-color:#3d9442; }
-
-/* ================= DARK MODE ================= */
-body.dark {
+body.dark .calc-input{
     color:#e6e6e6;
-    background: linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size:400% 400%;
-    animation: gradientMove 18s ease infinite;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
 }
 
-@keyframes gradientMove {
+/* BUTTONS */
+.game-link{
+    display:inline-block;
+    margin:10px 10px 0 0;
+    padding:12px 24px;
+    background-color:#4c5eaf;
+    color:white;
+    border-radius:10px;
+    font-size:18px;
+    border:none;
+    cursor:pointer;
+    transition:.2s;
+}
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* RESULT */
+#result{margin-top:10px;}
+
+/* DARK MODE */
+body.dark{
+    color:#e6e6e6;
+    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+    background-size:400% 400%;
+    animation:gradientMove 18s ease infinite;
+}
+@keyframes gradientMove{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
 
-/* ================= TOGGLE ================= */
-.toggle {
-    width:65px;
-    height:34px;
-    border-radius:50px;
-    cursor:pointer;
-    position:relative;
-    background:#dcdde1;
-    border:2px solid rgba(0,0,0,0.2);
-}
+/* TOGGLE */
+.toggle{width:65px;height:34px;border-radius:50px;cursor:pointer;position:relative;background:#dcdde1;border:2px solid rgba(0,0,0,0.2);}
+body.dark .toggle{background:#2f3640;border:2px solid rgba(255,255,255,0.3);}
+.toggle.active{background:#536DFE;border:2px solid #536DFE;}
+.toggle-circle{width:28px;height:28px;background:white;position:absolute;top:1px;left:2px;border-radius:50%;transition:.35s;display:flex;align-items:center;justify-content:center;}
+.toggle.active .toggle-circle{left:33px;}
 
-body.dark .toggle {
-    background:#2f3640;
-    border:2px solid rgba(255,255,255,0.3);
+/* FX (UNCHANGED) */
+.cursor-glow{
+    position:fixed;width:250px;height:250px;
+    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
+    pointer-events:none;transform:translate(-50%,-50%);
 }
-
-.toggle.active {
-    background:#536DFE;
-    border:2px solid #536DFE;
-    box-shadow:0 0 10px rgba(83,109,254,0.6);
+.dust{
+    position:fixed;width:6px;height:6px;
+    background:rgba(120,150,255,0.7);
+    border-radius:50%;pointer-events:none;
+    filter:blur(2px);animation:dustFade 1s linear forwards;
 }
-
-.toggle-circle {
-    width:28px; height:28px;
-    background:white;
-    position:absolute;
-    top:1px;
-    left:2px;
-    border-radius:50%;
-    transition:0.35s;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:14px;
+@keyframes dustFade{to{opacity:0;transform:translateY(-20px) scale(.5);}}
+.particle{
+    position:fixed;width:5px;height:5px;border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:floatUp linear infinite;
 }
+@keyframes floatUp{from{transform:translateY(100vh);}to{transform:translateY(-10vh);}}
 
-.toggle.active .toggle-circle { left:33px; }
+/* MOBILE */
+@media(max-width:600px){
+    .navbar{padding:0 15px;height:55px;}
+    .navbar-content{gap:10px;}
+    .navbar a{font-size:16px;}
+    .main-content{margin-top:70px;padding:15px;}
+    h1{font-size:28px;}
+    .game-link{font-size:16px;padding:10px 18px;}
+    .cursor-glow,.dust{display:none;}
+}
 </style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-content">
-        <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo" alt="Logo"></a>
+        <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
         <a href="/games">Games</a>
         <a href="/tools">Tools</a>
         <a href="/donatejk">Donate</a>
         <a href="/ai">Search</a>
     </div>
-    <div class="toggle" id="toggle"><div class="toggle-circle" id="icon">🌙</div></div>
+    <div class="toggle" id="toggle">
+        <div class="toggle-circle" id="icon">🌙</div>
+    </div>
 </div>
 
-<div class="main-title">Calculator</div>
+<div class="main-content">
+    <h1>Scientific Calculator</h1>
 
-<div class="calculator">
-    <input type="text" id="display" disabled />
+    <div class="calc-box">
+        <input type="text" id="calc" class="calc-input" placeholder="e.g. sin(45), sqrt(9), 2+2">
 
-    <div class="button-grid">
-        <button class="button" onclick="appendNumber(7)">7</button>
-        <button class="button" onclick="appendNumber(8)">8</button>
-        <button class="button" onclick="appendNumber(9)">9</button>
-        <button class="button operator" onclick="appendOperator('+')">+</button>
+        <button class="game-link" onclick="calculate()">Calculate</button>
+        <button class="game-link" onclick="clearCalc()">Clear</button>
 
-        <button class="button" onclick="appendNumber(4)">4</button>
-        <button class="button" onclick="appendNumber(5)">5</button>
-        <button class="button" onclick="appendNumber(6)">6</button>
-        <button class="button operator" onclick="appendOperator('-')">-</button>
-
-        <button class="button" onclick="appendNumber(1)">1</button>
-        <button class="button" onclick="appendNumber(2)">2</button>
-        <button class="button" onclick="appendNumber(3)">3</button>
-        <button class="button operator" onclick="appendOperator('*')">*</button>
-
-        <button class="button" onclick="appendNumber(0)">0</button>
-        <button class="button clear" onclick="clearDisplay()">C</button>
-        <button class="button equal" onclick="calculateResult()">=</button>
-        <button class="button operator" onclick="appendOperator('/')">/</button>
+        <p id="result"></p>
     </div>
 </div>
 
 <script>
-// DARK MODE
-const toggle = document.getElementById("toggle");
-const icon = document.getElementById("icon");
-
+/* DARK MODE */
+const toggle=document.getElementById("toggle");
+const icon=document.getElementById("icon");
 if(localStorage.getItem("darkMode")==="on"){
-    document.body.classList.add("dark");
-    toggle.classList.add("active");
-    icon.textContent="☀️";
-} else {
-    icon.textContent="🌙";
+document.body.classList.add("dark");toggle.classList.add("active");icon.textContent="☀️";}
+toggle.onclick=()=>{document.body.classList.toggle("dark");toggle.classList.toggle("active");
+icon.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");};
+
+/* CALCULATOR */
+function calculate(){
+let val=document.getElementById("calc").value;
+try{
+val=val.replace(/sin/g,"Math.sin")
+.replace(/cos/g,"Math.cos")
+.replace(/tan/g,"Math.tan")
+.replace(/sqrt/g,"Math.sqrt")
+.replace(/log/g,"Math.log10");
+document.getElementById("result").textContent="Result: "+eval(val);
+}catch{
+document.getElementById("result").textContent="Invalid input";
+}
+}
+function clearCalc(){
+document.getElementById("calc").value="";
+document.getElementById("result").textContent="";
 }
 
-toggle.onclick = () => {
-    const isDark = document.body.classList.toggle("dark");
-    toggle.classList.toggle("active");
-    icon.textContent = isDark ? "☀️" : "🌙";
-    localStorage.setItem("darkMode", isDark ? "on" : "off");
-};
+/* FX */
+const glow=document.createElement("div");
+glow.className="cursor-glow";
+document.body.appendChild(glow);
 
-// CALCULATOR LOGIC
-let currentInput = '';
-let operator = '';
-let previousInput = '';
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+for(let i=0;i<2;i++){
+let d=document.createElement("div");
+d.className="dust";
+d.style.left=(e.clientX+Math.random()*10-5)+"px";
+d.style.top=(e.clientY+Math.random()*10-5)+"px";
+document.body.appendChild(d);
+setTimeout(()=>d.remove(),1000);
+}});
 
-function appendNumber(number) {
-    currentInput += number;
-    document.getElementById('display').value = currentInput;
-}
-
-function appendOperator(op) {
-    if (currentInput === '') return;
-    previousInput = currentInput;
-    currentInput = '';
-    operator = op;
-    document.getElementById('display').value = operator;
-}
-
-function clearDisplay() {
-    currentInput = '';
-    previousInput = '';
-    operator = '';
-    document.getElementById('display').value = '';
-}
-
-function calculateResult() {
-    if (currentInput === '' || previousInput === '') return;
-    let result;
-    switch (operator) {
-        case '+': result = parseFloat(previousInput)+parseFloat(currentInput); break;
-        case '-': result = parseFloat(previousInput)-parseFloat(currentInput); break;
-        case '*': result = parseFloat(previousInput)*parseFloat(currentInput); break;
-        case '/': result = parseFloat(previousInput)/parseFloat(currentInput); break;
-    }
-    currentInput = result.toString();
-    document.getElementById('display').value = currentInput;
+for(let i=0;i<25;i++){
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(12+Math.random()*18)+"s";
+document.body.appendChild(p);
 }
 </script>
 

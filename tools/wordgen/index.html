@@ -3,140 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jasonyen.me</title>
+<title>jasonyen.me</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding-top: 56px;
-    font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    color: black;
-}
-
-a {
-    color: #536DFE;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-a:hover {
-    transform: scale(1.05);
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:'Fredoka',sans-serif;
+    font-size:18px;
+    background-color:#f5f6fa;
+    overflow-x:hidden;
+    transition: background 0.4s,color 0.4s;
+    line-height:1.6;
 }
 
 /* ================= NAVBAR ================= */
-
-.navbar {
-    width: 100%;
-    height: 56px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    gap: 20px;
-    background: rgba(200, 200, 255, 0.093);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(200, 200, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(20px);
+    z-index:9999;
+    flex-wrap:wrap;
+}
+.navbar-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+.navbar a{
+    color:#536DFE;
+    text-decoration:none;
+    font-size:18px;
+    font-weight:500;
+}
+.nav-logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    transition:transform .25s ease,box-shadow .25s ease;
+}
+.nav-logo:hover{
+    transform:scale(1.08);
+    box-shadow:0 8px 18px rgba(0,0,0,0.25);
 }
 
-.navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+/* ================= DARK MODE TOGGLE ================= */
+.toggle{
+    width:65px;
+    height:34px;
+    border-radius:50px;
+    cursor:pointer;
+    position:relative;
+    background:#dcdde1;
+    border:2px solid rgba(0,0,0,0.2);
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    transition:background 0.3s,border 0.3s,box-shadow 0.3s;
 }
-
-.navbar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
+.toggle.active{
+    background:#2f3640;
+    border:2px solid rgba(255,255,255,0.3);
+    box-shadow:0 0 10px rgba(83,109,254,0.6);
+    justify-content:flex-end;
 }
-
-.navbar img:hover {
-    transform: scale(1.1);
-}
-
-.separator {
-    color: #9dacff;
-    font-size: 20px;
-}
-
-.navbar a {
-    font-weight: 500;
+.toggle-circle{
+    width:28px;
+    height:28px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+    transition:0.35s;
 }
 
 /* ================= PAGE CONTENT ================= */
-
-.main-title {
-    font-size: 42px;
-    font-weight: bold;
-    margin: 40px 40px 20px 40px;
-}
-
-.content {
-    margin: 0 40px 30px 40px;
-    font-size: 18px;
+.main-title{
+    font-size:36px;
+    font-weight:bold;
+    margin:80px 20px 20px 20px;
 }
 
 /* ================= WORD GENERATOR ================= */
-
-.word-generator {
-    width: 320px;
-    margin: 20px 40px 40px 40px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.word-generator{
+    max-width:400px;
+    margin:20px;
+    padding:20px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    border-radius:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start; /* left aligned */
+    gap:15px;
 }
 
-#wordDisplay {
-    width: 100%;
-    height: 45px;
-    background-color: #f0f0f0;
-    text-align: center;
-    font-size: 18px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: none;
+#wordDisplay{
+    width:100%;
+    height:45px;
+    text-align:left;
+    font-size:18px;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    background:rgba(255,255,255,0.2);
+    color:#000;
 }
 
-#meaningDisplay {
-    width: 100%;
-    background-color: #f0f0f0;
-    font-size: 16px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    min-height: 70px;
+#meaningDisplay{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    border-radius:8px;
+    min-height:70px;
+    background:rgba(255,255,255,0.15);
+    color:#000;
 }
 
 /* ================= BUTTON ================= */
-
-.button {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #4c5eaf;
-    color: white;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease;
+.button{
+    display:inline-block;
+    padding:12px 25px;
+    background-color:#4c5eaf;
+    color:white;
+    font-family:'Fredoka',sans-serif;
+    font-weight:500;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:transform 0.2s,box-shadow 0.2s;
+}
+.button:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
 }
 
-.button:hover {
-    background-color: #2f4a88;
-    transform: translateY(-3px);
+/* ================= DARK MODE ================= */
+body.dark{
+    color:#e6e6e6;
+    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+    background-size:400% 400%;
+    animation:gradientMove 18s ease infinite;
+}
+body.dark #wordDisplay,
+body.dark #meaningDisplay{
+    background:rgba(255,255,255,0.05);
+    color:#e6e6e6;
+}
+body.dark .word-generator{
+    background:rgba(255,255,255,0.05);
+}
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ================= CURSOR GLOW & PARTICLES ================= */
+.cursor-glow{
+    position:fixed;
+    width:250px;height:250px;
+    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+}
+.dust{
+    position:fixed;
+    width:6px;height:6px;
+    background:rgba(120,150,255,0.7);
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(2px);
+    animation:dustFade 1s linear forwards;
+}
+@keyframes dustFade{
+    to{opacity:0;transform:translateY(-20px) scale(0.5);}
+}
+.particle{
+    position:fixed;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+    .navbar{padding:0 15px;height:55px;}
+    .navbar a{font-size:16px;}
+    .main-title{font-size:28px;margin-top:70px;}
+    .word-generator{margin:15px;}
+    .button{font-size:16px;padding:10px 18px;}
+    .cursor-glow,.dust{display:none;}
 }
 </style>
 </head>
@@ -145,27 +220,19 @@ a:hover {
 
 <div class="navbar">
     <div class="navbar-content">
-        <a href="/">
-                <img src="/images/WardenmonsterLogo.PNG" alt="Logo">
-        </a>
-<a href="/games">Games</a>
-            <div class="separator">|</div>
-            <a href="/tools">Tools</a>
-                        <div class="separator">|</div>
-
-            <a href="/donatejk">Donate</a>
-            <div class="separator">|</div>
-            <a href="/ai">Search</a>
-            <div class="separator">|</div>
-            <a href="/noises">Sounds</a>
+        <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/noises">Sounds</a>
+    </div>
+    <div class="toggle" id="toggle">
+        <div class="toggle-circle" id="icon">🌙</div>
     </div>
 </div>
 
-<div class="main-title">
-    Advanced Word Generator
-</div>
-
-
+<div class="main-title">Advanced Word Generator</div>
 
 <div class="word-generator">
     <input type="text" id="wordDisplay" disabled placeholder="Word will appear here" />
@@ -173,41 +240,81 @@ a:hover {
     <button class="button" onclick="generateWord()">Generate Word</button>
 </div>
 
+<div class="cursor-glow"></div>
+
 <script>
-const wordDictionary = {
-    "abacus": "A device used for counting and performing arithmetic.",
-    "aberration": "A departure from what is normal or expected.",
-    "abhor": "To regard with disgust and hatred.",
-    "abnegation": "The act of renouncing or rejecting something.",
-    "abscond": "To leave hurriedly and secretly.",
-    "abstruse": "Difficult to understand; obscure.",
-    "acclimate": "To become accustomed to a new environment.",
-    "acolyte": "A person assisting a more senior person.",
-    "adulation": "Excessive praise or flattery.",
-    "alacrity": "Brisk and cheerful readiness.",
-    "anachronism": "Something out of place in time.",
-    "anathema": "Something greatly disliked.",
-    "apostate": "A person who renounces a belief.",
-    "archetype": "A very typical example.",
-    "ardent": "Having intense feelings.",
-    "assiduous": "Showing great care and perseverance.",
-    "benevolent": "Well-meaning and kindly.",
-    "cacophony": "A harsh mixture of sounds.",
-    "catharsis": "Release of strong emotions.",
-    "cogent": "Clear and convincing.",
-    "dearth": "A scarcity or lack of something.",
-    "dichotomy": "A division between two contrasting things.",
-    "divergent": "Developing in different directions."
+/* DARK MODE TOGGLE */
+const toggle=document.getElementById("toggle");
+const icon=document.getElementById("icon");
+if(localStorage.getItem("darkMode")==="on"){
+    document.body.classList.add("dark");
+    toggle.classList.add("active");
+    icon.textContent="☀️";
+}
+toggle.onclick=()=>{
+    document.body.classList.toggle("dark");
+    toggle.classList.toggle("active");
+    icon.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+    localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");
 };
 
-function generateWord() {
-    const words = Object.keys(wordDictionary);
-    const randomIndex = Math.floor(Math.random() * words.length);
-    const randomWord = words[randomIndex];
-    const randomMeaning = wordDictionary[randomWord];
+/* WORD GENERATOR */
+const wordDictionary = {
+    "abacus":"A device used for counting and performing arithmetic.",
+    "aberration":"A departure from what is normal or expected.",
+    "abhor":"To regard with disgust and hatred.",
+    "abnegation":"The act of renouncing or rejecting something.",
+    "abscond":"To leave hurriedly and secretly.",
+    "abstruse":"Difficult to understand; obscure.",
+    "acclimate":"To become accustomed to a new environment.",
+    "acolyte":"A person assisting a more senior person.",
+    "adulation":"Excessive praise or flattery.",
+    "alacrity":"Brisk and cheerful readiness.",
+    "anachronism":"Something out of place in time.",
+    "anathema":"Something greatly disliked.",
+    "apostate":"A person who renounces a belief.",
+    "archetype":"A very typical example.",
+    "ardent":"Having intense feelings.",
+    "assiduous":"Showing great care and perseverance.",
+    "benevolent":"Well-meaning and kindly.",
+    "cacophony":"A harsh mixture of sounds.",
+    "catharsis":"Release of strong emotions.",
+    "cogent":"Clear and convincing.",
+    "dearth":"A scarcity or lack of something.",
+    "dichotomy":"A division between two contrasting things.",
+    "divergent":"Developing in different directions."
+};
+function generateWord(){
+    const words=Object.keys(wordDictionary);
+    const randomIndex=Math.floor(Math.random()*words.length);
+    const randomWord=words[randomIndex];
+    const randomMeaning=wordDictionary[randomWord];
+    document.getElementById("wordDisplay").value=randomWord;
+    document.getElementById("meaningDisplay").innerHTML=randomMeaning;
+}
 
-    document.getElementById("wordDisplay").value = randomWord;
-    document.getElementById("meaningDisplay").innerHTML = randomMeaning;
+/* CURSOR GLOW + DUST */
+const glow=document.querySelector(".cursor-glow");
+document.addEventListener("mousemove",e=>{
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
+    for(let i=0;i<2;i++){
+        let d=document.createElement("div");
+        d.className="dust";
+        d.style.left=(e.clientX+Math.random()*10-5)+"px";
+        d.style.top=(e.clientY+Math.random()*10-5)+"px";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(),1000);
+    }
+});
+
+/* FLOATING PARTICLES */
+for(let i=0;i<25;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(12+Math.random()*18)+"s";
+    document.body.appendChild(p);
 }
 </script>
 
