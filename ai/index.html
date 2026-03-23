@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Fredoka',sans-serif;}
 body{
-    font-family:'Fredoka',sans-serif;
     font-size:18px;
-    background:#f5f6fa;
-    overflow-x:hidden;
-    transition:background 0.4s,color 0.4s;
     line-height:1.6;
+    background:#f5f6fa;
+    color:black;
+    transition: background 0.4s,color 0.4s;
+    overflow-x:hidden;
+    padding-top:60px;
 }
 
 /* ================= NAVBAR ================= */
@@ -33,14 +33,12 @@ body{
     backdrop-filter:blur(20px);
     z-index:9999;
 }
-
 .navbar-content{
     display:flex;
     align-items:center;
     gap:20px;
     flex-wrap:wrap;
 }
-
 .navbar a{
     color:#536DFE;
     text-decoration:none;
@@ -48,7 +46,6 @@ body{
     position:relative;
     white-space:nowrap;
 }
-
 .navbar a::after{
     content:"";
     position:absolute;
@@ -60,11 +57,7 @@ body{
     border-radius:2px;
     transition:width 0.3s ease;
 }
-
-.navbar a:hover::after{
-    width:100%;
-}
-
+.navbar a:hover::after{ width:100%; }
 .nav-logo{
     width:42px;
     height:42px;
@@ -72,73 +65,64 @@ body{
     display:block;
     transition:transform 0.25s ease,box-shadow 0.25s ease;
 }
+.nav-logo:hover{ transform:scale(1.08); box-shadow:0 8px 18px rgba(0,0,0,0.25); }
 
-.nav-logo:hover{
-    transform:scale(1.08);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
-}
-
-/* ================= MAIN ================= */
+/* ================= MAIN CONTENT ================= */
 .main-content{
-    margin-top:80px;
+    margin-top:0;
     padding:20px;
 }
-
 h1{
-    font-size:36px;
-    margin-bottom:20px;
+    font-size:32px;
+    margin-bottom:15px;
 }
 
-/* ================= CHAT ================= */
+/* ================= CHATBOX ================= */
 .chatbox{
     max-width:700px;
-    margin-top:20px;
 }
-
 .chatbox ul{
     list-style:none;
     max-height:450px;
     overflow-y:auto;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
-
 .chatbox li{
     padding:12px;
     margin:6px 0;
     border-radius:8px;
     white-space:pre-wrap;
 }
-
 .user-msg{background:#d3f4ff;text-align:right;}
 .bot-msg{background:#ececec;}
 
-/* ================= BUTTONS (MATCH CODE 1) ================= */
-.game-link{
-    display:inline-block;
-    margin:10px 10px 0 0;
-    padding:14px 26px;
-    background-color:#4c5eaf;
-    color:white;
-    border-radius:10px;
-    text-decoration:none;
-    font-size:18px;
-    border:none;
-    cursor:pointer;
-    transition:transform 0.2s ease,box-shadow 0.2s ease;
+/* ================= INPUT & BUTTONS ================= */
+.chat-input-area{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
 }
-
-.game-link:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 18px rgba(0,0,0,0.2);
-}
-
-/* ================= INPUT ================= */
 #user-input{
     flex:1;
     padding:12px;
     border-radius:8px;
     border:1px solid #ccc;
     font-size:16px;
+}
+.game-link{
+    display:inline-block;
+    padding:12px 26px;
+    background-color:#4c5eaf;
+    color:white;
+    border-radius:10px;
+    font-size:18px;
+    border:none;
+    cursor:pointer;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
+}
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
 }
 
 /* ================= DARK MODE ================= */
@@ -148,7 +132,6 @@ body.dark{
     background-size:400% 400%;
     animation:gradientMove 18s ease infinite;
 }
-
 body.dark .bot-msg{background:#2a2e44;}
 body.dark .user-msg{background:#536DFE;}
 
@@ -167,18 +150,15 @@ body.dark .user-msg{background:#536DFE;}
     background:#dcdde1;
     border:2px solid rgba(0,0,0,0.2);
 }
-
 body.dark .toggle{
     background:#2f3640;
     border:2px solid rgba(255,255,255,0.3);
 }
-
 .toggle.active{
     background:#536DFE;
     border:2px solid #536DFE;
     box-shadow:0 0 10px rgba(83,109,254,0.6);
 }
-
 .toggle-circle{
     width:28px;height:28px;
     background:white;
@@ -190,37 +170,30 @@ body.dark .toggle{
     justify-content:center;
     align-items:center;
 }
-
 .toggle.active .toggle-circle{left:33px;}
 
-/* ================= FX ================= */
+/* ================= CURSOR EFFECTS ================= */
 .cursor-glow{
-    position:fixed;
-    width:250px;height:250px;
+    position:fixed;width:250px;height:250px;
     background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
     pointer-events:none;
     transform:translate(-50%,-50%);
 }
-
 .dust{
-    position:fixed;
-    width:6px;height:6px;
+    position:fixed;width:6px;height:6px;
     background:rgba(120,150,255,0.7);
     border-radius:50%;
     filter:blur(2px);
     animation:dustFade 1s linear forwards;
 }
-
-@keyframes dustFade{
-    to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
+@keyframes dustFade{to{opacity:0;transform:translateY(-20px) scale(0.5);}}
 
 /* ================= MOBILE ================= */
 @media(max-width:600px){
     .navbar{padding:0 15px;height:55px;}
     .navbar-content{gap:10px;flex-wrap:wrap;}
-    .main-content{margin-top:70px;padding:15px;}
-    h1{font-size:28px;}
+    h1{font-size:24px;}
+    #user-input{flex:1;}
     .game-link{font-size:16px;padding:12px 20px;}
     .cursor-glow,.dust{display:none;}
 }
@@ -236,57 +209,48 @@ body.dark .toggle{
         <a href="/donatejk">Donate</a>
         <a href="/ai">Search</a>
     </div>
-    <div class="toggle" id="toggle">
-        <div class="toggle-circle" id="icon">🌙</div>
-    </div>
+    <div class="toggle" id="toggle"><div class="toggle-circle" id="icon">🌙</div></div>
 </div>
 
 <div class="main-content">
     <h1>Search Engine (Beta)</h1>
-
     <div class="chatbox">
         <ul id="chat-log">
             <li class="bot-msg">Ask me anything.</li>
         </ul>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div class="chat-input-area">
             <input type="text" id="user-input" placeholder="Type your question...">
             <button class="game-link" id="ask-btn">Ask</button>
+            <a class="game-link" id="full-article-btn" href="#" style="display:none;">Full Article</a>
         </div>
     </div>
 </div>
 
+<div class="cursor-glow"></div>
+
 <script>
+// Dark mode toggle with localStorage
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
-
 if(localStorage.getItem("darkMode")==="on"){
     document.body.classList.add("dark");
     toggle.classList.add("active");
     icon.textContent="☀️";
 }
-
 toggle.onclick=()=>{
-    document.body.classList.toggle("dark");
+    const isDark=document.body.classList.toggle("dark");
     toggle.classList.toggle("active");
-    if(document.body.classList.contains("dark")){
-        icon.textContent="☀️";
-        localStorage.setItem("darkMode","on");
-    } else {
-        icon.textContent="🌙";
-        localStorage.setItem("darkMode","off");
-    }
+    icon.textContent=isDark?"☀️":"🌙";
+    localStorage.setItem("darkMode",isDark?"on":"off");
 };
 
-const glow=document.createElement("div");
-glow.className="cursor-glow";
-document.body.appendChild(glow);
-
+// Cursor glow and dust
+const glow=document.querySelector(".cursor-glow");
 document.addEventListener("mousemove",e=>{
     glow.style.left=e.clientX+"px";
     glow.style.top=e.clientY+"px";
     for(let i=0;i<2;i++){
-        let d=document.createElement("div");
+        const d=document.createElement("div");
         d.className="dust";
         d.style.left=(e.clientX+Math.random()*10-5)+"px";
         d.style.top=(e.clientY+Math.random()*10-5)+"px";
@@ -294,6 +258,46 @@ document.addEventListener("mousemove",e=>{
         setTimeout(()=>d.remove(),1000);
     }
 });
+
+// Ask button
+const askBtn=document.getElementById("ask-btn");
+const userInput=document.getElementById("user-input");
+const chatLog=document.getElementById("chat-log");
+const fullArticleBtn=document.getElementById("full-article-btn");
+
+askBtn.onclick=async()=>{
+    const query=userInput.value.trim();
+    if(!query) return;
+    const li=document.createElement("li");
+    li.className="user-msg";
+    li.textContent=query;
+    chatLog.appendChild(li);
+    chatLog.scrollTop=chatLog.scrollHeight;
+
+    const botLi=document.createElement("li");
+    botLi.className="bot-msg";
+    botLi.textContent="Searching...";
+    chatLog.appendChild(botLi);
+    chatLog.scrollTop=chatLog.scrollHeight;
+
+    // Wikipedia API fetch
+    try{
+        const wikiRes=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+        const wikiData=await wikiRes.json();
+        if(wikiData.extract){
+            botLi.textContent=wikiData.extract;
+            fullArticleBtn.href=wikiData.content_urls.desktop.page;
+            fullArticleBtn.style.display="inline-block";
+        } else {
+            botLi.textContent="No Wikipedia article found.";
+            fullArticleBtn.style.display="none";
+        }
+    }catch(e){
+        botLi.textContent="Error fetching data.";
+        fullArticleBtn.style.display="none";
+    }
+    userInput.value="";
+};
 </script>
 
 </body>
