@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jasonyen.me</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+    font-family:'Fredoka',sans-serif;
+    font-size:18px;
+    background-color:#f5f6fa;
+    overflow-x:hidden;
+    transition: background 0.4s,color 0.4s;
+    line-height:1.6;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(20px);
+    z-index:9999;
+}
+
+.navbar-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.navbar a{
+    color:#536DFE;
+    text-decoration:none;
+    font-size:18px;
+    position:relative;
+    white-space:nowrap;
+}
+
+.navbar a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-3px;
+    width:0%;
+    height:3px;
+    background:#536DFE;
+    border-radius:2px;
+    transition:width 0.3s ease;
+}
+
+.navbar a:hover::after{
+    width:100%;
+}
+
+/* LOGO */
+.nav-logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:block;
+    transition:transform 0.25s ease,box-shadow 0.25s ease;
+}
+
+.nav-logo:hover{
+    transform:scale(1.08);
+    box-shadow:0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* ================= MAIN ================= */
+.main-content{
+    margin-top:80px;
+    padding:20px;
+}
+
+h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+/* ================= SECTIONS ================= */
+.section{
+    margin-bottom:30px;
+    padding-bottom:10px;
+    border-bottom:2px solid rgba(0,0,0,0.1);
+}
+
+body.dark .section{
+    border-bottom:2px solid rgba(255,255,255,0.25);
+}
+
+/* ================= BUTTONS ================= */
+.game-link{
+    display:inline-block;
+    margin:10px 10px 0 0;
+    padding:12px 24px;
+    background-color:#4c5eaf;
+    color:white;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:18px;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
+}
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* ================= GAME ================= */
+#gameCanvas{
+    width:100%;
+    max-width:600px;
+    height:400px;
+    background:#0f1117;
+    border-radius:12px;
+    display:block;
+    margin-top:10px;
+    box-shadow:0 0 20px rgba(83,109,254,0.3);
+}
+
+#ui{
+    margin-top:10px;
+}
+
+#mobileBlock{
+    display:none;
+    margin-top:10px;
+    padding:20px;
+    border-radius:12px;
+    background:rgba(0,0,0,0.2);
+}
+
+/* ================= IMAGE ================= */
+.bottom-image{
+    margin-top:20px;
+    max-width:260px;
+}
+
+.bottom-image img{
+    width:100%;
+    border-radius:12px;
+    display:block;
+    animation: floatImage 3.5s ease-in-out infinite;
+    box-shadow:0 0 12px rgba(83,109,254,0.4);
+}
+
+/* ================= DARK MODE ================= */
+body.dark{
+    color:#e6e6e6;
+    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+    background-size:400% 400%;
+    animation:gradientMove 18s ease infinite;
+}
+
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ================= TOGGLE ================= */
+.toggle{
+    width:65px;
+    height:34px;
+    border-radius:50px;
+    cursor:pointer;
+    position:relative;
+    background:#dcdde1;
+    border:2px solid rgba(0,0,0,0.2);
+}
+
+body.dark .toggle{
+    background:#2f3640;
+    border:2px solid rgba(255,255,255,0.3);
+}
+
+.toggle.active{
+    background:#536DFE;
+    border:2px solid #536DFE;
+}
+
+.toggle-circle{
+    width:28px;
+    height:28px;
+    background:white;
+    position:absolute;
+    top:1px;
+    left:2px;
+    border-radius:50%;
+    transition:0.35s;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.toggle.active .toggle-circle{
+    left:33px;
+}
+
+/* ================= FX ================= */
+.cursor-glow{
+    position:fixed;
+    width:250px;height:250px;
+    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+}
+
+.particle{
+    position:fixed;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px){
+    #gameCanvas{display:none;}
+    #mobileBlock{display:block;}
+    .cursor-glow{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-content">
+        <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+    </div>
+    <div class="toggle" id="toggle">
+        <div class="toggle-circle" id="icon">🌙</div>
+    </div>
+</div>
+
+<div class="main-content">
+<h1>jasonyen.me</h1>
+
+<div class="section">
+<strong>Pixel Survivor:</strong><br>
+
+<canvas id="gameCanvas"></canvas>
+
+<div id="mobileBlock">
+    ⚠️ This game is only playable on desktop (keyboard required)
+</div>
+
+<div id="ui"></div>
+</div>
+
+</div>
+
+<script>
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+canvas.width=600;
+canvas.height=400;
+
+let player={
+    x:300,y:200,size:6,speed:2,
+    xp:0,level:1,hp:20
+};
+
+let keys={},moveDir={x:0,y:0};
+let enemies=[],bullets=[];
+let gameOver=false,paused=false;
+let kills=0;
+
+/* abilities */
+let abilities={
+    darkMagic:false,
+    waves:false,
+    meteor:false,
+    laser:false,
+    rapid:false,
+    multi:false,
+    shield:false,
+    speed:false
+};
+
+let obtained=new Set();
+let orbs=[],waves=[];
+
+/* INPUT */
+document.addEventListener("keydown",e=>keys[e.key.toLowerCase()]=true);
+document.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
+
+/* ENEMIES (difficulty scaling color) */
+let spawnRate=800;
+
+setInterval(()=>{
+    if(!paused){
+        let difficulty=Math.min(1, kills/150);
+
+        enemies.push({
+            x:Math.random()*600,
+            y:Math.random()*400,
+            size:6,
+            speed:0.7+Math.random()*0.7 + difficulty,
+            color:`rgb(${200+55*difficulty},${50*(1-difficulty)},${50*(1-difficulty)})`
+        });
+
+        spawnRate=Math.max(300,800 - kills*2);
+    }
+},spawnRate);
+
+/* SHOOT */
+setInterval(()=>{
+    if(!paused && !abilities.laser){
+        let dx=moveDir.x,dy=moveDir.y;
+        let dist=Math.hypot(dx,dy);
+
+        if(dist>0){
+            let count=abilities.multi?3:1;
+
+            for(let i=0;i<count;i++){
+                let spread=(i-(count-1)/2)*0.2;
+
+                bullets.push({
+                    x:player.x,y:player.y,
+                    dx:(dx/dist)+spread,
+                    dy:(dy/dist)+spread,
+                    size:2,
+                    speed: abilities.rapid?6:4
+                });
+            }
+        }
+    }
+}, abilities.rapid?150:250);
+
+/* LASER */
+function drawLaser(){
+    if(!abilities.laser) return;
+
+    let dx=moveDir.x,dy=moveDir.y;
+    let dist=Math.hypot(dx,dy);
+    if(dist===0) return;
+
+    let lx=dx/dist,ly=dy/dist;
+
+    ctx.strokeStyle="lime";
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.moveTo(player.x,player.y);
+    ctx.lineTo(player.x+lx*600,player.y+ly*600);
+    ctx.stroke();
+
+    enemies=enemies.filter(e=>{
+        let d=Math.abs((e.x-player.x)*ly-(e.y-player.y)*lx);
+        if(d<10){
+            kills++;
+            player.xp+=10;
+            return false;
+        }
+        return true;
+    });
+}
+
+/* METEOR */
+setInterval(()=>{
+    if(abilities.meteor && !paused){
+        let x=Math.random()*600;
+
+        enemies=enemies.filter(e=>{
+            if(Math.abs(e.x-x)<25){
+                kills++;
+                player.xp+=10;
+                return false;
+            }
+            return true;
+        });
+
+        ctx.fillStyle="orange";
+        ctx.fillRect(x,0,4,20);
+    }
+},1000);
+
+/* POWERUPS */
+const powerups=[
+{name:"Dark Magic",key:"darkMagic",effect:()=>abilities.darkMagic=true},
+{name:"Waves",key:"waves",effect:()=>abilities.waves=true},
+{name:"Meteor",key:"meteor",effect:()=>abilities.meteor=true},
+{name:"Laser",key:"laser",effect:()=>abilities.laser=true},
+{name:"Rapid Fire",key:"rapid",effect:()=>abilities.rapid=true},
+{name:"Multi Shot",key:"multi",effect:()=>abilities.multi=true},
+{name:"Shield",key:"shield",effect:()=>abilities.shield=true},
+{name:"Speed Boost",key:"speed",effect:()=>player.speed+=1}
+];
+
+function showLevelUp(){
+    paused=true;
+    const ui=document.getElementById("ui");
+    ui.innerHTML="";
+    ui.style.backdropFilter="blur(10px)";
+    ui.style.padding="15px";
+
+    let available=powerups.filter(p=>!obtained.has(p.key));
+    let choices=available.sort(()=>Math.random()-0.5).slice(0,3);
+
+    choices.forEach(p=>{
+        let btn=document.createElement("a");
+        btn.className="game-link";
+        btn.textContent=p.name;
+
+        btn.onclick=()=>{
+            obtained.add(p.key);
+            p.effect();
+            ui.innerHTML="";
+            paused=false;
+        };
+
+        ui.appendChild(btn);
+    });
+}
+
+/* DARK MAGIC */
+function updateOrbs(){
+    if(!abilities.darkMagic) return;
+
+    let count=6;
+    if(orbs.length<count){
+        for(let i=0;i<count;i++){
+            orbs[i]={angle:(i/count)*Math.PI*2};
+        }
+    }
+
+    orbs.forEach(o=>{
+        o.angle+=0.15;
+
+        let ox=player.x+Math.cos(o.angle)*25;
+        let oy=player.y+Math.sin(o.angle)*25;
+
+        ctx.fillStyle="purple";
+        ctx.fillRect(ox,oy,4,4);
+
+        enemies=enemies.filter(e=>{
+            if(Math.hypot(e.x-ox,e.y-oy)<12){
+                kills++;
+                player.xp+=10;
+                return false;
+            }
+            return true;
+        });
+    });
+}
+
+/* WAVES */
+let lastWave=0;
+function updateWaves(){
+    if(!abilities.waves) return;
+
+    let now=Date.now();
+    if(now-lastWave>5000){
+        lastWave=now;
+        waves.push({x:player.x,y:player.y,r:0,max:120});
+    }
+
+    waves.forEach((w,i)=>{
+        w.r+=2;
+
+        ctx.beginPath();
+        ctx.arc(w.x,w.y,w.r,0,Math.PI*2);
+        ctx.strokeStyle="rgba(255,150,0,0.4)";
+        ctx.lineWidth=8;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(w.x,w.y,w.r,0,Math.PI*2);
+        ctx.strokeStyle="orange";
+        ctx.lineWidth=2;
+        ctx.stroke();
+
+        enemies=enemies.filter(e=>{
+            if(Math.hypot(e.x-w.x,e.y-w.y)<w.r){
+                kills++;
+                player.xp+=10;
+                return false;
+            }
+            return true;
+        });
+
+        if(w.r>w.max) waves.splice(i,1);
+    });
+}
+
+/* LOOP */
+let startTime=Date.now();
+
+function loop(){
+    if(gameOver) return;
+
+    ctx.clearRect(0,0,600,400);
+
+    if(!paused){
+
+        /* movement */
+        moveDir.x=0; moveDir.y=0;
+
+        if(keys["w"]||keys["arrowup"]) moveDir.y=-1;
+        if(keys["s"]||keys["arrowdown"]) moveDir.y=1;
+        if(keys["a"]||keys["arrowleft"]) moveDir.x=-1;
+        if(keys["d"]||keys["arrowright"]) moveDir.x=1;
+
+        let dist=Math.hypot(moveDir.x,moveDir.y)||1;
+        player.x+= (moveDir.x/dist)*player.speed;
+        player.y+= (moveDir.y/dist)*player.speed;
+
+        /* enemies */
+        enemies.forEach((e)=>{
+            let dx=player.x-e.x,dy=player.y-e.y;
+            let d=Math.hypot(dx,dy)||1;
+
+            e.x+=dx/d*e.speed;
+            e.y+=dy/d*e.speed;
+
+            ctx.fillStyle=e.color;
+            ctx.fillRect(e.x,e.y,e.size,e.size);
+
+            if(d<player.size){
+                let dmg=abilities.shield?0.25:0.5;
+                player.hp-=dmg;
+
+                if(player.hp<=0){
+                    gameOver=true;
+                    alert("Game Over | LVL "+player.level+" | Kills "+kills);
+                }
+            }
+        });
+
+        /* bullets */
+        bullets.forEach((b)=>{
+            b.x+=b.dx*b.speed;
+            b.y+=b.dy*b.speed;
+
+            ctx.fillStyle="white";
+            ctx.fillRect(b.x,b.y,b.size,b.size);
+
+            enemies=enemies.filter(e=>{
+                if(Math.abs(b.x-e.x)<6 && Math.abs(b.y-e.y)<6){
+                    kills++;
+                    player.xp+=10;
+                    return false;
+                }
+                return true;
+            });
+        });
+
+        drawLaser();
+        updateOrbs();
+        updateWaves();
+
+        if(Date.now()-startTime>10000){
+            startTime=Date.now();
+            player.level++;
+            showLevelUp();
+        }
+    }
+
+    /* player */
+    ctx.fillStyle="#536DFE";
+    ctx.fillRect(player.x,player.y,player.size,player.size);
+
+    /* UI */
+    ctx.fillStyle="white";
+    ctx.fillText("HP:"+Math.floor(player.hp),10,20);
+    ctx.fillText("LVL:"+player.level,10,40);
+    ctx.fillText("KILLS:"+kills,10,60);
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+</html>
