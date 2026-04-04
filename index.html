@@ -90,6 +90,17 @@ h1{
     margin-bottom:20px;
 }
 
+/* About Me Section */
+.about-me{
+    text-align:left; /* <-- changed to left align */
+    font-size:16px;
+    color:#555;
+    margin:10px 0 20px 0;
+}
+body.dark .about-me{
+    color:#ccc;
+}
+
 /* ================= SECTIONS ================= */
 .section{
     margin-bottom:30px;
@@ -286,6 +297,11 @@ body.dark .toggle{
 <div class="main-content">
     <h1>jasonyen.me</h1>
 
+    <!-- About Me Section -->
+    <div class="about-me">
+        Note: I spent 5 years on this webpage as of Sat Apr 4 2026.
+    </div>
+
     <div class="section">
         <strong>Choose a subpage:</strong><br>
         <a href="/games" class="game-link">Games</a>
@@ -305,7 +321,6 @@ body.dark .toggle{
         <img src="/images/WardenmonsterLogo.PNG">
     </div>
 </div>
-
 
 <script>
 const toggle=document.getElementById("toggle");
