@@ -19,7 +19,7 @@ body{
     line-height:1.6;
 }
 
-/* ================= NAVBAR (EXACT) ================= */
+/* NAVBAR (IDENTICAL TO CODE 1) */
 .navbar{
     position:fixed;
     top:0;
@@ -69,34 +69,41 @@ body{
     width:42px;
     height:42px;
     border-radius:12px;
-    display:block;
-    transition:transform 0.25s ease,box-shadow 0.25s ease;
+    transition:0.25s;
 }
-
 .nav-logo:hover{
     transform:scale(1.08);
     box-shadow:0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 .main-content{
     margin-top:80px;
     padding:20px;
 }
 
-/* ================= BUTTON ================= */
+h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
 .game-link{
     display:inline-block;
     margin:10px 10px 0 0;
     padding:12px 24px;
-    background-color:#4c5eaf;
+    background:#4c5eaf;
     color:white;
     border-radius:10px;
     text-decoration:none;
-    cursor:pointer;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
+}
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
 }
 
-/* ================= GAME ================= */
+/* GAME */
 #gameCanvas{
     width:600px;
     height:400px;
@@ -106,7 +113,17 @@ body{
     display:none;
 }
 
-/* ================= DARK MODE ================= */
+/* MOBILE MESSAGE */
+.mobile-warning{
+    display:none;
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    background:#ff4d4d;
+    color:white;
+}
+
+/* DARK MODE */
 body.dark{
     color:#e6e6e6;
     background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
@@ -120,7 +137,7 @@ body.dark{
     100%{background-position:0% 50%;}
 }
 
-/* ================= TOGGLE (EXACT) ================= */
+/* TOGGLE */
 .toggle{
     width:65px;
     height:34px;
@@ -154,14 +171,87 @@ body.dark .toggle{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:14px;
 }
 
 .toggle.active .toggle-circle{
     left:33px;
 }
 
-#ui{margin-top:10px;}
+/* FX */
+.cursor-glow{
+    position:fixed;
+    width:250px;height:250px;
+    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+}
+
+.dust{
+    position:fixed;
+    width:6px;height:6px;
+    background:rgba(120,150,255,0.7);
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(2px);
+    animation:dustFade 1s linear forwards;
+}
+
+@keyframes dustFade{
+    to{opacity:0;transform:translateY(-20px) scale(0.5);}
+}
+
+.particle{
+    position:fixed;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+
+/* MOBILE (IDENTICAL FIX) */
+@media (max-width: 600px){
+    .navbar{
+        padding:0 15px;
+        height:55px;
+    }
+
+    .navbar-content{
+        gap:10px;
+        flex-wrap:wrap;
+    }
+
+    .navbar a{
+        font-size:16px;
+    }
+
+    .main-content{
+        margin-top:70px;
+        padding:15px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    .game-link{
+        font-size:16px;
+        padding:10px 18px;
+    }
+
+    #gameCanvas{
+        width:100%;
+        height:auto;
+    }
+
+    .cursor-glow,.dust{
+        display:none;
+    }
+}
 </style>
 </head>
 
@@ -181,13 +271,16 @@ body.dark .toggle{
 </div>
 
 <div class="main-content">
+<h1>Pixel Survivor (Desktop)</h1>
 
-<h1>Pixel Survivor</h1>
 <a class="game-link" onclick="startGame()">Begin</a>
+
+<div class="mobile-warning" id="mobileMsg">
+❌ This game cannot be played on mobile. Please use a computer.
+</div>
 
 <canvas id="gameCanvas"></canvas>
 <div id="ui"></div>
-
 </div>
 
 <script>
@@ -204,16 +297,51 @@ if(localStorage.getItem("darkMode")==="on"){
 toggle.onclick=()=>{
     document.body.classList.toggle("dark");
     toggle.classList.toggle("active");
-    if(document.body.classList.contains("dark")){
-        icon.textContent="☀️";
-        localStorage.setItem("darkMode","on");
-    } else {
-        icon.textContent="🌙";
-        localStorage.setItem("darkMode","off");
-    }
+    icon.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+    localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");
 };
 
-/* GAME */
+/* MOBILE CHECK */
+function isMobile(){
+    return /Mobi|Android|iPhone/i.test(navigator.userAgent);
+}
+
+function startGame(){
+    if(isMobile()){
+        document.getElementById("mobileMsg").style.display="block";
+        return;
+    }
+    canvas.style.display="block";
+    init();
+}
+
+/* CURSOR FX */
+const glow=document.createElement("div");
+glow.className="cursor-glow";
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",e=>{
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
+
+    for(let i=0;i<2;i++){
+        let d=document.createElement("div");
+        d.className="dust";
+        d.style.left=(e.clientX+Math.random()*10-5)+"px";
+        d.style.top=(e.clientY+Math.random()*10-5)+"px";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(),1000);
+    }
+});
+
+/* PARTICLES */
+for(let i=0;i<25;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(12+Math.random()*18)+"s";
+    document.body.appendChild(p);
+}/* GAME */
 const canvas=document.getElementById("gameCanvas");
 const ctx=canvas.getContext("2d");
 canvas.width=600;
