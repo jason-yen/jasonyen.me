@@ -302,44 +302,70 @@ const f=c=>flip[c]||c;
 
 const revWords=t=>t.split(" ").map(w=>w.split("").reverse().join("")).join(" ");
 
+// ✅ FIXED (no overwriting)
 function shiftF(t){
-    let w=t.split(" "),n=w.length,r=new Array(n);
-    for(let i=0;i<n;i++){
-        let s=w[i].length%n;
-        r[(i+s)%n]=w[i];
-    }
-    return r.join(" ");
+    let w = t.split(" ");
+    let n = w.length;
+    if(n === 0) return t;
+
+    let shift = n % 5 + 1; // deterministic but safe
+    shift = shift % n;
+
+    return w.slice(-shift).concat(w.slice(0, -shift)).join(" ");
 }
 
 function shiftB(t){
-    let w=t.split(" "),n=w.length,r=new Array(n);
-    for(let i=0;i<n;i++){
-        let s=w[i].length%n;
-        r[(i-s+n)%n]=w[i];
-    }
-    return r.join(" ");
+    let w = t.split(" ");
+    let n = w.length;
+    if(n === 0) return t;
+
+    let shift = n % 5 + 1;
+    shift = shift % n;
+
+    return w.slice(shift).concat(w.slice(0, shift)).join(" ");
 }
 
-function encodeText(){
-    let input=document.getElementById("inputText").value;
-    let t="";
-    for(let ch of input){
-        let s=swapChar(ch.toLowerCase());
-        t+=f(map[s]||ch);
+// ✅ FIXED (reverse safely)
+function shiftB(t){
+    let w=t.split(" "),n=w.length;
+    let r=Array.from({length:n},()=>[]);
+
+    for(let i=0;i<n;i++){
+        let s=w[i].length % n;
+        r[(i-s+n)%n].push(w[i]);
     }
-    let spacedResult = shiftF(revWords(t)).split("").join(" "); // space out result
-    document.getElementById("outputText").textContent=spacedResult;
+
+    return r.flat().join(" ");
+}
+
+// ENCODE (stable)
+function encodeText(){
+    let input = document.getElementById("inputText").value.toLowerCase();
+
+    // reverse each word (safe operation)
+    let reversed = revWords(input);
+
+    let t="";
+    for(let ch of reversed){
+        let s = swapChar(ch);
+        t += f(map[s] || ch);
+    }
+
+    document.getElementById("outputText").textContent = t;
 }
 
 function decodeText(){
-    let input=document.getElementById("inputText").value;
-    let t=revWords(shiftB(input.replace(/\s+/g,""))); // remove spaces before decoding
-    let out="";
-    for(let ch of t){
-        let l=rev[f(ch)];
-        out+=l?swapChar(l):ch;
+    let input = document.getElementById("inputText").value; // ✅ FIX
+
+    let temp="";
+    for(let ch of input){
+        let l = rev[f(ch)];
+        temp += l ? swapChar(l) : ch;
     }
-    document.getElementById("outputText").textContent=out;
+
+    let result = revWords(temp);
+
+    document.getElementById("outputText").textContent = result;
 }
 </script>
 
