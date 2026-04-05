@@ -19,7 +19,7 @@ body{
     line-height:1.6;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 .navbar{
     position:fixed;
     top:0;
@@ -79,40 +79,30 @@ body{
     box-shadow:0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* ================= MAIN ================= */
+/* MAIN CONTENT */
 .main-content{
     margin-top:80px;
     padding:20px;
+    max-width:700px;
 }
 
-h1{
-    font-size:36px;
-    margin-bottom:20px;
-}
-
-/* About Me Section */
-.about-me{
-    text-align:left; /* <-- changed to left align */
-    font-size:16px;
-    color:#555;
-    margin:10px 0 20px 0;
-}
-body.dark .about-me{
-    color:#ccc;
-}
-
-/* ================= SECTIONS ================= */
+/* TOOL SECTION */
 .section{
     margin-bottom:30px;
     padding-bottom:10px;
-    border-bottom:2px solid rgba(0,0,0,0.1);
 }
 
-body.dark .section{
-    border-bottom:2px solid rgba(255,255,255,0.25);
+textarea{
+    width:100%;
+    height:100px;
+    border-radius:10px;
+    padding:10px;
+    font-size:16px;
+    border:none;
+    outline:none;
+    font-family:'Fredoka',sans-serif;
 }
 
-/* ================= BUTTONS ================= */
 .game-link{
     display:inline-block;
     margin:10px 10px 0 0;
@@ -120,42 +110,24 @@ body.dark .section{
     background-color:#4c5eaf;
     color:white;
     border-radius:10px;
-    text-decoration:none;
-    font-size:18px;
-    transition:transform 0.2s ease,box-shadow 0.2s ease;
-}
-.game-link:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 18px rgba(0,0,0,0.2);
+    border:none;
+    cursor:pointer;
+    font-family:'Fredoka',sans-serif;
 }
 
-/* ================= IMAGE ================= */
-.bottom-image{
-    margin-top:20px;
-    max-width:260px;
+/* RESULT */
+#outputText{
+    margin-top:30px; /* more space below buttons */
+    padding:10px;
+    background:rgba(0,0,0,0.05);
+    border-radius:10px;
+    letter-spacing:0.2em; /* spaced out more */
+    min-height:50px;
+    font-family:'Fredoka',sans-serif;
+    word-break:break-word;
 }
 
-.bottom-image img{
-    width:100%;
-    border-radius:12px;
-    display:block;
-    animation: floatImage 3.5s ease-in-out infinite;
-    box-shadow:0 0 12px rgba(83,109,254,0.4);
-    transition:transform 0.3s ease,box-shadow 0.3s ease;
-}
-
-.bottom-image img:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 25px rgba(83,109,254,0.7);
-}
-
-@keyframes floatImage{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-4px);}
-    100%{transform:translateY(0);}
-}
-
-/* ================= DARK MODE ================= */
+/* DARK MODE */
 body.dark{
     color:#e6e6e6;
     background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
@@ -169,7 +141,7 @@ body.dark{
     100%{background-position:0% 50%;}
 }
 
-/* ================= TOGGLE ================= */
+/* TOGGLE */
 .toggle{
     width:65px;
     height:34px;
@@ -210,32 +182,20 @@ body.dark .toggle{
     left:33px;
 }
 
-/* ================= FX ================= */
+/* FX */
 .cursor-glow{
     position:fixed;
-    width:250px;height:250px;
+    width:250px;
+    height:250px;
     background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
     pointer-events:none;
     transform:translate(-50%,-50%);
 }
 
-.dust{
-    position:fixed;
-    width:6px;height:6px;
-    background:rgba(120,150,255,0.7);
-    border-radius:50%;
-    pointer-events:none;
-    filter:blur(2px);
-    animation:dustFade 1s linear forwards;
-}
-
-@keyframes dustFade{
-    to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
-
 .particle{
     position:fixed;
-    width:5px;height:5px;
+    width:5px;
+    height:5px;
     border-radius:50%;
     background:rgba(255,255,255,0.15);
     animation:floatUp linear infinite;
@@ -246,41 +206,16 @@ body.dark .toggle{
     to{transform:translateY(-10vh);}
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
+/* MOBILE */
 @media (max-width: 600px){
-    .navbar{
-        padding:0 15px;
-        height:55px;
-    }
-    .navbar-content{
-        gap:10px;
-        flex-wrap:wrap;
-    }
-    .navbar a{
-        font-size:16px;
-    }
-    .main-content{
-        margin-top:70px;
-        padding:15px;
-    }
-    h1{
-        font-size:28px;
-    }
-    .game-link{
-        font-size:16px;
-        padding:10px 18px;
-    }
-    .bottom-image{
-        max-width:180px;
-    }
-    .cursor-glow,.dust{
-        display:none; /* disable heavy effects on mobile */
-    }
+    .main-content{margin-top:70px;padding:15px;}
+    textarea{height:80px;}
 }
 </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
     <div class="navbar-content">
         <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
@@ -294,36 +229,22 @@ body.dark .toggle{
     </div>
 </div>
 
+<!-- MAIN TOOL -->
 <div class="main-content">
-    <h1>jasonyen.me</h1>
-
-    <!-- About Me Section -->
-    <div class="about-me">
-        Note: I spent 5 years on this webpage as of Sat Apr 4 2026.
-    </div>
-
     <div class="section">
-        <strong>Choose a subpage:</strong><br>
-        <a href="/games" class="game-link">Games</a>
-        <a href="/tools" class="game-link">Tools</a>
-        <a href="/donatejk" class="game-link">Donate</a>
-        <a href="/ai" class="game-link">Search Engine</a>
+        <h2>Encoder / Decoder</h2><br>
+        <textarea id="inputText" placeholder="Enter text..."></textarea><br>
 
-    </div>
+        <button class="game-link" onclick="encodeText()">Encode</button>
+        <button class="game-link" onclick="decodeText()">Decode</button>
 
-    <div class="section">
-        <strong>Choose a webpage:</strong><br>
-        <a href="https://www.printables.com/@wardenmonster" class="game-link">Printables</a>
-        <a href="https://www.tinkercad.com/users/8Y0kQeRvjsZ/" class="game-link">Tinkercad</a>
-        <a href="https://scratch.mit.edu/users/wardenmonster/" class="game-link">Scratch</a>
-    </div>
-
-    <div class="bottom-image">
-        <img src="/images/WardenmonsterLogo.PNG">
+        <p><strong>Result:</strong></p>
+        <div id="outputText"></div>
     </div>
 </div>
 
 <script>
+// Dark mode toggle with localStorage
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
@@ -331,6 +252,8 @@ if(localStorage.getItem("darkMode")==="on"){
     document.body.classList.add("dark");
     toggle.classList.add("active");
     icon.textContent="☀️";
+} else {
+    icon.textContent="🌙";
 }
 
 toggle.onclick=()=>{
@@ -345,7 +268,7 @@ toggle.onclick=()=>{
     }
 };
 
-/* cursor glow + dust */
+// FX
 const glow=document.createElement("div");
 glow.className="cursor-glow";
 document.body.appendChild(glow);
@@ -353,23 +276,70 @@ document.body.appendChild(glow);
 document.addEventListener("mousemove",e=>{
     glow.style.left=e.clientX+"px";
     glow.style.top=e.clientY+"px";
-    for(let i=0;i<2;i++){
-        let d=document.createElement("div");
-        d.className="dust";
-        d.style.left=(e.clientX+Math.random()*10-5)+"px";
-        d.style.top=(e.clientY+Math.random()*10-5)+"px";
-        document.body.appendChild(d);
-        setTimeout(()=>d.remove(),1000);
-    }
 });
 
-/* floating particles */
 for(let i=0;i<25;i++){
     let p=document.createElement("div");
     p.className="particle";
     p.style.left=Math.random()*100+"vw";
     p.style.animationDuration=(12+Math.random()*18)+"s";
     document.body.appendChild(p);
+}
+
+// ===== CIPHER =====
+function swapChar(ch){
+    let c=ch.charCodeAt(0);
+    if(c>=97&&c<=122) return String.fromCharCode(c%2===0?c-1:c+1);
+    if(c>=65&&c<=90) return String.fromCharCode(c%2===0?c-1:c+1);
+    return ch;
+}
+
+const map={a:"!",b:"@",c:"#",d:"$",e:"%",f:"^",g:"&",h:"*",i:"(",j:")",k:"-",l:"_",m:"=",n:"+",o:"[",p:"]",q:"{",r:"}",s:";",t:":",u:"'",v:'"',w:"<",x:">",y:"?",z:"/"};
+const rev=Object.fromEntries(Object.entries(map).map(([k,v])=>[v,k]));
+
+const flip={"!":"¡","¡":"!","?":"¿","¿":"?","(":")",")":"(","<":">",">":"<","[":"]","]":"[","{":"}","}":"{","/":"\\","\\":"/"};
+const f=c=>flip[c]||c;
+
+const revWords=t=>t.split(" ").map(w=>w.split("").reverse().join("")).join(" ");
+
+function shiftF(t){
+    let w=t.split(" "),n=w.length,r=new Array(n);
+    for(let i=0;i<n;i++){
+        let s=w[i].length%n;
+        r[(i+s)%n]=w[i];
+    }
+    return r.join(" ");
+}
+
+function shiftB(t){
+    let w=t.split(" "),n=w.length,r=new Array(n);
+    for(let i=0;i<n;i++){
+        let s=w[i].length%n;
+        r[(i-s+n)%n]=w[i];
+    }
+    return r.join(" ");
+}
+
+function encodeText(){
+    let input=document.getElementById("inputText").value;
+    let t="";
+    for(let ch of input){
+        let s=swapChar(ch.toLowerCase());
+        t+=f(map[s]||ch);
+    }
+    let spacedResult = shiftF(revWords(t)).split("").join(" "); // space out result
+    document.getElementById("outputText").textContent=spacedResult;
+}
+
+function decodeText(){
+    let input=document.getElementById("inputText").value;
+    let t=revWords(shiftB(input.replace(/\s+/g,""))); // remove spaces before decoding
+    let out="";
+    for(let ch of t){
+        let l=rev[f(ch)];
+        out+=l?swapChar(l):ch;
+    }
+    document.getElementById("outputText").textContent=out;
 }
 </script>
 
