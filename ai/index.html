@@ -227,9 +227,8 @@ body.dark .toggle{
 </div>
 
 <div class="cursor-glow"></div>
-
 <script>
-// Dark mode toggle with localStorage
+// ===== DARK MODE =====
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 if(localStorage.getItem("darkMode")==="on"){
@@ -244,7 +243,7 @@ toggle.onclick=()=>{
     localStorage.setItem("darkMode",isDark?"on":"off");
 };
 
-// Cursor glow and dust
+// ===== CURSOR GLOW & DUST =====
 const glow=document.querySelector(".cursor-glow");
 document.addEventListener("mousemove",e=>{
     glow.style.left=e.clientX+"px";
@@ -259,45 +258,140 @@ document.addEventListener("mousemove",e=>{
     }
 });
 
-// Ask button
+// ===== ELEMENTS =====
 const askBtn=document.getElementById("ask-btn");
 const userInput=document.getElementById("user-input");
 const chatLog=document.getElementById("chat-log");
 const fullArticleBtn=document.getElementById("full-article-btn");
+const suggestionsBox=document.getElementById("suggestions");
 
+// ===== AI-STYLE ANSWERS =====
+function generateAnswer(query,text){
+    return "Answer:\n\n"+text;
+}
+
+// ===== SEARCH FUNCTION =====
+async function search(query){
+    try{
+        // ===== 1️⃣ WIKIPEDIA =====
+        const wikiRes=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+        const wikiData=await wikiRes.json();
+
+        const badWiki =
+            !wikiData.extract ||
+            wikiData.extract.includes("may refer to") ||
+            wikiData.extract.length < 40;
+
+        if(!badWiki){
+            fullArticleBtn.href=wikiData.content_urls.desktop.page;
+            fullArticleBtn.style.display="inline-block";
+            return generateAnswer(query,wikiData.extract);
+        }
+
+        throw new Error("Weak wiki");
+
+    }catch{
+        try{
+            // ===== 2️⃣ DUCKDUCKGO API =====
+            const ddgRes=await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1`);
+            const ddgData=await ddgRes.json();
+
+            if(ddgData.AbstractText){
+                fullArticleBtn.href=ddgData.AbstractURL;
+                fullArticleBtn.style.display="inline-block";
+                return generateAnswer(query,ddgData.AbstractText);
+            }
+
+            if(ddgData.RelatedTopics?.length){
+                fullArticleBtn.href=ddgData.RelatedTopics[0].FirstURL;
+                fullArticleBtn.style.display="inline-block";
+                return generateAnswer(query,ddgData.RelatedTopics[0].Text);
+            }
+
+            throw new Error("Weak DDG");
+
+        }catch{
+            // ===== 3️⃣ FINAL FALLBACK =====
+            const searchURL = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            fullArticleBtn.href = searchURL;
+            fullArticleBtn.style.display = "inline-block";
+            return `I couldn't find a direct answer, but you can view full search results here:\n\n${searchURL}`;
+        }
+    }
+}
+
+// ===== ASK BUTTON =====
 askBtn.onclick=async()=>{
     const query=userInput.value.trim();
     if(!query) return;
+
+    if(suggestionsBox) suggestionsBox.style.display="none";
+
     const li=document.createElement("li");
     li.className="user-msg";
     li.textContent=query;
     chatLog.appendChild(li);
-    chatLog.scrollTop=chatLog.scrollHeight;
 
     const botLi=document.createElement("li");
     botLi.className="bot-msg";
-    botLi.textContent="Searching...";
+    botLi.textContent="Thinking...";
     chatLog.appendChild(botLi);
-    chatLog.scrollTop=chatLog.scrollHeight;
 
-    // Wikipedia API fetch
-    try{
-        const wikiRes=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-        const wikiData=await wikiRes.json();
-        if(wikiData.extract){
-            botLi.textContent=wikiData.extract;
-            fullArticleBtn.href=wikiData.content_urls.desktop.page;
-            fullArticleBtn.style.display="inline-block";
-        } else {
-            botLi.textContent="No Wikipedia article found.";
-            fullArticleBtn.style.display="none";
-        }
-    }catch(e){
-        botLi.textContent="Error fetching data.";
-        fullArticleBtn.style.display="none";
-    }
+    chatLog.scrollTop = chatLog.scrollHeight;
+
+    const answer = await search(query);
+    botLi.textContent = answer;
+
     userInput.value="";
 };
+
+// ===== AUTOCOMPLETE =====
+let debounceTimer;
+userInput.addEventListener("input",()=>{
+    if(!suggestionsBox) return;
+    clearTimeout(debounceTimer);
+
+    const query=userInput.value.trim();
+    if(query.length<2){
+        suggestionsBox.style.display="none";
+        return;
+    }
+
+    debounceTimer = setTimeout(async ()=>{
+        try{
+            const res = await fetch(`https://api.datamuse.com/sug?s=${query}`);
+            const data = await res.json();
+
+            suggestionsBox.innerHTML="";
+
+            data.slice(0,5).forEach(item=>{
+                const div = document.createElement("div");
+                div.className="suggestion";
+                div.textContent = item.word;
+
+                div.onclick = ()=>{
+                    userInput.value = item.word;
+                    suggestionsBox.style.display="none";
+                    askBtn.click();
+                };
+
+                suggestionsBox.appendChild(div);
+            });
+
+            suggestionsBox.style.display = "block";
+
+        }catch{
+            suggestionsBox.style.display="none";
+        }
+    },300);
+});
+
+// Hide suggestions when clicking outside
+document.addEventListener("click",(e)=>{
+    if(!e.target.closest(".chat-input-area")){
+        if(suggestionsBox) suggestionsBox.style.display="none";
+    }
+});
 </script>
 
 </body>
