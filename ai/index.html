@@ -243,19 +243,11 @@ toggle.onclick=()=>{
     localStorage.setItem("darkMode",isDark?"on":"off");
 };
 
-// ===== CURSOR GLOW & DUST =====
+// ===== CURSOR GLOW =====
 const glow=document.querySelector(".cursor-glow");
 document.addEventListener("mousemove",e=>{
     glow.style.left=e.clientX+"px";
     glow.style.top=e.clientY+"px";
-    for(let i=0;i<2;i++){
-        const d=document.createElement("div");
-        d.className="dust";
-        d.style.left=(e.clientX+Math.random()*10-5)+"px";
-        d.style.top=(e.clientY+Math.random()*10-5)+"px";
-        document.body.appendChild(d);
-        setTimeout(()=>d.remove(),1000);
-    }
 });
 
 // ===== ELEMENTS =====
@@ -265,17 +257,26 @@ const chatLog=document.getElementById("chat-log");
 const fullArticleBtn=document.getElementById("full-article-btn");
 const suggestionsBox=document.getElementById("suggestions");
 
-// ===== AI-STYLE ANSWERS =====
+// ===== AI STYLE =====
 function generateAnswer(query,text){
     return "Answer:\n\n"+text;
 }
 
-// ===== SEARCH FUNCTION =====
 async function search(query){
+    let parts = [];
+
+    // ===== detect "explain mode" =====
+    const explainMode = /explain|elaborate|detail|in depth|tell me more|how does/i.test(query);
+
+    // clean query (remove words like "explain")
+    const cleanQuery = query
+        .replace(/explain|elaborate|in detail|tell me more about|how does/gi,"")
+        .trim();
+
+    // ===== 1️⃣ WIKIPEDIA =====
     try{
-        // ===== 1️⃣ WIKIPEDIA =====
-        const wikiRes=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
-        const wikiData=await wikiRes.json();
+        const wikiRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cleanQuery)}`);
+        const wikiData = await wikiRes.json();
 
         const badWiki =
             !wikiData.extract ||
@@ -283,44 +284,72 @@ async function search(query){
             wikiData.extract.length < 40;
 
         if(!badWiki){
-            fullArticleBtn.href=wikiData.content_urls.desktop.page;
-            fullArticleBtn.style.display="inline-block";
-            return generateAnswer(query,wikiData.extract);
-        }
-
-        throw new Error("Weak wiki");
-
-    }catch{
-        try{
-            // ===== 2️⃣ DUCKDUCKGO API =====
-            const ddgRes=await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1`);
-            const ddgData=await ddgRes.json();
-
-            if(ddgData.AbstractText){
-                fullArticleBtn.href=ddgData.AbstractURL;
-                fullArticleBtn.style.display="inline-block";
-                return generateAnswer(query,ddgData.AbstractText);
-            }
-
-            if(ddgData.RelatedTopics?.length){
-                fullArticleBtn.href=ddgData.RelatedTopics[0].FirstURL;
-                fullArticleBtn.style.display="inline-block";
-                return generateAnswer(query,ddgData.RelatedTopics[0].Text);
-            }
-
-            throw new Error("Weak DDG");
-
-        }catch{
-            // ===== 3️⃣ FINAL FALLBACK =====
-            const searchURL = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-            fullArticleBtn.href = searchURL;
+            parts.push(wikiData.extract);
+            fullArticleBtn.href = wikiData.content_urls.desktop.page;
             fullArticleBtn.style.display = "inline-block";
-            return `I couldn't find a direct answer, but you can view full search results here:\n\n${searchURL}`;
+        }
+    }catch{}
+
+    // ===== 2️⃣ DUCKDUCKGO =====
+    try{
+        const ddgRes = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(cleanQuery)}&format=json&no_redirect=1`);
+        const ddgData = await ddgRes.json();
+
+        if(ddgData.AbstractText){
+            parts.push(ddgData.AbstractText);
+        } 
+        else if(ddgData.RelatedTopics?.length){
+            parts.push(ddgData.RelatedTopics[0].Text);
+        }
+    }catch{}
+
+    // ===== 3️⃣ EXTRA DETAIL (only if explain mode) =====
+    if(explainMode){
+        try{
+            const extraRes = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(cleanQuery + " detailed explanation how it works")}&format=json&no_redirect=1`);
+            const extraData = await extraRes.json();
+
+            if(extraData.AbstractText){
+                parts.push(extraData.AbstractText);
+            } 
+            else if(extraData.RelatedTopics?.length){
+                parts.push(extraData.RelatedTopics[0].Text);
+            }
+        }catch{}
+    }
+
+    // ===== 4️⃣ EVEN MORE DEPTH (second pass if explain mode) =====
+    if(explainMode){
+        try{
+            const deepRes = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(cleanQuery + " examples uses importance")}&format=json&no_redirect=1`);
+            const deepData = await deepRes.json();
+
+            if(deepData.AbstractText){
+                parts.push(deepData.AbstractText);
+            } 
+            else if(deepData.RelatedTopics?.length){
+                parts.push(deepData.RelatedTopics[0].Text);
+            }
+        }catch{}
+    }
+
+    // ===== FINAL MERGE =====
+    if(parts.length > 0){
+        const unique = [...new Set(parts)];
+
+        if(explainMode){
+            return "Detailed Explanation:\n\n" + unique.join("\n\n");
+        } else {
+            return "Answer:\n\n" + unique.join("\n\n");
         }
     }
+
+    // ===== FALLBACK =====
+    fullArticleBtn.style.display = "none";
+    return `Answer:\n\nI couldn’t find a strong explanation for "${query}". Try being more specific.`;
 }
 
-// ===== ASK BUTTON =====
+// ===== ASK =====
 askBtn.onclick=async()=>{
     const query=userInput.value.trim();
     if(!query) return;
@@ -337,18 +366,20 @@ askBtn.onclick=async()=>{
     botLi.textContent="Thinking...";
     chatLog.appendChild(botLi);
 
-    chatLog.scrollTop = chatLog.scrollHeight;
+    chatLog.scrollTop=chatLog.scrollHeight;
 
-    const answer = await search(query);
-    botLi.textContent = answer;
+    const answer=await search(query);
+    botLi.textContent=answer;
 
     userInput.value="";
 };
 
 // ===== AUTOCOMPLETE =====
 let debounceTimer;
+
 userInput.addEventListener("input",()=>{
     if(!suggestionsBox) return;
+
     clearTimeout(debounceTimer);
 
     const query=userInput.value.trim();
@@ -357,20 +388,20 @@ userInput.addEventListener("input",()=>{
         return;
     }
 
-    debounceTimer = setTimeout(async ()=>{
+    debounceTimer=setTimeout(async()=>{
         try{
-            const res = await fetch(`https://api.datamuse.com/sug?s=${query}`);
-            const data = await res.json();
+            const res=await fetch(`https://api.datamuse.com/sug?s=${query}`);
+            const data=await res.json();
 
             suggestionsBox.innerHTML="";
 
             data.slice(0,5).forEach(item=>{
-                const div = document.createElement("div");
+                const div=document.createElement("div");
                 div.className="suggestion";
-                div.textContent = item.word;
+                div.textContent=item.word;
 
-                div.onclick = ()=>{
-                    userInput.value = item.word;
+                div.onclick=()=>{
+                    userInput.value=item.word;
                     suggestionsBox.style.display="none";
                     askBtn.click();
                 };
@@ -378,7 +409,7 @@ userInput.addEventListener("input",()=>{
                 suggestionsBox.appendChild(div);
             });
 
-            suggestionsBox.style.display = "block";
+            suggestionsBox.style.display="block";
 
         }catch{
             suggestionsBox.style.display="none";
@@ -386,7 +417,7 @@ userInput.addEventListener("input",()=>{
     },300);
 });
 
-// Hide suggestions when clicking outside
+// Hide suggestions
 document.addEventListener("click",(e)=>{
     if(!e.target.closest(".chat-input-area")){
         if(suggestionsBox) suggestionsBox.style.display="none";
