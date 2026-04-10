@@ -6,12 +6,101 @@
 <title>jasonyen.me</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* ================= FOOTER ================= */
+/* ================= LAYOUT FIX (sticky footer) ================= */
+.footer{
+    margin-top:80px;
+    padding:80px 20px 40px;
+
+    /* LIGHT MODE: soft fade */
+    background:linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(212,220,251,0.5) 25%,
+        #D4DCFB 55%,
+        #cfd8ff 100%
+    );
+
+    color:#111;
+    text-align:center;
+    font-family:'Spectral', serif;
+    font-size:15px;
+    line-height:1.7;
+
+    position:relative;
+    overflow:hidden;
+    backdrop-filter: blur(6px);
+}
+
+/* animated glow line */
+.footer::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-50%;
+    width:200%;
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,200,255,0.6),
+        rgba(180,120,255,0.6),
+        transparent
+    );
+
+    animation: footerGlow 6s linear infinite;
+    will-change: transform;
+}
+
+@keyframes footerGlow{
+    0%   { transform: translateX(-25%); }
+    100% { transform: translateX(25%); }
+}
+
+/* links */
+.footer a{
+    color:#444;
+    text-decoration:none;
+    margin:0 6px;
+    transition:color 0.25s ease;
+}
+
+.footer a:hover{
+    color:#000;
+}
+
+/* ================= DARK MODE ================= */
+body.dark .footer{
+    background:#000;   /* solid black footer */
+    color:#fff;
+}
+
+body.dark .footer a{
+    color:#aaa;
+}
+
+body.dark .footer a:hover{
+    color:#fff;
+}
+
+/* dark mode glow */
+body.dark .footer::before{
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,200,255,0.7),
+        rgba(180,120,255,0.7),
+        transparent
+    );
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 
 body{
-    font-family:'Fredoka',sans-serif;
+        font-family:'Fredoka',sans-serif;
     font-size:18px;
     background-color:#f5f6fa;
     overflow-x:hidden;
@@ -26,35 +115,36 @@ body{
 body::before{
     content:"";
     position:fixed;
-    inset:0;
-    padding:2px;
+    inset:-50%; /* extra space so movement never shows edges */
     border-radius:22px;
     pointer-events:none;
     z-index:10000;
 
-    /* smoother gradient */
-    background:
-        linear-gradient(rgba(255,255,255,0.06),rgba(255,255,255,0.06)),
-        linear-gradient(
-            120deg,
-            transparent 42%,
-            rgba(0,200,255,0.45),
-            rgba(180,120,255,0.45),
-            transparent 58%
-        );
+    background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(0,200,255,0.5),
+        rgba(180,120,255,0.5),
+        transparent 70%
+    );
 
-    background-size:100% 100%, 300% 300%;
-    background-position:0 0, 0% 50%;
+    /* duplicate effect via size instead of repeating */
+    background-size: 300% 300%;
 
-    animation:rippleMove 10s ease-in-out infinite;
+    animation: smoothMove 6s linear infinite;
 
-    filter:blur(0.3px); /* softens harsh edges */
+    will-change: transform;
+    transform: translate3d(0,0,0);
+
+    filter: blur(0.3px);
 
     -webkit-mask:
         linear-gradient(#000 0 0) content-box,
         linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;
             mask-composite:exclude;
+
+    padding:2px;
 }
 
 body::after{
@@ -71,10 +161,9 @@ body::after{
 }
 
 /* smoother motion curve */
-@keyframes rippleMove{
-    0%   {background-position:0 0, 0% 50%;}
-    50%  {background-position:0 0, 100% 50%;}
-    100% {background-position:0 0, 200% 50%;}
+@keyframes smoothMove{
+    0%   { transform: translateX(-25%) translateY(0); }
+    100% { transform: translateX(25%) translateY(0); }
 }
 
 /* ================= DISABLE ON MOBILE ================= */
@@ -311,6 +400,9 @@ body.dark .toggle{
     border-radius:50%;
     background:rgba(255,255,255,0.15);
     animation:floatUp linear infinite;
+    .particle{
+    will-change: transform;
+}
 }
 
 @keyframes floatUp{
@@ -371,7 +463,7 @@ body.dark .toggle{
 
     <!-- About Me Section -->
     <div class="about-me">
-        Note: I spent 5 years on this webpage as of Sat Apr 4 2026.
+        Check Footer For Rights.
     </div>
 
     <div class="section">
@@ -395,6 +487,10 @@ body.dark .toggle{
     </div>
 </div>
 
+<div class="footer">
+    © 2026 jasonyen.me<br>
+    Built over 5 years • All rights reserved • Dec 15, 2021
+</div>
 <script>
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
@@ -436,8 +532,7 @@ document.addEventListener("mousemove",e=>{
 });
 
 /* floating particles */
-for(let i=0;i<25;i++){
-    let p=document.createElement("div");
+for(let i=0;i<15;i++){    let p=document.createElement("div");
     p.className="particle";
     p.style.left=Math.random()*100+"vw";
     p.style.animationDuration=(12+Math.random()*18)+"s";
