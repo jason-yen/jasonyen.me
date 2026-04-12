@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>jasonyen.me</title>
@@ -100,15 +101,14 @@ h1{
     display:grid;
     grid-template-columns:repeat(3,100px);
     gap:12px;
-    justify-content:start; /* left-align on desktop */
+    justify-content:start;
 }
 
-/* Mobile adjustments */
 @media(max-width:600px){
     .grid{
         grid-template-columns:repeat(3,70px);
         gap:8px;
-        justify-content:start; /* left-align on mobile */
+        justify-content:start;
     }
 }
 
@@ -123,21 +123,26 @@ h1{
     justify-content:center;
     font-size:36px;
     cursor:pointer;
-    transition:transform 0.15s ease,box-shadow 0.15s ease,background 0.2s;
+    transition:box-shadow 0.15s ease,background 0.2s;    
     box-shadow:0 6px 16px rgba(0,0,0,0.15);
     user-select:none;
     -webkit-tap-highlight-color:transparent;
-    padding:12px; /* makes it more clickable */
+    padding:12px;
     box-sizing:border-box;
+
+    /* ✅ FIX ADDED (prevents mobile delay) */
+    touch-action: manipulation;
 }
 
-.cell:hover{
-    transform:scale(1.07);
-    box-shadow:0 10px 22px rgba(0,0,0,0.25);
+@media (hover: hover) and (pointer: fine){
+    .cell:hover{
+        transform:scale(1.07);
+        box-shadow:0 10px 22px rgba(0,0,0,0.25);
+    }
 }
-
 .cell:active{
     transform:scale(0.92);
+    transition:none;
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
@@ -311,8 +316,16 @@ body.dark .toggle{
         display:none;
     }
 }
+html, body {
+    touch-action: manipulation;
+}
+
+* {
+    -webkit-touch-callout: none;
+}
 </style>
 </head>
+
 <body>
 
 <div class="navbar">
@@ -332,16 +345,17 @@ body.dark .toggle{
     <h1>Tic-Tac-Toe</h1>
     <div class="game-container">
         <div class="grid">
-            <div class="cell" onclick="makeMove(0)"></div>
-            <div class="cell" onclick="makeMove(1)"></div>
-            <div class="cell" onclick="makeMove(2)"></div>
-            <div class="cell" onclick="makeMove(3)"></div>
-            <div class="cell" onclick="makeMove(4)"></div>
-            <div class="cell" onclick="makeMove(5)"></div>
-            <div class="cell" onclick="makeMove(6)"></div>
-            <div class="cell" onclick="makeMove(7)"></div>
-            <div class="cell" onclick="makeMove(8)"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
         </div>
+
         <div id="message"></div>
         <button id="replayButton" onclick="resetGame()">Replay</button>
     </div>
@@ -352,27 +366,45 @@ let board=Array(9).fill("");
 let currentPlayer="X";
 let gameOver=false;
 
+const cells=document.querySelectorAll(".cell");
+
+/* ✅ FIX: pointerdown instead of onclick */
+cells.forEach((cell,i)=>{
+    cell.addEventListener("click",(e)=>{
+        e.preventDefault();
+        makeMove(i);
+    });
+});
 const patterns=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 function makeMove(i){
     if(gameOver||board[i]!=="")return;
-    board[i]=currentPlayer;
-    const cell=document.getElementsByClassName("cell")[i];
-    cell.textContent=currentPlayer;
-    cell.classList.add("taken");
 
-    if(checkWinner(currentPlayer)){endGame(currentPlayer+" wins!");return;}
-    if(board.every(c=>c!=="")){endGame("Tie!");return;}
+    board[i]=currentPlayer;
+    cells[i].textContent=currentPlayer;
+    cells[i].classList.add("taken");
+
+    if(checkWinner(currentPlayer)){
+        endGame(currentPlayer+" wins!");
+        return;
+    }
+
+    if(board.every(c=>c!=="")){
+        endGame("Tie!");
+        return;
+    }
 
     currentPlayer=currentPlayer==="X"?"O":"X";
-    if(currentPlayer==="O")setTimeout(computerMove,200);
+
+    /* ✅ FIX: removed setTimeout delay */
+    if(currentPlayer==="O") computerMove();
 }
 
 function checkWinner(p){
     for(const [a,b,c] of patterns){
         if(board[a]===p && board[b]===p && board[c]===p){
-            [a,b,c].forEach(i=>document.getElementsByClassName("cell")[i].classList.add("winner"));
-            document.querySelectorAll(".cell").forEach((cell,idx)=>{
+            [a,b,c].forEach(i=>cells[i].classList.add("winner"));
+            cells.forEach((cell,idx)=>{
                 if(![a,b,c].includes(idx)){
                     cell.classList.add("loser");
                 }
@@ -385,12 +417,12 @@ function checkWinner(p){
 
 function endGame(t){
     document.getElementById("message").textContent=t;
-    document.getElementById("replayButton").style.display="inline-block";
     gameOver=true;
 }
 
 function computerMove(){
     let best=-Infinity,move;
+
     for(let i=0;i<9;i++){
         if(board[i]===""){
             board[i]="O";
@@ -399,6 +431,7 @@ function computerMove(){
             if(score>best){best=score;move=i;}
         }
     }
+
     makeMove(move);
 }
 
@@ -406,6 +439,7 @@ function minimax(bd,d,isMax){
     if(checkWinBoard(bd,"O"))return 10-d;
     if(checkWinBoard(bd,"X"))return d-10;
     if(bd.every(c=>c!==""))return 0;
+
     if(isMax){
         let best=-Infinity;
         for(let i=0;i<9;i++){
@@ -440,11 +474,11 @@ function resetGame(){
         c.classList.remove("taken","winner","loser");
     });
     document.getElementById("message").textContent="";
-    document.getElementById("replayButton").style.display="none";
-    currentPlayer="X";gameOver=false;
+    currentPlayer="X";
+    gameOver=false;
 }
 
-/* DARK MODE */
+/* DARK MODE (unchanged) */
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
@@ -466,7 +500,7 @@ toggle.onclick=()=>{
     }
 };
 
-/* CURSOR FX */
+/* FX (unchanged) */
 const glow=document.createElement("div");
 glow.className="cursor-glow";
 document.body.appendChild(glow);
