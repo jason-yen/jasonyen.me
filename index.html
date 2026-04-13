@@ -618,7 +618,7 @@ let isPaused = localStorage.getItem("paused") === "true";
 function setPaused(state){
     isPaused = state;
     document.body.classList.toggle("paused", isPaused);
-    pauseBtn.textContent = isPaused ? "▶" : "⏸";
+    pauseBtn.textContent = isPaused ? "▶︎" : "⏸";
     localStorage.setItem("paused", isPaused);
 }
 

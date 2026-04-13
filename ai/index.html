@@ -6,14 +6,15 @@
 <title>jasonyen.me</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Fredoka',sans-serif;}
 body{
+    font-family:'Fredoka', sans-serif;
     font-size:18px;
     line-height:1.6;
     background:#f5f6fa;
-    color:black;
+    color:#111;
     transition: background 0.4s,color 0.4s;
     overflow-x:hidden;
     padding-top:60px;
@@ -95,6 +96,9 @@ h1{
 }
 .user-msg{background:#d3f4ff;text-align:right;}
 .bot-msg{background:#ececec;}
+.bot-msg{
+    font-size:15px;
+    line-height:1.6;}
 
 /* ================= INPUT & BUTTONS ================= */
 .chat-input-area{
@@ -196,6 +200,10 @@ body.dark .toggle{
     #user-input{flex:1;}
     .game-link{font-size:16px;padding:12px 20px;}
     .cursor-glow,.dust{display:none;}
+}
+.chatbox li{
+    font-size:15px;
+    line-height:1.5;
 }
 </style>
 </head>
@@ -317,7 +325,37 @@ async function search(query){
             }
         }catch{}
     }
+    // ===== 3️⃣ WIKIDATA (DEEP EXPLANATIONS) =====
+    if (explainMode) {
+        try {
+            const sparql = `
+            SELECT ?item ?itemLabel ?desc WHERE {
+              ?item rdfs:label "${cleanQuery}"@en.
+              ?item schema:description ?desc.
+              FILTER (lang(?desc) = "en")
+              SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+            }
+            LIMIT 1`;
 
+            const wdRes = await fetch(
+                "https://query.wikidata.org/sparql?query=" +
+                encodeURIComponent(sparql),
+                {
+                    headers: {
+                        "Accept": "application/sparql-results+json"
+                    }
+                }
+            );
+
+            const wdData = await wdRes.json();
+
+            const desc = wdData?.results?.bindings?.[0]?.desc?.value;
+            if (desc) {
+                parts.push(desc);
+            }
+
+        } catch (e) {}
+    }
     // ===== 4️⃣ EVEN MORE DEPTH (second pass if explain mode) =====
     if(explainMode){
         try{
@@ -333,16 +371,40 @@ async function search(query){
         }catch{}
     }
 
-    // ===== FINAL MERGE =====
-    if(parts.length > 0){
-        const unique = [...new Set(parts)];
+// ===== FINAL MERGE (SMART DEDUPE) =====
+function isSimilar(a, b) {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
 
-        if(explainMode){
-            return "Detailed Explanation:\n\n" + unique.join("\n\n");
-        } else {
-            return "Answer:\n\n" + unique.join("\n\n");
+    // if one contains most of the other → treat as duplicate
+    return a.includes(b.slice(0, 60)) || b.includes(a.slice(0, 60));
+}
+
+function smartDeduplicate(arr) {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let duplicate = false;
+
+        for (let j = 0; j < result.length; j++) {
+            if (isSimilar(arr[i], result[j])) {
+                duplicate = true;
+                break;
+            }
         }
+
+        if (!duplicate) result.push(arr[i]);
     }
+
+    return result;
+}
+
+if (parts.length > 0) {
+    const unique = smartDeduplicate(parts);
+
+    return (explainMode ? "Detailed Explanation:\n\n" : "Answer:\n\n")
+        + unique.join("\n\n");
+}
 
     // ===== FALLBACK =====
     fullArticleBtn.style.display = "none";
