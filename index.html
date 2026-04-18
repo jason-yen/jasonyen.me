@@ -378,34 +378,8 @@ body.dark .toggle{
   transform:translate(-50%,-50%);
 }
 
-.dust{
-  position:fixed;
-  width:6px;
-  height:6px;
-  background:rgba(120,150,255,0.7);
-  border-radius:50%;
-  pointer-events:none;
-  filter:blur(2px);
-  animation:dustFade 1s linear forwards;
-}
 
-@keyframes dustFade{
-  to{
-    opacity:0;
-    transform:translateY(-20px) scale(0.5);
-  }
-}
 
-/* ✅ FIXED */
-.particle{
-  position:fixed;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  animation:floatUp linear infinite;
-  will-change: transform;
-}
 
 @keyframes floatUp{
   from{transform:translateY(100vh);}
@@ -446,10 +420,7 @@ body.dark .toggle{
     max-width:180px;
   }
 
-  .cursor-glow,
-  .dust{
-    display:none;
-  }
+
 }
 .pause-btn{
     position:fixed;
@@ -497,12 +468,7 @@ body.paused *{
     animation-play-state:paused !important;
 }
 
-/* fade particles + glow */
-body.paused .particle,
-body.paused .cursor-glow{
-    opacity:0;
-    transition:opacity 0.4s ease;
-}
+
 </style>
 </head>
 
@@ -580,35 +546,8 @@ toggle.onclick=()=>{
   }
 };
 
-/* cursor glow + dust */
-const glow=document.createElement("div");
-glow.className="cursor-glow";
-document.body.appendChild(glow);
 
-document.addEventListener("mousemove",e=>{
-  glow.style.left=e.clientX+"px";
-  glow.style.top=e.clientY+"px";
 
-  for(let i=0;i<2;i++){
-    let d=document.createElement("div");
-    d.className="dust";
-
-    d.style.left=(e.clientX+Math.random()*10-5)+"px";
-    d.style.top=(e.clientY+Math.random()*10-5)+"px";
-
-    document.body.appendChild(d);
-    setTimeout(()=>d.remove(),1000);
-  }
-});
-
-/* floating particles */
-for(let i=0;i<15;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(12+Math.random()*18)+"s";
-  document.body.appendChild(p);
-}
 /* ===== SAFE PAUSE PATCH (non-breaking) ===== */
 
 const pauseBtn = document.getElementById("pauseBtn");

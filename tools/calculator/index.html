@@ -125,18 +125,6 @@ body.dark .toggle{background:#2f3640;border:2px solid rgba(255,255,255,0.3);}
 .toggle-circle{width:28px;height:28px;background:white;position:absolute;top:1px;left:2px;border-radius:50%;transition:.35s;display:flex;align-items:center;justify-content:center;}
 .toggle.active .toggle-circle{left:33px;}
 
-/* FX (UNCHANGED) */
-.cursor-glow{
-    position:fixed;width:250px;height:250px;
-    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
-    pointer-events:none;transform:translate(-50%,-50%);
-}
-.dust{
-    position:fixed;width:6px;height:6px;
-    background:rgba(120,150,255,0.7);
-    border-radius:50%;pointer-events:none;
-    filter:blur(2px);animation:dustFade 1s linear forwards;
-}
 @keyframes dustFade{to{opacity:0;transform:translateY(-20px) scale(.5);}}
 .particle{
     position:fixed;width:5px;height:5px;border-radius:50%;

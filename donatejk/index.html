@@ -184,22 +184,6 @@ body.dark .toggle{
 .toggle.active .toggle-circle{left:33px;}
 
 /* ================= FX ================= */
-.cursor-glow{
-    position:fixed;
-    width:250px;height:250px;
-    background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
-    pointer-events:none;
-    transform:translate(-50%,-50%);
-}
-
-.dust{
-    position:fixed;
-    width:6px;height:6px;
-    background:rgba(120,150,255,0.7);
-    border-radius:50%;
-    filter:blur(2px);
-    animation:dustFade 1s linear forwards;
-}
 
 @keyframes dustFade{
     to{opacity:0;transform:translateY(-20px) scale(0.5);}
