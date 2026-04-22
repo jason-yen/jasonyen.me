@@ -107,58 +107,6 @@ body{
   line-height:1.6;
 }
 
-/* ================= SMOOTH SUBTLE RIPPLE FRAME ================= */
-:root{
-  --glow:0.12;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:-50%;
-  border-radius:22px;
-  pointer-events:none;
-  z-index:10000;
-
-  background: linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(0,200,255,0.5),
-    rgba(180,120,255,0.5),
-    transparent 70%
-  );
-
-  background-size: 300% 300%;
-  animation: smoothMove 6s linear infinite;
-  will-change: transform;
-  transform: translate3d(0,0,0);
-  filter: blur(0.3px);
-
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-
-  padding:2px;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  border-radius:22px;
-  pointer-events:none;
-  z-index:9999;
-
-  box-shadow:
-    0 0 calc(18px * var(--glow)) rgba(0,200,255,0.2),
-    0 0 calc(30px * var(--glow)) rgba(180,120,255,0.18);
-}
-
-@keyframes smoothMove{
-  0% { transform: translateX(-25%) translateY(0); }
-  100% { transform: translateX(25%) translateY(0); }
-}
-
 /* ================= DISABLE ON MOBILE ================= */
 @media (max-width: 600px){
   body::before,
@@ -422,59 +370,15 @@ body.dark .toggle{
 
 
 }
-.pause-btn{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:52px;
-    height:52px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    z-index:10003;
 
-    background:rgba(255,255,255,0.25);
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,0.4);
 
-    font-size:20px;
-    color:#536DFE;
-}
-
-body.dark .pause-btn{
-    background:rgba(0,0,0,0.4);
-    color:#fff;
-}
-
-.pause-overlay{
-    position:fixed;
-    inset:0;
-    z-index:10000;
-    pointer-events:none;
-    opacity:0;
-    background:rgba(10,10,20,0);
-    transition:0.4s;
-}
-
-body.paused .pause-overlay{
-    opacity:1;
-    background:rgba(10,10,20,0.15);
-}
-
-/* pause animations safely */
-body.paused *{
-    animation-play-state:paused !important;
-}
 
 
 </style>
 </head>
 
 <body>
-<div id="pauseBtn" class="pause-btn">⏸</div>
-<div id="pauseOverlay" class="pause-overlay"></div>
+
 <div class="navbar">
   <div class="navbar-content">
     <a href="/"><img src="/images/WardenmonsterLogo.PNG" class="nav-logo"></a>
@@ -548,25 +452,7 @@ toggle.onclick=()=>{
 
 
 
-/* ===== SAFE PAUSE PATCH (non-breaking) ===== */
 
-const pauseBtn = document.getElementById("pauseBtn");
-let isPaused = localStorage.getItem("paused") === "true";
-
-/* apply state */
-function setPaused(state){
-    isPaused = state;
-    document.body.classList.toggle("paused", isPaused);
-    pauseBtn.textContent = isPaused ? "▶︎" : "⏸";
-    localStorage.setItem("paused", isPaused);
-}
-
-setPaused(isPaused);
-
-/* toggle */
-pauseBtn.addEventListener("click", () => {
-    setPaused(!isPaused);
-});
 
 /* ===== HOOK INTO EXISTING EFFECTS (no rewrites) ===== */
 

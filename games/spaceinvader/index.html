@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>blank page</title>
+<title>jasonyen.me</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
+<canvas id="gameCanvas" width="600" height="500" style="display:block;margin:80px 20px;border-radius:12px;background:#000;"></canvas><style>
 *{
   box-sizing:border-box;
   margin:0;
@@ -17,22 +17,27 @@
 body{
   font-family:'Fredoka',sans-serif;
   font-size:18px;
-  background:#f5f6fa;
-  transition:background 0.4s,color 0.4s;
+  background-color:#f5f6fa;
   overflow-x:hidden;
+  transition: background 0.4s,color 0.4s;
+  line-height:1.6;
 }
 
-/* FX FRAME */
+/* FRAME */
+:root{ --glow:0.12; }
+
 body::before{
   content:"";
   position:fixed;
   inset:-50%;
+  border-radius:22px;
   pointer-events:none;
   z-index:10000;
-  background:linear-gradient(120deg,transparent,rgba(0,200,255,0.4),rgba(180,120,255,0.4),transparent);
+  background: linear-gradient(120deg,transparent 30%,rgba(0,200,255,0.5),rgba(180,120,255,0.5),transparent 70%);
   background-size:300% 300%;
-  animation:move 6s linear infinite;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  animation:smoothMove 6s linear infinite;
+  filter:blur(0.3px);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
   mask-composite:exclude;
   padding:2px;
@@ -44,26 +49,22 @@ body::after{
   inset:0;
   pointer-events:none;
   z-index:9999;
-  box-shadow:0 0 18px rgba(0,200,255,0.2),0 0 30px rgba(180,120,255,0.18);
+  box-shadow:0 0 calc(18px * var(--glow)) rgba(0,200,255,0.2),
+             0 0 calc(30px * var(--glow)) rgba(180,120,255,0.18);
 }
 
-@keyframes move{
+@keyframes smoothMove{
   0%{transform:translateX(-25%);}
   100%{transform:translateX(25%);}
 }
 
-/* DARK MODE */
-body.dark{
-  color:#e6e6e6;
-  background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-  background-size:400% 400%;
-  animation:grad 18s ease infinite;
-}
-
-@keyframes grad{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+/* DISABLE FRAME ON MOBILE (FROM CODE 1) */
+@media (max-width:600px){
+  body::before,
+  body::after{
+    display:none;
+    content:none !important;
+  }
 }
 
 /* NAVBAR */
@@ -73,36 +74,44 @@ body.dark{
   width:100%;
   height:60px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:0 20px;
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(20px);
-  z-index:10001;
+  z-index:9999;
 }
-
+#gameCanvas{
+  display:block;
+  margin:40px 20px; /* top/bottom + left/right spacing */
+  border-radius:12px;
+  background:#000;
+}
 .navbar-content{
   display:flex;
-  gap:18px;
   align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
 .navbar a{
   color:#536DFE;
   text-decoration:none;
-  font-size:15px;
+  font-size:18px;
   position:relative;
+  white-space:nowrap;
 }
 
 .navbar a::after{
   content:"";
   position:absolute;
-  bottom:-3px;
   left:0;
-  width:0;
-  height:2px;
+  bottom:-3px;
+  width:0%;
+  height:3px;
   background:#536DFE;
-  transition:0.3s;
+  border-radius:2px;
+  transition:width 0.3s ease;
 }
 
 .navbar a:hover::after{
@@ -110,9 +119,35 @@ body.dark{
 }
 
 .nav-logo{
-  width:40px;
-  height:40px;
-  border-radius:10px;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  transition:transform 0.25s ease,box-shadow 0.25s ease;
+}
+
+.nav-logo:hover{
+  transform:scale(1.08);
+  box-shadow:0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* MAIN */
+.main-content{
+  margin-top:80px;
+  padding:20px;
+}
+
+/* DARK MODE */
+body.dark{
+  color:#e6e6e6;
+  background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+  background-size:400% 400%;
+  animation:gradientMove 18s ease infinite;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
 
 /* TOGGLE */
@@ -133,20 +168,22 @@ body.dark .toggle{
 
 .toggle.active{
   background:#536DFE;
+  border:2px solid #536DFE;
+  box-shadow:0 0 10px rgba(83,109,254,0.6);
 }
 
 .toggle-circle{
   width:28px;
   height:28px;
-  background:#fff;
-  border-radius:50%;
+  background:white;
   position:absolute;
   top:1px;
   left:2px;
+  border-radius:50%;
   transition:0.35s;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   font-size:14px;
 }
 
@@ -154,27 +191,34 @@ body.dark .toggle{
   left:33px;
 }
 
-/* FX */
 
-
-@keyframes fade{
-  to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
-
-.particle{
-  position:fixed;
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  animation:float linear infinite;
-}
 
 @keyframes float{
   from{transform:translateY(100vh);}
   to{transform:translateY(-10vh);}
 }
 
+/* MOBILE NAVBAR + TEXT (FROM CODE 1) */
+@media (max-width:600px){
+  .navbar{
+    padding:0 15px;
+    height:55px;
+  }
+
+  .navbar-content{
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  .navbar a{
+    font-size:16px;
+  }
+
+  .main-content{
+    margin-top:70px;
+    padding:15px;
+  }
+}
 </style>
 </head>
 
@@ -194,9 +238,9 @@ body.dark .toggle{
   </div>
 </div>
 
-<script>
+<div class="main-content"></div>
 
-/* DARK MODE */
+<script>
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
@@ -227,18 +271,8 @@ document.body.appendChild(glow);
 document.addEventListener("mousemove",e=>{
   glow.style.left=e.clientX+"px";
   glow.style.top=e.clientY+"px";
-
-  for(let i=0;i<2;i++){
-    let d=document.createElement("div");
-    d.className="dust";
-    d.style.left=(e.clientX+Math.random()*10-5)+"px";
-    d.style.top=(e.clientY+Math.random()*10-5)+"px";
-    document.body.appendChild(d);
-    setTimeout(()=>d.remove(),1000);
-  }
 });
 
-/* particles */
 for(let i=0;i<15;i++){
   let p=document.createElement("div");
   p.className="particle";
@@ -246,6 +280,114 @@ for(let i=0;i<15;i++){
   p.style.animationDuration=(12+Math.random()*18)+"s";
   document.body.appendChild(p);
 }
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+let player = {
+  x: canvas.width / 2 - 20,
+  y: canvas.height - 40,
+  w: 40,
+  h: 20,
+  speed: 5
+};
+
+let bullets = [];
+let enemies = [];
+let enemyDirection = 1;
+
+// create enemies
+for (let r = 0; r < 4; r++) {
+  for (let c = 0; c < 8; c++) {
+    enemies.push({
+      x: 60 + c * 60,
+      y: 40 + r * 40,
+      w: 30,
+      h: 20
+    });
+  }
+}
+
+let keys = {};
+
+document.addEventListener("keydown", e => {
+  keys[e.key] = true;
+
+  if (e.key === " ") {
+    bullets.push({
+      x: player.x + player.w / 2 - 2,
+      y: player.y,
+      w: 4,
+      h: 10
+    });
+  }
+});
+
+document.addEventListener("keyup", e => {
+  keys[e.key] = false;
+});
+
+function update() {
+  // player movement
+  if (keys["ArrowLeft"]) player.x -= player.speed;
+  if (keys["ArrowRight"]) player.x += player.speed;
+
+  player.x = Math.max(0, Math.min(canvas.width - player.w, player.x));
+
+  // bullets
+  bullets.forEach(b => b.y -= 6);
+  bullets = bullets.filter(b => b.y > 0);
+
+  // enemies move
+  let hitEdge = false;
+  enemies.forEach(e => {
+    e.x += enemyDirection * 1.5;
+    if (e.x < 0 || e.x + e.w > canvas.width) hitEdge = true;
+  });
+
+  if (hitEdge) {
+    enemyDirection *= -1;
+    enemies.forEach(e => e.y += 10);
+  }
+
+  // collision
+  bullets.forEach((b, bi) => {
+    enemies.forEach((e, ei) => {
+      if (
+        b.x < e.x + e.w &&
+        b.x + b.w > e.x &&
+        b.y < e.y + e.h &&
+        b.y + b.h > e.y
+      ) {
+        enemies.splice(ei, 1);
+        bullets.splice(bi, 1);
+      }
+    });
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // player
+  ctx.fillStyle = "#00ffcc";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  // bullets
+  ctx.fillStyle = "#ffffff";
+  bullets.forEach(b => ctx.fillRect(b.x, b.y, b.w, b.h));
+
+  // enemies
+  ctx.fillStyle = "#ff4d6d";
+  enemies.forEach(e => ctx.fillRect(e.x, e.y, e.w, e.h));
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
 
 </script>
 
