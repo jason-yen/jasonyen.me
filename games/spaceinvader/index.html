@@ -6,7 +6,6 @@
 <title>jasonyen.me</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
-  <canvas id="gameCanvas" width="600" height="500"></canvas>
 
   <style>
 *{
@@ -84,9 +83,7 @@ body::after{
 }
 #gameCanvas{
   display:block;
-  margin:40px 20px; /* top/bottom + left/right spacing */
-  border-radius:12px;
-  background:#000;
+  margin:20px 0; /* left aligned */
 }
 .navbar-content{
   display:flex;
@@ -239,8 +236,13 @@ body.dark .toggle{
   </div>
 </div>
 
-<div class="main-content"></div>
-<script>
+<div class="main-content">
+
+  <h1>Space Invaders {Beta}</h1>
+
+  <canvas id="gameCanvas" width="600" height="500"></canvas>
+
+</div><script>
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 

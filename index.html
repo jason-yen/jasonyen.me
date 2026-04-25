@@ -423,11 +423,19 @@ body.dark .toggle{
 
 <div class="footer">
   © 2026 jasonyen.me<br>
-  Built over 5 years • All rights reserved • Dec 15, 2021 <br>
+  Built over 5 years • All rights reserved • Started Dec 15, 2021  • Date: <span id="current-date"></span><br>
   ✰ (specifically in webpage links) means most updated account
 </div>
 
 <script>
+  const today = new Date();
+  const formatted = today.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  document.getElementById("current-date").textContent = formatted;
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
