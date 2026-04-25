@@ -7,7 +7,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link rel="icon" type="image/png" href="/images/WardenmonsterLogo.PNG">
 <style>
 
 /* ================= FOOTER ================= */
@@ -422,20 +422,11 @@ body.dark .toggle{
 </div>
 
 <div class="footer">
-  © 2026 jasonyen.me<br>
-  Built over 5 years • All rights reserved • Started Dec 15, 2021  • Date: <span id="current-date"></span><br>
-  ✰ (specifically in webpage links) means most updated account
+  ©<span id="current-dates"></span> • jasonyen.me<br>
+  Built over 5 years • All rights reserved   Started Dec 15, 2021  • Date: <span id="current-date"></span><br>
 </div>
 
 <script>
-  const today = new Date();
-  const formatted = today.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
-
-  document.getElementById("current-date").textContent = formatted;
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
@@ -469,6 +460,28 @@ document.addEventListener("mousemove", (e) => {
     if(!isPaused) return;
     e.stopImmediatePropagation();
 }, true);
+function getFormattedDateTime() {
+  return new Date().toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+const dateEl = document.getElementById('current-date');
+const yearEl = document.getElementById('current-dates');
+
+// Set immediately
+dateEl.textContent = getFormattedDateTime();
+yearEl.textContent = new Date().getFullYear();
+
+// Update live time every second
+setInterval(() => {
+  dateEl.textContent = getFormattedDateTime();
+}, 1000);
 </script>
 
 </body>
