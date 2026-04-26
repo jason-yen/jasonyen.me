@@ -352,31 +352,7 @@ toggle.onclick=()=>{
     localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");
 };
 
-/* cursor glow + particles */
-const glow=document.createElement("div");
-glow.className="cursor-glow";
-document.body.appendChild(glow);
 
-document.addEventListener("mousemove",e=>{
-    glow.style.left=e.clientX+"px";
-    glow.style.top=e.clientY+"px";
-    for(let i=0;i<2;i++){
-        let d=document.createElement("div");
-        d.className="dust";
-        d.style.left=(e.clientX+Math.random()*10-5)+"px";
-        d.style.top=(e.clientY+Math.random()*10-5)+"px";
-        document.body.appendChild(d);
-        setTimeout(()=>d.remove(),1000);
-    }
-});
-
-for(let i=0;i<25;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.animationDuration=(12+Math.random()*18)+"s";
-    document.body.appendChild(p);
-}
 </script>
 </body>
 </html>

@@ -415,7 +415,9 @@ function computerMove(){
         }
     }
 
-    makeMove(move);
+    setTimeout(() => {
+        makeMove(move);
+    }, 270);
 }
 
 function minimax(bd,d,isMax){
