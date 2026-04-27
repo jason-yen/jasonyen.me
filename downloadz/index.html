@@ -240,44 +240,63 @@ body.dark .toggle{
   }
 }
 /* ================= MOBILE NAVBAR (IMPROVED) ================= */
-@media (max-width:600px){
+@media (max-width: 600px){
 
   .navbar{
-    height:auto;
-    padding:10px 12px;
-    flex-direction:column;
-    align-items:stretch;
-    gap:8px;
+    height:55px;
+    padding:0 12px;
+
+    background:#f5f6fa; /* solid fallback = no white glitch */
+    border-bottom:1px solid rgba(0,0,0,0.06);
+
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+
+    z-index:9999;
+  }
+
+  body.dark .navbar{
+    background:#0f1117;
+    border-bottom:1px solid rgba(255,255,255,0.08);
   }
 
   .navbar-content{
     display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-wrap:nowrap;
     gap:12px;
+
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .navbar-content::-webkit-scrollbar{
+    display:none;
   }
 
   .navbar a{
-    font-size:15px;
+    font-size:14px;
+    white-space:nowrap;
+    flex-shrink:0;
   }
 
   .nav-logo{
-    width:36px;
-    height:36px;
+    width:34px;
+    height:34px;
+    flex-shrink:0;
   }
 
-  /* toggle centered below links */
   .toggle{
-    align-self:center;
-    transform:scale(0.9);
+    transform:scale(0.85);
+    flex-shrink:0;
   }
 
-  /* adjust mobile block spacing because navbar is taller now */
+  .main-content{
+    margin-top:55px;
+  }
+
   .mobile-block{
-    top:90px;
-    height:calc(100vh - 90px);
-    font-size:22px;
-    padding:25px;
+    top:55px;
+    height:calc(100vh - 55px);
   }
 }
 </style>
