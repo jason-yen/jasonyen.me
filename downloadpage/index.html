@@ -20,7 +20,7 @@ body{
     line-height:1.6;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 .navbar{
     position:fixed;
     top:0;
@@ -66,7 +66,6 @@ body{
     width:100%;
 }
 
-/* LOGO */
 .nav-logo{
     width:42px;
     height:42px;
@@ -80,55 +79,47 @@ body{
     box-shadow:0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* MAIN CONTENT */
+/* ================= MAIN ================= */
 .main-content{
     margin-top:80px;
     padding:20px;
-    max-width:700px;
 }
 
-/* TOOL SECTION */
+h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+/* ================= SECTIONS ================= */
 .section{
     margin-bottom:30px;
     padding-bottom:10px;
+    border-bottom:2px solid rgba(0,0,0,0.1);
 }
 
-textarea{
-    width:100%;
-    height:100px;
-    border-radius:10px;
-    padding:10px;
-    font-size:16px;
-    border:none;
-    outline:none;
-    font-family:'Fredoka',sans-serif;
+body.dark .section{
+    border-bottom:2px solid rgba(255,255,255,0.25);
 }
 
+/* ================= BUTTONS ================= */
 .game-link{
     display:inline-block;
     margin:10px 10px 0 0;
-    padding:12px 24px;
+    padding:14px 26px; /* slightly bigger = easier to click */
     background-color:#4c5eaf;
     color:white;
     border-radius:10px;
-    border:none;
-    cursor:pointer;
-    font-family:'Fredoka',sans-serif;
+    text-decoration:none;
+    font-size:18px;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
 }
 
-/* RESULT */
-#outputText{
-    margin-top:30px; /* more space below buttons */
-    padding:10px;
-    background:rgba(0,0,0,0.05);
-    border-radius:10px;
-    letter-spacing:0.2em; /* spaced out more */
-    min-height:50px;
-    font-family:'Fredoka',sans-serif;
-    word-break:break-word;
+.game-link:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
 }
 
-/* DARK MODE */
+/* ================= DARK MODE ================= */
 body.dark{
     color:#e6e6e6;
     background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
@@ -142,7 +133,7 @@ body.dark{
     100%{background-position:0% 50%;}
 }
 
-/* TOGGLE */
+/* ================= TOGGLE ================= */
 .toggle{
     width:65px;
     height:34px;
@@ -183,24 +174,44 @@ body.dark .toggle{
     left:33px;
 }
 
-/* FX */
 
 
-@keyframes floatUp{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
+@keyframes dustFade{
+    to{opacity:0;transform:translateY(-20px) scale(0.5);}
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 @media (max-width: 600px){
-    .main-content{margin-top:70px;padding:15px;}
-    textarea{height:80px;}
+    .navbar{
+        padding:0 15px;
+        height:55px;
+    }
+    .navbar-content{
+        gap:10px;
+        flex-wrap:wrap;
+    }
+    .navbar a{
+        font-size:16px;
+    }
+    .main-content{
+        margin-top:70px;
+        padding:15px;
+    }
+    h1{
+        font-size:28px;
+    }
+    .game-link{
+        font-size:16px;
+        padding:12px 20px;
+    }
+    .cursor-glow,.dust{
+        display:none;
+    }
 }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <div class="navbar-content">
     <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
@@ -215,22 +226,18 @@ body.dark .toggle{
     </div>
 </div>
 
-<!-- MAIN TOOL -->
 <div class="main-content">
+    <h1>Exhibit</h1>
+
     <div class="section">
-        <h2>Encoder / Decoder</h2><br>
-        <textarea id="inputText" placeholder="Enter text..."></textarea><br>
+        <strong>Choose a Page:</strong><br>
+        <a href="/games/downloadz2" class="game-link">Essays</a>
+        <a href="/games/downloadz" class="game-link">STLs</a>
 
-        <button class="game-link" onclick="encodeText()">Encode</button>
-        <button class="game-link" onclick="decodeText()">Decode</button>
-
-        <p><strong>Result:</strong></p>
-        <div id="outputText"></div>
     </div>
 </div>
 
 <script>
-// Dark mode toggle with localStorage
 const toggle=document.getElementById("toggle");
 const icon=document.getElementById("icon");
 
@@ -238,8 +245,6 @@ if(localStorage.getItem("darkMode")==="on"){
     document.body.classList.add("dark");
     toggle.classList.add("active");
     icon.textContent="☀️";
-} else {
-    icon.textContent="🌙";
 }
 
 toggle.onclick=()=>{
@@ -254,7 +259,7 @@ toggle.onclick=()=>{
     }
 };
 
-// FX
+/* cursor glow + dust */
 const glow=document.createElement("div");
 glow.className="cursor-glow";
 document.body.appendChild(glow);
@@ -262,97 +267,15 @@ document.body.appendChild(glow);
 document.addEventListener("mousemove",e=>{
     glow.style.left=e.clientX+"px";
     glow.style.top=e.clientY+"px";
+    for(let i=0;i<2;i++){
+        let d=document.createElement("div");
+        d.className="dust";
+        d.style.left=(e.clientX+Math.random()*10-5)+"px";
+        d.style.top=(e.clientY+Math.random()*10-5)+"px";
+        document.body.appendChild(d);
+        setTimeout(()=>d.remove(),1000);
+    }
 });
-
-for(let i=0;i<25;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.animationDuration=(12+Math.random()*18)+"s";
-    document.body.appendChild(p);
-}
-
-// ===== CIPHER =====
-function swapChar(ch){
-    let c=ch.charCodeAt(0);
-    if(c>=97&&c<=122) return String.fromCharCode(c%2===0?c-1:c+1);
-    if(c>=65&&c<=90) return String.fromCharCode(c%2===0?c-1:c+1);
-    return ch;
-}
-
-const map={a:"!",b:"@",c:"#",d:"$",e:"%",f:"^",g:"&",h:"*",i:"(",j:")",k:"-",l:"_",m:"=",n:"+",o:"[",p:"]",q:"{",r:"}",s:";",t:":",u:"'",v:'"',w:"<",x:">",y:"?",z:"/"};
-const rev=Object.fromEntries(Object.entries(map).map(([k,v])=>[v,k]));
-
-const flip={"!":"¡","¡":"!","?":"¿","¿":"?","(":")",")":"(","<":">",">":"<","[":"]","]":"[","{":"}","}":"{","/":"\\","\\":"/"};
-const f=c=>flip[c]||c;
-
-const revWords=t=>t.split(" ").map(w=>w.split("").reverse().join("")).join(" ");
-
-// ✅ FIXED (no overwriting)
-function shiftF(t){
-    let w = t.split(" ");
-    let n = w.length;
-    if(n === 0) return t;
-
-    let shift = n % 5 + 1; // deterministic but safe
-    shift = shift % n;
-
-    return w.slice(-shift).concat(w.slice(0, -shift)).join(" ");
-}
-
-function shiftB(t){
-    let w = t.split(" ");
-    let n = w.length;
-    if(n === 0) return t;
-
-    let shift = n % 5 + 1;
-    shift = shift % n;
-
-    return w.slice(shift).concat(w.slice(0, shift)).join(" ");
-}
-
-// ✅ FIXED (reverse safely)
-function shiftB(t){
-    let w=t.split(" "),n=w.length;
-    let r=Array.from({length:n},()=>[]);
-
-    for(let i=0;i<n;i++){
-        let s=w[i].length % n;
-        r[(i-s+n)%n].push(w[i]);
-    }
-
-    return r.flat().join(" ");
-}
-
-// ENCODE (stable)
-function encodeText(){
-    let input = document.getElementById("inputText").value.toLowerCase();
-
-    // reverse each word (safe operation)
-    let reversed = revWords(input);
-
-    let t="";
-    for(let ch of reversed){
-        let s = swapChar(ch);
-        t += f(map[s] || ch);
-    }
-
-    document.getElementById("outputText").textContent = t;
-}
-
-function decodeText(){
-    let input = document.getElementById("inputText").value; // ✅ FIX
-
-    let temp="";
-    for(let ch of input){
-        let l = rev[f(ch)];
-        temp += l ? swapChar(l) : ch;
-    }
-
-    let result = revWords(temp);
-
-    document.getElementById("outputText").textContent = result;
-}
 </script>
 
 </body>
