@@ -10,87 +10,6 @@
 <link rel="icon" type="image/png" href="/images/favicon.png">
 <style>
 
-/* ================= FOOTER ================= */
-/* ================= LAYOUT FIX (sticky footer) ================= */
-.footer{
-  margin-top:80px;
-  padding:80px 20px 40px;
-
-  background:linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(212,220,251,0.5) 25%,
-    #D4DCFB 55%,
-    #cfd8ff 100%
-  );
-
-  color:#111;
-  text-align:center;
-  font-family:'Spectral', serif;
-  font-size:15px;
-  line-height:1.7;
-  position:relative;
-  overflow:hidden;
-  backdrop-filter: blur(6px);
-}
-
-/* animated glow line */
-.footer::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-50%;
-  width:200%;
-  height:2px;
-
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(0,200,255,0.6),
-    rgba(180,120,255,0.6),
-    transparent
-  );
-
-  animation: footerGlow 6s linear infinite;
-  will-change: transform;
-}
-
-@keyframes footerGlow{
-  0% { transform: translateX(-25%); }
-  100% { transform: translateX(25%); }
-}
-
-/* links */
-.footer a{
-  color:#444;
-  text-decoration:none;
-  margin:0 6px;
-  transition:color 0.25s ease;
-}
-
-.footer a:hover{
-  color:#000;
-}
-
-/* ================= DARK MODE ================= */
-body.dark .footer{
-  background:#000;
-  color:#fff;
-}
-
-body.dark .footer a{ color:#aaa; }
-body.dark .footer a:hover{ color:#fff; }
-
-body.dark .footer::before{
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(0,200,255,0.7),
-    rgba(180,120,255,0.7),
-    transparent
-  );
-}
-
 /* ================= GLOBAL ================= */
 *{
   box-sizing:border-box;
@@ -371,8 +290,81 @@ body.dark .toggle{
 
 }
 
+.log-container{
+  margin-top:20px;
+  padding:15px;
+  background:#0f1117;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+  max-height:400px;
+  overflow-y:auto;
+  font-size:14px;
+  font-family:monospace;
+}
 
+/* scrollbar (clean) */
+.log-container::-webkit-scrollbar{
+  width:8px;
+}
+.log-container::-webkit-scrollbar-thumb{
+  background:#444;
+  border-radius:10px;
+}
 
+.log-entry{
+  padding:8px 10px;
+  border-left:3px solid #536DFE;
+  margin-bottom:6px;
+  background:rgba(255,255,255,0.03);
+  border-radius:6px;
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+}
+
+/* alternating rows */
+.log-entry:nth-child(even){
+  background:rgba(255,255,255,0.06);
+}
+
+.log-time{
+  font-size:12px;
+  color:#8ab4ff;
+  min-width:140px;
+}
+
+/* message text */
+.log-entry span:last-child{
+  color:#e6e6e6;
+  word-break:break-word;
+}
+.log-time{
+  font-size:12px;
+  opacity:0.6;
+  margin-right:8px;
+}
+.log-input{
+  padding:10px 14px;
+  border-radius:10px;
+  border:2px solid rgba(0,0,0,0.15);
+  font-family:'Fredoka',sans-serif;
+  font-size:16px;
+  outline:none;
+  width:250px;
+  margin-right:10px;
+  transition:0.2s;
+}
+
+.log-input:focus{
+  border-color:#536DFE;
+  box-shadow:0 0 8px rgba(83,109,254,0.3);
+}
+
+body.dark .log-input{
+  background:#1e2233;
+  color:#eee;
+  border:2px solid rgba(255,255,255,0.2);
+}
 
 </style>
 </head>
@@ -395,42 +387,19 @@ body.dark .toggle{
 </div>
 
 <div class="main-content">
-  <h1>✰ Jasonyen.me Official Webpage ✰</h1>
+  <h1>Log</h1>
 
-  <div class="about-me">
-    Check Footer For Rights.
-  </div>
 
-  <div class="section">
-    <strong>Choose a subpage:</strong><br>
-    <a href="/games" class="game-link">Games</a>
-    <a href="/tools" class="game-link">Tools</a>
-    <a href="/donatejk" class="game-link">Donate</a>
-    <a href="/ai" class="game-link">Search Engine</a>
-  </div>
 
-  <div class="section">
-    <strong>Choose a webpage:</strong><br>
-    <a href="https://www.printables.com/@wardenmonster" class="game-link">✰ Printables ✰</a>
-    <a href="https://www.tinkercad.com/users/8Y0kQeRvjsZ/" class="game-link">Tinkercad</a>
-    <a href="https://scratch.mit.edu/users/wardenmonster/" class="game-link">Scratch</a>
-    <a href="https://makerworld.com/en/@wardenmonster" class="game-link">Makerworld</a>
-  </div>
-
-  <div class="bottom-image">
-    <img src="/images/WardenmonsterLogo.PNG">
-  </div>
+<div style="margin-bottom:15px;">
+  <input id="log-input" type="text" placeholder="Enter log message..." class="log-input">
+  <button class="game-link" onclick="submitLog()">Add Log</button>
 </div>
+<button class="game-link" onclick="clearLogs()" style="background:#e74c3c;">
+  Clear Logs
+</button>
+<div id="log-container" class="log-container"></div>
 
-<div class="footer">
-  ©<span id="current-dates"></span> • jasonyen.me<br>
-    ────────────────────────────────────────────────────────<br>
-  Built over 5 years • All rights reserved   Started Dec 15, 2021  • Date: <span id="current-date"></span><br>
-  ──────────────────────────────────────────────────────── <br>
-      <a href="https://jasonyen.me/loggings" class="game-link">Log
-      </a>
-
-</div>
 
 <script>
 const toggle=document.getElementById("toggle");
@@ -455,9 +424,66 @@ toggle.onclick=()=>{
   }
 };
 
+function submitLog(){
+  const input = document.getElementById("log-input");
+  const value = input.value.trim();
 
+  if(value === "") return;
 
+  addLog(value);
+  input.value = "";
+}
 
+// press Enter to submit
+document.getElementById("log-input").addEventListener("keypress", function(e){
+  if(e.key === "Enter"){
+    submitLog();
+  }
+});
+
+const logContainer = document.getElementById("log-container");
+
+function addLog(message){
+  const entry = document.createElement("div");
+  entry.className = "log-entry";
+
+  const time = document.createElement("span");
+  time.className = "log-time";
+  time.textContent = `[${getFormattedDateTime()}]`;
+
+  const text = document.createElement("span");
+  text.textContent = message;
+
+  entry.appendChild(time);
+  entry.appendChild(text);
+
+  logContainer.prepend(entry);
+
+  // highlight new log briefly
+  entry.style.background = "rgba(83,109,254,0.2)";
+  setTimeout(() => {
+    entry.style.background = "";
+  }, 500);
+
+  saveLogs();
+}
+function saveLogs(){
+  localStorage.setItem("logs", logContainer.innerHTML);
+}
+function clearLogs(){
+  if(!confirm("Delete all logs?")) return;
+
+  logContainer.innerHTML = "";
+  localStorage.removeItem("logs");
+}
+function loadLogs(){
+  const saved = localStorage.getItem("logs");
+  if(saved){
+    logContainer.innerHTML = saved;
+  }
+}
+
+loadLogs();
 
 /* ===== HOOK INTO EXISTING EFFECTS (no rewrites) ===== */
 
