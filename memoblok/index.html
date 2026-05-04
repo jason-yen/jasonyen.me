@@ -1,434 +1,700 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jasonyen.me</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="/images/favicon.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jasonyen.me</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-/* ================= GLOBAL ================= */
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Fredoka',sans-serif;}
-body{font-size:18px;line-height:1.6;background-color:#f5f6fa;overflow-x:hidden;transition: background 0.4s,color 0.4s;}
+    <style>
+      /* ================= GLOBAL ================= */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Fredoka", sans-serif;
+      }
+      body {
+        font-size: 18px;
+        line-height: 1.6;
+        background-color: #f5f6fa;
+        overflow-x: hidden;
+        transition:
+          background 0.4s,
+          color 0.4s;
+      }
 
-/* ================= NAVBAR ================= */
-.navbar{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(20px);
-    z-index:9999;
-}
+      /* ================= NAVBAR ================= */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+      }
 
-.navbar-content{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.navbar a{
-    color:#536DFE;
-    text-decoration:none;
-    font-size:18px;
-    position:relative;
-    white-space:nowrap;
-}
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
 
-.navbar a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-3px;
-    width:0%;
-    height:3px;
-    background:#536DFE;
-    border-radius:2px;
-    transition:width 0.3s ease;
-}
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 3px;
+        background: #536dfe;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
 
-.navbar a:hover::after{width:100%;}
+      .navbar a:hover::after {
+        width: 100%;
+      }
 
-.nav-logo{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:block;
-    transition:transform 0.25s ease,box-shadow 0.25s ease;
-}
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: block;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
 
-.nav-logo:hover{
-    transform:scale(1.08);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
-}
+      .nav-logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
 
-/* ================= DARK MODE TOGGLE ================= */
-.toggle{
-    width:65px;
-    height:34px;
-    border-radius:50px;
-    cursor:pointer;
-    position:relative;
-    background:#dcdde1;
-    border:2px solid rgba(0,0,0,0.2);
-}
+      /* ================= DARK MODE TOGGLE ================= */
+      .toggle {
+        width: 65px;
+        height: 34px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+      }
 
-body.dark .toggle{
-    background:#2f3640;
-    border:2px solid rgba(255,255,255,0.3);
-}
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
 
-.toggle.active{
-    background:#536DFE;
-    border:2px solid #536DFE;
-    box-shadow:0 0 10px rgba(83,109,254,0.6);
-}
+      .toggle.active {
+        background: #536dfe;
+        border: 2px solid #536dfe;
+        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
+      }
 
-.toggle-circle{
-    width:28px;
-    height:28px;
-    background:white;
-    position:absolute;
-    top:1px;
-    left:2px;
-    border-radius:50%;
-    transition:0.35s;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:14px;
-}
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+        background: white;
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        border-radius: 50%;
+        transition: 0.35s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+      }
 
-.toggle.active .toggle-circle{
-    left:33px;
-}
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
 
-/* ================= MAIN CONTENT ================= */
-.main-content{
-    margin-top:80px;
-    padding:20px;
-}
+      /* ================= MAIN CONTENT ================= */
+      .main-content {
+        margin-top: 80px;
+        padding: 20px;
+      }
 
-h1{font-size:36px;margin-bottom:20px;text-align:center;color:#536DFE;}
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #536dfe;
+      }
 
-/* ================= BOARD STYLES ================= */
-#board-container{
-    margin-top:40px;
-    padding:20px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.25);
-    backdrop-filter:blur(10px);
-    box-shadow:0 5px 25px rgba(0,0,0,0.15);
-}
+      /* ================= BOARD STYLES ================= */
+      #board-container {
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+      }
 
-#search{
-    display:block;
-    margin:0 auto 20px;
-    padding:10px;
-    width:280px;
-    border-radius:10px;
-    border:1px solid #ccc;
-}
+      #search {
+        display: block;
+        margin: 0 auto 20px;
+        padding: 10px;
+        width: 280px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+      }
 
-#board{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-}
+      #board {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.column{
-    flex:1;
-    min-width:250px;
-    padding:15px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.35);
-    backdrop-filter:blur(10px);
-    transition:.25s;
-    box-shadow:0 4px 20px rgba(0,0,0,0.1);
-}
+      .column {
+        flex: 1;
+        min-width: 250px;
+        padding: 15px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(10px);
+        transition: 0.25s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
 
-.column h3{
-    margin-bottom:15px;
-}
+      .column h3 {
+        margin-bottom: 15px;
+      }
 
-/* ================= BLOCK ================= */
-.block{
-    background:rgba(255,255,255,0.6);
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:15px;
-    cursor:pointer;
-    animation:fadeIn .4s ease;
-    transition:.25s;
-    display:flex;
-    flex-direction:column;
-    color:#536DFE; /* same as "My Board" */
-}
+      /* ================= BLOCK ================= */
+      .block {
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        animation: fadeIn 0.4s ease;
+        transition: 0.25s;
+        display: flex;
+        flex-direction: column;
+        color: #536dfe; /* same as "My Board" */
+      }
 
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;}}
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+        }
+      }
 
-.block:hover{
-    transform:translateY(-6px) scale(1.02);
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
-}
+      .block:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
 
-.block.dragging{opacity:0.5;transform:scale(0.98);}
-.block.selected{outline:3px solid #536DFE;}
-.desc{font-size:13px;opacity:0.9;margin:5px 0;}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0;}
-.tag{background:#536DFE;color:white;padding:3px 7px;border-radius:6px;font-size:12px;cursor:pointer;}
+      .block.dragging {
+        opacity: 0.5;
+        transform: scale(0.98);
+      }
+      .block.selected {
+        outline: 3px solid #536dfe;
+      }
+      .desc {
+        font-size: 13px;
+        opacity: 0.9;
+        margin: 5px 0;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 6px 0;
+      }
+      .tag {
+        background: #536dfe;
+        color: white;
+        padding: 3px 7px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+      }
 
-.value-display{text-align:center;font-size:20px;margin:8px 0;color:#536DFE;}
+      .value-display {
+        text-align: center;
+        font-size: 20px;
+        margin: 8px 0;
+        color: #536dfe;
+      }
 
-button{margin:3px;border:none;border-radius:8px;padding:5px 10px;background:#536DFE;color:white;cursor:pointer;}
-button.plus, button.minus{width:40px;height:40px;padding:0;font-size:20px;}
+      button {
+        margin: 3px;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 10px;
+        background: #536dfe;
+        color: white;
+        cursor: pointer;
+      }
+      button.plus,
+      button.minus {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        font-size: 20px;
+      }
 
-/* ================= ADD BLOCK ================= */
-#addBlockBtn{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:#536DFE;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    z-index:1000;
-    flex-direction:column;
-}
+      /* ================= ADD BLOCK ================= */
+      #addBlockBtn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: #536dfe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        flex-direction: column;
+      }
 
-.plus-sign{font-size:32px;color:white;}
+      .plus-sign {
+        font-size: 32px;
+        color: white;
+      }
 
-#addBlockBtn.expand{
-    width:320px;height:480px;border-radius:20px;right:50%;bottom:50%;transform:translate(50%,50%);background:white;
-}
+      #addBlockBtn.expand {
+        width: 320px;
+        height: 480px;
+        border-radius: 20px;
+        right: 50%;
+        bottom: 50%;
+        transform: translate(50%, 50%);
+        background: white;
+      }
 
-.modal-content{display:none;padding:20px;width:100%;flex-direction:column;gap:10px;}
-#addBlockBtn.expand .modal-content{display:flex;}
-input,textarea{padding:8px;border-radius:8px;border:1px solid #ccc;width:100%;}
+      .modal-content {
+        display: none;
+        padding: 20px;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #addBlockBtn.expand .modal-content {
+        display: flex;
+      }
+      input,
+      textarea {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 100%;
+      }
 
-/* ================= GRAPH MODAL ================= */
-#graphModal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.7);
-    justify-content:center;
-    align-items:center;
-    z-index:2000;
-}
-.chart-wrap{position:relative;}
-#backBtn{position:absolute;top:-35px;left:0;background:white;color:black;}
-canvas{background:white;border-radius:10px;padding:10px;}
+      /* ================= GRAPH MODAL ================= */
+      #graphModal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+      }
+      .chart-wrap {
+        position: relative;
+      }
+      #backBtn {
+        position: absolute;
+        top: -35px;
+        left: 0;
+        background: white;
+        color: black;
+      }
+      canvas {
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+      }
 
+      @keyframes dustFade {
+        to {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.5);
+        }
+      }
 
+      .particle {
+        position: fixed;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        animation: floatUp linear infinite;
+      }
 
-@keyframes dustFade{
-    to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
+      @keyframes floatUp {
+        from {
+          transform: translateY(100vh);
+        }
+        to {
+          transform: translateY(-10vh);
+        }
+      }
 
-.particle{
-    position:fixed;
-    width:5px;height:5px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.15);
-    animation:floatUp linear infinite;
-}
+      /* ================= DARK MODE ================= */
+      body.dark {
+        color: #e6e6e6;
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+        background-size: 400% 400%;
+        animation: gradientMove 18s ease infinite;
+      }
 
-@keyframes floatUp{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
-}
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-/* ================= DARK MODE ================= */
-body.dark{
-    color:#e6e6e6;
-    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size:400% 400%;
-    animation:gradientMove 18s ease infinite;
-}
-
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 600px){
-    .navbar{
-        padding:0 15px;
-        height:55px;
-    }
-    .navbar-content{
-        gap:10px;
-        flex-wrap:wrap;
-    }
-    .main-content{
-        margin-top:70px;
-        padding:15px;
-    }
-    h1{
-        font-size:28px;
-    }
-    .cursor-glow,.dust{
-        display:none;
-    }
-}
-</style>
-</head>
-<body>
-
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
-    <a href="/games">Games</a>
-    <a href="/tools">Tools</a>
-    <a href="/donatejk">Donate</a>
-    <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
-  </div>
-    <div class="toggle" id="toggle">
+      /* ================= MOBILE ================= */
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 0 15px;
+          height: 55px;
+        }
+        .navbar-content {
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .main-content {
+          margin-top: 70px;
+          padding: 15px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+        .cursor-glow,
+        .dust {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="navbar-content">
+        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/downloadpage">Exhibit</a>
+      </div>
+      <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
+      </div>
     </div>
-</div>
 
-<!-- MAIN CONTENT -->
-<div class="main-content">
-    <h1>Memoblok (Beta)</h1>
-    <div id="board-container">
-        <input id="search" placeholder="Search blocks...">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <h1>Memoblok (Beta)</h1>
+      <div id="board-container">
+        <input id="search" placeholder="Search blocks..." />
         <div id="board">
-            <div class="column" data-col="todo"><h3>To Do</h3></div>
-            <div class="column" data-col="doing"><h3>Doing</h3></div>
-            <div class="column" data-col="done"><h3>Done</h3></div>
+          <div class="column" data-col="todo"><h3>To Do</h3></div>
+          <div class="column" data-col="doing"><h3>Doing</h3></div>
+          <div class="column" data-col="done"><h3>Done</h3></div>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- ADD BLOCK MODAL -->
-<div id="addBlockBtn">
-    <div class="plus-sign">+</div>
-    <div class="modal-content">
-        <input id="name" placeholder="Name">
+    <!-- ADD BLOCK MODAL -->
+    <div id="addBlockBtn">
+      <div class="plus-sign">+</div>
+      <div class="modal-content">
+        <input id="name" placeholder="Name" />
         <textarea id="desc" placeholder="Description"></textarea>
-        <input id="tags" placeholder="Tags (comma)">
-        <input id="value" type="number" value="0">
+        <input id="tags" placeholder="Tags (comma)" />
+        <input id="value" type="number" value="0" />
         <button id="createBtn">Save</button>
+      </div>
     </div>
-</div>
 
-<!-- GRAPH MODAL -->
-<div id="graphModal">
-    <div class="chart-wrap">
+    <!-- GRAPH MODAL -->
+    <div id="graphModal">
+      <div class="chart-wrap">
         <button id="backBtn">Back</button>
         <canvas id="chart"></canvas>
+      </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-/* ================= DARK MODE ================= */
-const toggle=document.getElementById("toggle");
-const icon=document.getElementById("icon");
-if(localStorage.getItem("darkMode")==="on"){document.body.classList.add("dark"); toggle.classList.add("active"); icon.textContent="☀️";}
-toggle.onclick=()=>{document.body.classList.toggle("dark"); toggle.classList.toggle("active"); localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");};
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      /* ================= DARK MODE ================= */
+      const toggle = document.getElementById("toggle");
+      const icon = document.getElementById("icon");
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        toggle.classList.add("active");
+        icon.textContent = "☀️";
+      }
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.classList.toggle("active");
+        localStorage.setItem(
+          "darkMode",
+          document.body.classList.contains("dark") ? "on" : "off",
+        );
+      };
 
-/* ================= CURSOR FX ================= */
-const glow=document.createElement("div");glow.className="cursor-glow";document.body.appendChild(glow);
-document.addEventListener("mousemove",e=>{glow.style.left=e.clientX+"px";glow.style.top=e.clientY+"px";for(let i=0;i<2;i++){let d=document.createElement("div");d.className="dust";d.style.left=(e.clientX+Math.random()*10-5)+"px";d.style.top=(e.clientY+Math.random()*10-5)+"px";document.body.appendChild(d);setTimeout(()=>d.remove(),1000);}});
-for(let i=0;i<25;i++){let p=document.createElement("div");p.className="particle";p.style.left=Math.random()*100+"vw";p.style.animationDuration=(12+Math.random()*18)+"s";document.body.appendChild(p);}
-
-/* ================= BOARD ================= */
-let dragged=null, activeTag=null, editing=null, chart=null;
-let selectedBlocks=[];
-const btn=document.getElementById('addBlockBtn');
-const modalContent=btn.querySelector('.modal-content');
-btn.onclick=e=>{e.stopPropagation(); btn.classList.toggle('expand');};
-document.body.addEventListener('click',()=>{if(btn.classList.contains('expand')) btn.classList.remove('expand');});
-modalContent.addEventListener('click', e=>e.stopPropagation());
-
-document.getElementById('createBtn').onclick=()=>{
-    const name=document.getElementById('name').value||"Untitled";
-    const desc=document.getElementById('desc').value;
-    const tags=document.getElementById('tags').value.split(',').map(t=>t.trim()).filter(t=>t);
-    const value=+document.getElementById('value').value||0;
-    if(editing){editing.name=name; editing.desc=desc; editing.tags=tags; editing.value=value; editing.history.push(value); renderBlock(editing);} 
-    else createBlock({name,desc,tags,value,history:[value],col:'todo'});
-    document.getElementById('name').value='';document.getElementById('desc').value='';document.getElementById('tags').value='';document.getElementById('value').value=0;
-    save(); btn.classList.remove('expand'); renderBoard();
-};
-
-/* ================= FUNCTIONS ================= */
-function createBlock(d){
-    const el=document.createElement('div'); el.className='block'; el.draggable=true; el.dataset.col=d.col; el.dataset.history=JSON.stringify(d.history);
-    el.innerHTML=`<h3>${d.name}</h3><div class="desc">${d.desc||""}</div><div class="tags"></div><div class="value-display">${d.value}</div><div class="buttons"><button class="minus">-</button><button class="plus">+</button><button class="graph">📈</button><button class="edit">Edit</button><button class="delete">Delete</button></div>`;
-    d.tags.forEach(t=>{const s=document.createElement('span'); s.className='tag'; s.textContent=t; s.onclick=e=>{e.stopPropagation(); activeTag=activeTag===t?null:t; filter();}; el.querySelector('.tags').appendChild(s);});
-    el.querySelector('.minus').onclick=e=>{e.stopPropagation(); d.value--; el.querySelector('.value-display').textContent=d.value; d.history.push(d.value); save();};
-    el.querySelector('.plus').onclick=e=>{e.stopPropagation(); d.value++; el.querySelector('.value-display').textContent=d.value; d.history.push(d.value); save();};
-    el.querySelector('.delete').onclick=e=>{e.stopPropagation(); el.remove(); save();};
-    el.querySelector('.edit').onclick=e=>{e.stopPropagation(); editing=d; btn.classList.add('expand'); document.getElementById('name').value=d.name; document.getElementById('desc').value=d.desc; document.getElementById('tags').value=d.tags.join(','); document.getElementById('value').value=d.value;};
-    el.querySelector('.graph').onclick=e=>{e.stopPropagation(); showGraph(selectedBlocks.length>1?selectedBlocks:[d]);};
-
-    el.ondragstart=()=>dragged=el; el.ondragend=()=>dragged=null;
-
-    // select multiple blocks
-    el.onclick=e=>{
-        if(!selectedBlocks.includes(d)){
-            selectedBlocks.push(d); el.classList.add('selected');
-        } else {
-            selectedBlocks=selectedBlocks.filter(x=>x!==d); el.classList.remove('selected');
+      /* ================= CURSOR FX ================= */
+      const glow = document.createElement("div");
+      glow.className = "cursor-glow";
+      document.body.appendChild(glow);
+      document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+        for (let i = 0; i < 2; i++) {
+          let d = document.createElement("div");
+          d.className = "dust";
+          d.style.left = e.clientX + Math.random() * 10 - 5 + "px";
+          d.style.top = e.clientY + Math.random() * 10 - 5 + "px";
+          document.body.appendChild(d);
+          setTimeout(() => d.remove(), 1000);
         }
-    };
+      });
+      for (let i = 0; i < 25; i++) {
+        let p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 12 + Math.random() * 18 + "s";
+        document.body.appendChild(p);
+      }
 
-    document.querySelector(`.column[data-col="${d.col}"]`).appendChild(el);
-    return d;
-}
+      /* ================= BOARD ================= */
+      let dragged = null,
+        activeTag = null,
+        editing = null,
+        chart = null;
+      let selectedBlocks = [];
+      const btn = document.getElementById("addBlockBtn");
+      const modalContent = btn.querySelector(".modal-content");
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        btn.classList.toggle("expand");
+      };
+      document.body.addEventListener("click", () => {
+        if (btn.classList.contains("expand")) btn.classList.remove("expand");
+      });
+      modalContent.addEventListener("click", (e) => e.stopPropagation());
 
-document.querySelectorAll('.column').forEach(col=>{col.ondragover=e=>e.preventDefault(); col.ondrop=e=>{if(dragged){col.appendChild(dragged); dragged.dataset.col=col.dataset.col; save();}}});
+      document.getElementById("createBtn").onclick = () => {
+        const name = document.getElementById("name").value || "Untitled";
+        const desc = document.getElementById("desc").value;
+        const tags = document
+          .getElementById("tags")
+          .value.split(",")
+          .map((t) => t.trim())
+          .filter((t) => t);
+        const value = +document.getElementById("value").value || 0;
+        if (editing) {
+          editing.name = name;
+          editing.desc = desc;
+          editing.tags = tags;
+          editing.value = value;
+          editing.history.push(value);
+          renderBlock(editing);
+        } else
+          createBlock({
+            name,
+            desc,
+            tags,
+            value,
+            history: [value],
+            col: "todo",
+          });
+        document.getElementById("name").value = "";
+        document.getElementById("desc").value = "";
+        document.getElementById("tags").value = "";
+        document.getElementById("value").value = 0;
+        save();
+        btn.classList.remove("expand");
+        renderBoard();
+      };
 
-document.getElementById('search').oninput=filter;
-function filter(){
-    const text=document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('.block').forEach(b=>{const t=b.querySelector('h3').textContent.toLowerCase().includes(text)||b.querySelector('.desc').textContent.toLowerCase().includes(text); const tg=!activeTag||[...b.querySelectorAll('.tag')].some(tt=>tt.textContent===activeTag); b.style.display=(t&&tg)?'flex':'none';});
-}
+      /* ================= FUNCTIONS ================= */
+      function createBlock(d) {
+        const el = document.createElement("div");
+        el.className = "block";
+        el.draggable = true;
+        el.dataset.col = d.col;
+        el.dataset.history = JSON.stringify(d.history);
+        el.innerHTML = `<h3>${d.name}</h3><div class="desc">${d.desc || ""}</div><div class="tags"></div><div class="value-display">${d.value}</div><div class="buttons"><button class="minus">-</button><button class="plus">+</button><button class="graph">📈</button><button class="edit">Edit</button><button class="delete">Delete</button></div>`;
+        d.tags.forEach((t) => {
+          const s = document.createElement("span");
+          s.className = "tag";
+          s.textContent = t;
+          s.onclick = (e) => {
+            e.stopPropagation();
+            activeTag = activeTag === t ? null : t;
+            filter();
+          };
+          el.querySelector(".tags").appendChild(s);
+        });
+        el.querySelector(".minus").onclick = (e) => {
+          e.stopPropagation();
+          d.value--;
+          el.querySelector(".value-display").textContent = d.value;
+          d.history.push(d.value);
+          save();
+        };
+        el.querySelector(".plus").onclick = (e) => {
+          e.stopPropagation();
+          d.value++;
+          el.querySelector(".value-display").textContent = d.value;
+          d.history.push(d.value);
+          save();
+        };
+        el.querySelector(".delete").onclick = (e) => {
+          e.stopPropagation();
+          el.remove();
+          save();
+        };
+        el.querySelector(".edit").onclick = (e) => {
+          e.stopPropagation();
+          editing = d;
+          btn.classList.add("expand");
+          document.getElementById("name").value = d.name;
+          document.getElementById("desc").value = d.desc;
+          document.getElementById("tags").value = d.tags.join(",");
+          document.getElementById("value").value = d.value;
+        };
+        el.querySelector(".graph").onclick = (e) => {
+          e.stopPropagation();
+          showGraph(selectedBlocks.length > 1 ? selectedBlocks : [d]);
+        };
 
-/* ================= LOCAL STORAGE ================= */
-function save(){
-    const data=[]; document.querySelectorAll('.block').forEach(b=>{data.push({name:b.querySelector('h3').textContent,desc:b.querySelector('.desc').textContent,tags:[...b.querySelectorAll('.tag')].map(t=>t.textContent),value:+b.querySelector('.value-display').textContent,history:JSON.parse(b.dataset.history||"[]"),col:b.dataset.col});});
-    localStorage.setItem('blocks',JSON.stringify(data));
-}
-function load(){const data=JSON.parse(localStorage.getItem('blocks')||'[]'); data.forEach(d=>createBlock(d));}
-load();
+        el.ondragstart = () => (dragged = el);
+        el.ondragend = () => (dragged = null);
 
-/* ================= MULTI-BLOCK GRAPH ================= */
-function showGraph(blocks){
-    if(blocks.length===0) return;
-    document.getElementById('graphModal').style.display='flex';
-    if(chart) chart.destroy();
-    chart=new Chart(document.getElementById('chart'),{
-        type:'line',
-        data:{
-            labels:blocks[0].history.map((_,i)=>i+1),
-            datasets:blocks.map(b=>({label:b.name, data:b.history, borderColor:'#536DFE', tension:0.2}))
-        },
-        options:{responsive:true,plugins:{legend:{position:'top'}}}
-    });
-}
+        // select multiple blocks
+        el.onclick = (e) => {
+          if (!selectedBlocks.includes(d)) {
+            selectedBlocks.push(d);
+            el.classList.add("selected");
+          } else {
+            selectedBlocks = selectedBlocks.filter((x) => x !== d);
+            el.classList.remove("selected");
+          }
+        };
 
-document.getElementById('backBtn').onclick=()=>{document.getElementById('graphModal').style.display='none';};
+        document.querySelector(`.column[data-col="${d.col}"]`).appendChild(el);
+        return d;
+      }
 
-</script>
-</body>
+      document.querySelectorAll(".column").forEach((col) => {
+        col.ondragover = (e) => e.preventDefault();
+        col.ondrop = (e) => {
+          if (dragged) {
+            col.appendChild(dragged);
+            dragged.dataset.col = col.dataset.col;
+            save();
+          }
+        };
+      });
+
+      document.getElementById("search").oninput = filter;
+      function filter() {
+        const text = document.getElementById("search").value.toLowerCase();
+        document.querySelectorAll(".block").forEach((b) => {
+          const t =
+            b.querySelector("h3").textContent.toLowerCase().includes(text) ||
+            b.querySelector(".desc").textContent.toLowerCase().includes(text);
+          const tg =
+            !activeTag ||
+            [...b.querySelectorAll(".tag")].some(
+              (tt) => tt.textContent === activeTag,
+            );
+          b.style.display = t && tg ? "flex" : "none";
+        });
+      }
+
+      /* ================= LOCAL STORAGE ================= */
+      function save() {
+        const data = [];
+        document.querySelectorAll(".block").forEach((b) => {
+          data.push({
+            name: b.querySelector("h3").textContent,
+            desc: b.querySelector(".desc").textContent,
+            tags: [...b.querySelectorAll(".tag")].map((t) => t.textContent),
+            value: +b.querySelector(".value-display").textContent,
+            history: JSON.parse(b.dataset.history || "[]"),
+            col: b.dataset.col,
+          });
+        });
+        localStorage.setItem("blocks", JSON.stringify(data));
+      }
+      function load() {
+        const data = JSON.parse(localStorage.getItem("blocks") || "[]");
+        data.forEach((d) => createBlock(d));
+      }
+      load();
+
+      /* ================= MULTI-BLOCK GRAPH ================= */
+      function showGraph(blocks) {
+        if (blocks.length === 0) return;
+        document.getElementById("graphModal").style.display = "flex";
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById("chart"), {
+          type: "line",
+          data: {
+            labels: blocks[0].history.map((_, i) => i + 1),
+            datasets: blocks.map((b) => ({
+              label: b.name,
+              data: b.history,
+              borderColor: "#536DFE",
+              tension: 0.2,
+            })),
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { position: "top" } },
+          },
+        });
+      }
+
+      document.getElementById("backBtn").onclick = () => {
+        document.getElementById("graphModal").style.display = "none";
+      };
+    </script>
+  </body>
 </html>

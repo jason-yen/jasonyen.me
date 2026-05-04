@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fast Dash (Fixed)</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #111;
+      }
+      canvas {
+        display: block;
+        background: #1a1a1a;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <script>
+      let last = performance.now();
+      let spawnTimer = 0;
+      const c = document.getElementById("c");
+      const ctx = c.getContext("2d");
+
+      let W = (c.width = innerWidth);
+      let H = (c.height = innerHeight);
+
+      // ---------------- PLAYER ----------------
+      const p = {
+        x: 100,
+        y: H - 140,
+        s: 40,
+        vy: 0,
+        g: 0.55, // slightly stronger gravity (fix float)
+        j: -15.2, // sharper jump (fix float feel)
+        on: true,
+      };
+
+      // ---------------- OBSTACLES ----------------
+      const MAX = 50;
+      const o = Array.from({ length: MAX }, () => ({
+        x: -9999,
+        y: 0,
+        s: 40,
+        a: false,
+      }));
+
+      let head = 0;
+      let lastSpawnX = W;
+
+      let frame = 0;
+      let over = 0;
+      let coyote = 0;
+
+      let start = performance.now();
+      let time = 0;
+
+      let enter = 0;
+
+      // FLASH
+      let flash = 0;
+      let nextFlash = performance.now() + 12000;
+
+      // ---------------- INPUT ----------------
+      addEventListener("keydown", (e) => {
+        if (e.code === "Space") over ? reset() : jump();
+        if (e.code === "Enter") enter = 1;
+      });
+      addEventListener("keyup", (e) => {
+        if (e.code === "Enter") enter = 0;
+      });
+      addEventListener("mousedown", () => (over ? reset() : jump()));
+
+      function jump() {
+        if (p.on || coyote > 0) {
+          p.vy = p.j;
+          p.on = false;
+          coyote = 0;
+        }
+      }
+
+      function reset() {
+        for (let i = 0; i < MAX; i++) o[i].a = 0;
+        p.y = H - 140;
+        p.vy = 0;
+        over = 0;
+        start = performance.now();
+        lastSpawnX = W;
+      }
+
+      // ---------------- SPAWN (FIXED SPACING) ----------------
+      function add(x, y) {
+        const obj = o[head];
+        obj.x = x;
+        obj.y = y;
+        obj.a = true;
+        obj.s = 40;
+        head = (head + 1) % MAX;
+      }
+
+      function spawn() {
+        const base = H - 140;
+
+        // IMPORTANT FIX: enforce spacing so spikes don't clump
+        const gap = 180 + Math.random() * 120;
+        const x = lastSpawnX + gap;
+        lastSpawnX = x;
+
+        const r = Math.random();
+
+        if (r < 0.5) {
+          add(x, base);
+        } else if (r < 0.8) {
+          add(x, base);
+          add(x + 45, base);
+        } else {
+          add(x, base);
+          add(x + 40, base);
+          add(x + 80, base);
+        }
+      }
+
+      // ---------------- SPIKE ----------------
+      function spike(x, y, s) {
+        ctx.beginPath();
+        ctx.moveTo(x, y + s);
+        ctx.lineTo(x + s / 2, y);
+        ctx.lineTo(x + s, y + s);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // ---------------- LOOP ----------------
+      function loop(t) {
+        const now = t;
+        const dt = (now - last) / 16.67;
+        last = now;
+
+        // flash
+        if (!flash && now > nextFlash) {
+          flash = 1;
+        }
+        if (flash && now > nextFlash + 400) {
+          flash = 0;
+          nextFlash = now + 12000 + Math.random() * 8000;
+        }
+
+        const shake = flash ? 8 : 0;
+
+        ctx.setTransform(
+          1,
+          0,
+          0,
+          1,
+          shake * (Math.random() - 0.5),
+          shake * (Math.random() - 0.5),
+        );
+
+        ctx.clearRect(0, 0, W, H);
+
+        // ground
+        ctx.fillStyle = "#0f0";
+        ctx.fillRect(0, H - 100, W, 5);
+
+        if (!over) {
+          frame++;
+
+          time = ((now - start) * 0.001).toFixed(2);
+
+          // -------- PLAYER PHYSICS FIXED --------
+          p.vy += p.g * dt;
+          p.y += p.vy * dt;
+
+          if (p.y >= H - 140) {
+            p.y = H - 140;
+            p.vy = 0;
+            p.on = true;
+            coyote = 8;
+          } else if (coyote > 0) {
+            coyote -= dt;
+          }
+
+          spawnTimer -= dt;
+          if (spawnTimer <= 0) {
+            spawn();
+            spawnTimer = 85 / 60;
+          }
+
+          ctx.fillStyle = "#ff3b3b";
+
+          // obstacles
+          for (let i = 0; i < MAX; i++) {
+            const b = o[i];
+            if (!b.a) continue;
+
+            b.x -= 5 * dt;
+            spike(b.x, b.y, b.s);
+
+            // collision
+            if (
+              !enter &&
+              p.x < b.x + b.s &&
+              p.x + p.s > b.x &&
+              p.y < b.y + b.s &&
+              p.y + p.s > b.y
+            ) {
+              over = 1;
+            }
+
+            if (b.x < -80) b.a = false;
+          }
+        }
+
+        // player
+        ctx.fillStyle = enter ? "#ffd700" : "#00e5ff";
+        ctx.fillRect(p.x, p.y, p.s, p.s);
+
+        // UI
+        ctx.fillStyle = "#fff";
+        ctx.font = "20px Arial";
+        ctx.fillText("Time: " + time + "s", 20, 40);
+
+        if (over) {
+          ctx.fillStyle = "rgba(0,0,0,0.7)";
+          ctx.fillRect(0, 0, W, H);
+
+          ctx.fillStyle = "#fff";
+          ctx.textAlign = "center";
+          ctx.font = "50px Arial";
+          ctx.fillText("GAME OVER", W / 2, H / 2);
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      requestAnimationFrame(loop);
+    </script>
+  </body>
+</html>

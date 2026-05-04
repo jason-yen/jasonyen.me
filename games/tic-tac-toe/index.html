@@ -1,510 +1,567 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jasonyen.me</title>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jasonyen.me</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="/images/favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-body{
-    font-family:'Fredoka',sans-serif;
-    font-size:18px;
-    background:#f5f6fa;
-    overflow-x:hidden;
-    transition:0.4s;
-    line-height:1.6;
-}
+      body {
+        font-family: "Fredoka", sans-serif;
+        font-size: 18px;
+        background: #f5f6fa;
+        overflow-x: hidden;
+        transition: 0.4s;
+        line-height: 1.6;
+      }
 
-/* ================= NAVBAR ================= */
-.navbar{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(20px);
-    z-index:9999;
-}
+      /* ================= NAVBAR ================= */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+      }
 
-.navbar-content{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.navbar a{
-    color:#536DFE;
-    text-decoration:none;
-    font-size:18px;
-    position:relative;
-    white-space:nowrap;
-}
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
 
-.navbar a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-3px;
-    width:0%;
-    height:3px;
-    background:#536DFE;
-    border-radius:2px;
-    transition:0.3s;
-}
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 3px;
+        background: #536dfe;
+        border-radius: 2px;
+        transition: 0.3s;
+      }
 
-.navbar a:hover::after{
-    width:100%;
-}
+      .navbar a:hover::after {
+        width: 100%;
+      }
 
-.nav-logo{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    transition:0.25s;
-}
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        transition: 0.25s;
+      }
 
-.nav-logo:hover{
-    transform:scale(1.08);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
-}
+      .nav-logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
 
-/* ================= MAIN ================= */
-.main-content{
-    margin-top:80px;
-    padding:20px 30px;
-    display:block;
-}
+      /* ================= MAIN ================= */
+      .main-content {
+        margin-top: 80px;
+        padding: 20px 30px;
+        display: block;
+      }
 
-h1{
-    font-size:36px;
-    margin-bottom:20px;
-    text-align:left;
-}
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-align: left;
+      }
 
-.game-container{
-    margin-top:20px;
-    text-align:left;
-}
+      .game-container {
+        margin-top: 20px;
+        text-align: left;
+      }
 
-/* ================= GRID ================= */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,100px);
-    gap:12px;
-    justify-content:start;
-}
+      /* ================= GRID ================= */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        gap: 12px;
+        justify-content: start;
+      }
 
-@media(max-width:600px){
-    .grid{
-        grid-template-columns:repeat(3,70px);
-        gap:8px;
-        justify-content:start;
-    }
-}
+      @media (max-width: 600px) {
+        .grid {
+          grid-template-columns: repeat(3, 70px);
+          gap: 8px;
+          justify-content: start;
+        }
+      }
 
-/* ================= GAME CELLS ================= */
-.cell{
-    width:100px;
-    height:100px;
-    background:#f0f2ff;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:36px;
-    cursor:pointer;
-    transition:box-shadow 0.15s ease,background 0.2s;    
-    box-shadow:0 6px 16px rgba(0,0,0,0.15);
-    user-select:none;
-    -webkit-tap-highlight-color:transparent;
-    padding:12px;
-    box-sizing:border-box;
+      /* ================= GAME CELLS ================= */
+      .cell {
+        width: 100px;
+        height: 100px;
+        background: #f0f2ff;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        cursor: pointer;
+        transition:
+          box-shadow 0.15s ease,
+          background 0.2s;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        padding: 12px;
+        box-sizing: border-box;
 
-    /* ✅ FIX ADDED (prevents mobile delay) */
-    touch-action: manipulation;
-}
+        /* ✅ FIX ADDED (prevents mobile delay) */
+        touch-action: manipulation;
+      }
 
-@media (hover: hover) and (pointer: fine){
-    .cell:hover{
-        transform:scale(1.07);
-        box-shadow:0 10px 22px rgba(0,0,0,0.25);
-    }
-}
-.cell:active{
-    transform:scale(0.92);
-    transition:none;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
+      @media (hover: hover) and (pointer: fine) {
+        .cell:hover {
+          transform: scale(1.07);
+          box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+        }
+      }
+      .cell:active {
+        transform: scale(0.92);
+        transition: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
 
-.cell.taken{
-    pointer-events:none;
-    animation:pop 0.2s ease;
-}
+      .cell.taken {
+        pointer-events: none;
+        animation: pop 0.2s ease;
+      }
 
-@keyframes pop{
-    0%{transform:scale(0.6);opacity:0;}
-    100%{transform:scale(1);opacity:1;}
-}
+      @keyframes pop {
+        0% {
+          transform: scale(0.6);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
 
-/* ================= WIN/LOSE ================= */
-.winner{
-    background:#9bffb0;
-    box-shadow:0 0 12px rgba(46,204,113,0.7);
-    animation:winPulse 1s infinite alternate;
-}
+      /* ================= WIN/LOSE ================= */
+      .winner {
+        background: #9bffb0;
+        box-shadow: 0 0 12px rgba(46, 204, 113, 0.7);
+        animation: winPulse 1s infinite alternate;
+      }
 
-.loser{
-    background:#ff9b9b;
-    box-shadow:0 0 12px rgba(231,76,60,0.7);
-    animation:losePulse 1s infinite alternate;
-}
+      .loser {
+        background: #ff9b9b;
+        box-shadow: 0 0 12px rgba(231, 76, 60, 0.7);
+        animation: losePulse 1s infinite alternate;
+      }
 
-@keyframes winPulse{
-    from{transform:scale(1);}
-    to{transform:scale(1.08);}
-}
+      @keyframes winPulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.08);
+        }
+      }
 
-@keyframes losePulse{
-    from{transform:scale(1);}
-    to{transform:scale(0.95);}
-}
+      @keyframes losePulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(0.95);
+        }
+      }
 
-/* ================= UI ================= */
-#message{
-    margin-top:15px;
-    font-size:18px;
-    text-align:left;
-    padding-left:4px;
-}
+      /* ================= UI ================= */
+      #message {
+        margin-top: 15px;
+        font-size: 18px;
+        text-align: left;
+        padding-left: 4px;
+      }
 
-#replayButton{
-    display:inline-block;
-    margin-top:10px;
-    padding:12px 24px;
-    background:#4c5eaf;
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.2s;
-}
+      #replayButton {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 12px 24px;
+        background: #4c5eaf;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
 
-#replayButton:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 18px rgba(0,0,0,0.2);
-}
+      #replayButton:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      }
 
-/* ================= DARK MODE ================= */
-body.dark{
-    color:#e6e6e6;
-    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size:400% 400%;
-    animation:gradientMove 18s ease infinite;
-}
+      /* ================= DARK MODE ================= */
+      body.dark {
+        color: #e6e6e6;
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+        background-size: 400% 400%;
+        animation: gradientMove 18s ease infinite;
+      }
 
-body.dark .cell{
-    background:#1e2235;
-    box-shadow:0 4px 15px rgba(0,0,0,0.5);
-}
+      body.dark .cell {
+        background: #1e2235;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
 
-body.dark .winner{
-    background:#2ecc71;
-    box-shadow:0 0 15px rgba(46,204,113,0.9);
-}
+      body.dark .winner {
+        background: #2ecc71;
+        box-shadow: 0 0 15px rgba(46, 204, 113, 0.9);
+      }
 
-body.dark .loser{
-    background:#e74c3c;
-    box-shadow:0 0 15px rgba(231,76,60,0.9);
-}
+      body.dark .loser {
+        background: #e74c3c;
+        box-shadow: 0 0 15px rgba(231, 76, 60, 0.9);
+      }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-/* ================= TOGGLE ================= */
-.toggle{
-    width:65px;height:34px;border-radius:50px;
-    cursor:pointer;position:relative;
-    background:#dcdde1;
-    border:2px solid rgba(0,0,0,0.2);
-}
+      /* ================= TOGGLE ================= */
+      .toggle {
+        width: 65px;
+        height: 34px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+      }
 
-body.dark .toggle{
-    background:#2f3640;
-    border:2px solid rgba(255,255,255,0.3);
-}
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
 
-.toggle.active{
-    background:#536DFE;
-    box-shadow:0 0 10px rgba(83,109,254,0.6);
-}
+      .toggle.active {
+        background: #536dfe;
+        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
+      }
 
-.toggle-circle{
-    width:28px;height:28px;background:white;
-    position:absolute;top:1px;left:2px;
-    border-radius:50%;
-    transition:0.35s;
-    display:flex;align-items:center;justify-content:center;
-}
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+        background: white;
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        border-radius: 50%;
+        transition: 0.35s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-.toggle.active .toggle-circle{
-    left:33px;
-}
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
 
-/* ================= FX ================= */
+      /* ================= FX ================= */
 
+      @keyframes dustFade {
+        to {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.5);
+        }
+      }
 
-@keyframes dustFade{
-    to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
+      /* ================= MOBILE ================= */
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 0 10px;
+          height: 55px;
+        }
+        .navbar-content {
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .navbar a {
+          font-size: 16px;
+        }
+        .main-content {
+          margin-top: 70px;
+          padding: 10px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+        .cell {
+          width: 70px;
+          height: 70px;
+          font-size: 28px;
+          padding: 8px;
+        }
+      }
+      html,
+      body {
+        touch-action: manipulation;
+      }
 
-/* ================= MOBILE ================= */
-@media(max-width:600px){
-    .navbar{
-        padding:0 10px;
-        height:55px;
-    }
-    .navbar-content{
-        gap:10px;
-        flex-wrap:wrap;
-    }
-    .navbar a{
-        font-size:16px;
-    }
-    .main-content{
-        margin-top:70px;
-        padding:10px;
-    }
-    h1{
-        font-size:28px;
-    }
-    .cell{
-        width:70px;
-        height:70px;
-        font-size:28px;
-        padding:8px;
-    }
-}
-html, body {
-    touch-action: manipulation;
-}
+      * {
+        -webkit-touch-callout: none;
+      }
+    </style>
+  </head>
 
-* {
-    -webkit-touch-callout: none;
-}
-</style>
-</head>
-
-<body>
-
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
-    <a href="/games">Games</a>
-    <a href="/tools">Tools</a>
-    <a href="/donatejk">Donate</a>
-    <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
-  </div>
-    <div class="toggle" id="toggle">
+  <body>
+    <div class="navbar">
+      <div class="navbar-content">
+        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/downloadpage">Exhibit</a>
+      </div>
+      <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
+      </div>
     </div>
-</div>
 
-<div class="main-content">
-    <h1>Tic-Tac-Toe</h1>
-    <div class="game-container">
+    <div class="main-content">
+      <h1>Tic-Tac-Toe</h1>
+      <div class="game-container">
         <div class="grid">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
         </div>
 
         <div id="message"></div>
         <button id="replayButton" onclick="resetGame()">Replay</button>
+      </div>
     </div>
-</div>
 
-<script>
-let board=Array(9).fill("");
-let currentPlayer="X";
-let gameOver=false;
+    <script>
+      let board = Array(9).fill("");
+      let currentPlayer = "X";
+      let gameOver = false;
 
-const cells=document.querySelectorAll(".cell");
+      const cells = document.querySelectorAll(".cell");
 
-/* ✅ FIX: pointerdown instead of onclick */
-cells.forEach((cell,i)=>{
-    cell.addEventListener("click",(e)=>{
-        e.preventDefault();
-        makeMove(i);
-    });
-});
-const patterns=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      /* ✅ FIX: pointerdown instead of onclick */
+      cells.forEach((cell, i) => {
+        cell.addEventListener("click", (e) => {
+          e.preventDefault();
+          makeMove(i);
+        });
+      });
+      const patterns = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
 
-function makeMove(i){
-    if(gameOver||board[i]!=="")return;
+      function makeMove(i) {
+        if (gameOver || board[i] !== "") return;
 
-    board[i]=currentPlayer;
-    cells[i].textContent=currentPlayer;
-    cells[i].classList.add("taken");
+        board[i] = currentPlayer;
+        cells[i].textContent = currentPlayer;
+        cells[i].classList.add("taken");
 
-    if(checkWinner(currentPlayer)){
-        endGame(currentPlayer+" wins!");
-        return;
-    }
+        if (checkWinner(currentPlayer)) {
+          endGame(currentPlayer + " wins!");
+          return;
+        }
 
-    if(board.every(c=>c!=="")){
-        endGame("Tie!");
-        return;
-    }
+        if (board.every((c) => c !== "")) {
+          endGame("Tie!");
+          return;
+        }
 
-    currentPlayer=currentPlayer==="X"?"O":"X";
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
 
-    /* ✅ FIX: removed setTimeout delay */
-    if(currentPlayer==="O") computerMove();
-}
+        /* ✅ FIX: removed setTimeout delay */
+        if (currentPlayer === "O") computerMove();
+      }
 
-function checkWinner(p){
-    for(const [a,b,c] of patterns){
-        if(board[a]===p && board[b]===p && board[c]===p){
-            [a,b,c].forEach(i=>cells[i].classList.add("winner"));
-            cells.forEach((cell,idx)=>{
-                if(![a,b,c].includes(idx)){
-                    cell.classList.add("loser");
-                }
+      function checkWinner(p) {
+        for (const [a, b, c] of patterns) {
+          if (board[a] === p && board[b] === p && board[c] === p) {
+            [a, b, c].forEach((i) => cells[i].classList.add("winner"));
+            cells.forEach((cell, idx) => {
+              if (![a, b, c].includes(idx)) {
+                cell.classList.add("loser");
+              }
             });
             return true;
+          }
         }
-    }
-    return false;
-}
+        return false;
+      }
 
-function endGame(t){
-    document.getElementById("message").textContent=t;
-    gameOver=true;
-}
+      function endGame(t) {
+        document.getElementById("message").textContent = t;
+        gameOver = true;
+      }
 
-function computerMove(){
-    let best=-Infinity,move;
+      function computerMove() {
+        let best = -Infinity,
+          move;
 
-    for(let i=0;i<9;i++){
-        if(board[i]===""){
-            board[i]="O";
-            let score=minimax(board,0,false);
-            board[i]="";
-            if(score>best){best=score;move=i;}
-        }
-    }
-
-    setTimeout(() => {
-        makeMove(move);
-    }, 270);
-}
-
-function minimax(bd,d,isMax){
-    if(checkWinBoard(bd,"O"))return 10-d;
-    if(checkWinBoard(bd,"X"))return d-10;
-    if(bd.every(c=>c!==""))return 0;
-
-    if(isMax){
-        let best=-Infinity;
-        for(let i=0;i<9;i++){
-            if(bd[i]===""){
-                bd[i]="O";
-                best=Math.max(best,minimax(bd,d+1,false));
-                bd[i]="";
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === "") {
+            board[i] = "O";
+            let score = minimax(board, 0, false);
+            board[i] = "";
+            if (score > best) {
+              best = score;
+              move = i;
             }
+          }
         }
-        return best;
-    }else{
-        let best=Infinity;
-        for(let i=0;i<9;i++){
-            if(bd[i]===""){
-                bd[i]="X";
-                best=Math.min(best,minimax(bd,d+1,true));
-                bd[i]="";
+
+        setTimeout(() => {
+          makeMove(move);
+        }, 270);
+      }
+
+      function minimax(bd, d, isMax) {
+        if (checkWinBoard(bd, "O")) return 10 - d;
+        if (checkWinBoard(bd, "X")) return d - 10;
+        if (bd.every((c) => c !== "")) return 0;
+
+        if (isMax) {
+          let best = -Infinity;
+          for (let i = 0; i < 9; i++) {
+            if (bd[i] === "") {
+              bd[i] = "O";
+              best = Math.max(best, minimax(bd, d + 1, false));
+              bd[i] = "";
             }
+          }
+          return best;
+        } else {
+          let best = Infinity;
+          for (let i = 0; i < 9; i++) {
+            if (bd[i] === "") {
+              bd[i] = "X";
+              best = Math.min(best, minimax(bd, d + 1, true));
+              bd[i] = "";
+            }
+          }
+          return best;
         }
-        return best;
-    }
-}
+      }
 
-function checkWinBoard(bd,p){
-    return patterns.some(([a,b,c])=>bd[a]===p && bd[b]===p && bd[c]===p);
-}
+      function checkWinBoard(bd, p) {
+        return patterns.some(
+          ([a, b, c]) => bd[a] === p && bd[b] === p && bd[c] === p,
+        );
+      }
 
-function resetGame(){
-    board=Array(9).fill("");
-    document.querySelectorAll(".cell").forEach(c=>{
-        c.textContent="";
-        c.classList.remove("taken","winner","loser");
-    });
-    document.getElementById("message").textContent="";
-    currentPlayer="X";
-    gameOver=false;
-}
+      function resetGame() {
+        board = Array(9).fill("");
+        document.querySelectorAll(".cell").forEach((c) => {
+          c.textContent = "";
+          c.classList.remove("taken", "winner", "loser");
+        });
+        document.getElementById("message").textContent = "";
+        currentPlayer = "X";
+        gameOver = false;
+      }
 
-/* DARK MODE (unchanged) */
-const toggle=document.getElementById("toggle");
-const icon=document.getElementById("icon");
+      /* DARK MODE (unchanged) */
+      const toggle = document.getElementById("toggle");
+      const icon = document.getElementById("icon");
 
-if(localStorage.getItem("darkMode")==="on"){
-    document.body.classList.add("dark");
-    toggle.classList.add("active");
-    icon.textContent="☀️";
-}
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        toggle.classList.add("active");
+        icon.textContent = "☀️";
+      }
 
-toggle.onclick=()=>{
-    document.body.classList.toggle("dark");
-    toggle.classList.toggle("active");
-    if(document.body.classList.contains("dark")){
-        icon.textContent="☀️";
-        localStorage.setItem("darkMode","on");
-    }else{
-        icon.textContent="🌙";
-        localStorage.setItem("darkMode","off");
-    }
-};
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.classList.toggle("active");
+        if (document.body.classList.contains("dark")) {
+          icon.textContent = "☀️";
+          localStorage.setItem("darkMode", "on");
+        } else {
+          icon.textContent = "🌙";
+          localStorage.setItem("darkMode", "off");
+        }
+      };
 
-/* FX (unchanged) */
-const glow=document.createElement("div");
-glow.className="cursor-glow";
-document.body.appendChild(glow);
+      /* FX (unchanged) */
+      const glow = document.createElement("div");
+      glow.className = "cursor-glow";
+      document.body.appendChild(glow);
 
-document.addEventListener("mousemove",e=>{
-    glow.style.left=e.clientX+"px";
-    glow.style.top=e.clientY+"px";
+      document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
 
-    for(let i=0;i<2;i++){
-        let d=document.createElement("div");
-        d.className="dust";
-        d.style.left=(e.clientX+Math.random()*10-5)+"px";
-        d.style.top=(e.clientY+Math.random()*10-5)+"px";
-        document.body.appendChild(d);
-        setTimeout(()=>d.remove(),1000);
-    }
-});
-</script>
-
-</body>
+        for (let i = 0; i < 2; i++) {
+          let d = document.createElement("div");
+          d.className = "dust";
+          d.style.left = e.clientX + Math.random() * 10 - 5 + "px";
+          d.style.top = e.clientY + Math.random() * 10 - 5 + "px";
+          document.body.appendChild(d);
+          setTimeout(() => d.remove(), 1000);
+        }
+      });
+    </script>
+  </body>
 </html>

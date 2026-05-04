@@ -1,784 +1,870 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jasonyen.me</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jasonyen.me</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="/images/favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{
-    font-family:'Fredoka',sans-serif;
-    font-size:18px;
-    background-color:#f5f6fa;
-    overflow-x:hidden;
-    transition: background 0.4s,color 0.4s;
-    line-height:1.6;
-}
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Fredoka", sans-serif;
+        font-size: 18px;
+        background-color: #f5f6fa;
+        overflow-x: hidden;
+        transition:
+          background 0.4s,
+          color 0.4s;
+        line-height: 1.6;
+      }
 
-/* NAVBAR */
-.navbar{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(20px);
-    z-index:9999;
-}
+      /* NAVBAR */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+      }
 
-.navbar-content{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.navbar a{
-    color:#536DFE;
-    text-decoration:none;
-    font-size:18px;
-    position:relative;
-    white-space:nowrap;
-}
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
 
-.navbar a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-3px;
-    width:0%;
-    height:3px;
-    background:#536DFE;
-    border-radius:2px;
-    transition:width 0.3s ease;
-}
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 3px;
+        background: #536dfe;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
 
-.navbar a:hover::after{
-    width:100%;
-}
+      .navbar a:hover::after {
+        width: 100%;
+      }
 
-.nav-logo{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    transition:0.25s;
-}
-.nav-logo:hover{
-    transform:scale(1.08);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
-}
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        transition: 0.25s;
+      }
+      .nav-logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
 
-/* MAIN */
-.main-content{
-    margin-top:80px;
-    padding:20px;
-}
+      /* MAIN */
+      .main-content {
+        margin-top: 80px;
+        padding: 20px;
+      }
 
-h1{
-    font-size:36px;
-    margin-bottom:20px;
-}
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
 
-/* BUTTON */
-.game-link{
-    display:inline-block;
-    margin:10px 10px 0 0;
-    padding:12px 24px;
-    background:#4c5eaf;
-    color:white;
-    border-radius:10px;
-    text-decoration:none;
-    transition:transform 0.2s ease,box-shadow 0.2s ease;
-}
-.game-link:hover{
-    transform:scale(1.05);
-    box-shadow:0 8px 18px rgba(0,0,0,0.2);
-}
+      /* BUTTON */
+      .game-link {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+        padding: 12px 24px;
+        background: #4c5eaf;
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .game-link:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      }
 
-/* GAME */
-#gameCanvas{
-    width:600px;
-    height:400px;
-    background:#0f1117;
-    border-radius:12px;
-    margin-top:10px;
-    display:none;
-}
+      /* GAME */
+      #gameCanvas {
+        width: 600px;
+        height: 400px;
+        background: #0f1117;
+        border-radius: 12px;
+        margin-top: 10px;
+        display: none;
+      }
 
-/* MOBILE MESSAGE */
-.mobile-warning{
-    display:none;
-    margin-top:15px;
-    padding:15px;
-    border-radius:10px;
-    background:#ff4d4d;
-    color:white;
-}
+      /* MOBILE MESSAGE */
+      .mobile-warning {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 10px;
+        background: #ff4d4d;
+        color: white;
+      }
 
-/* DARK MODE */
-body.dark{
-    color:#e6e6e6;
-    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size:400% 400%;
-    animation:gradientMove 18s ease infinite;
-}
+      /* DARK MODE */
+      body.dark {
+        color: #e6e6e6;
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+        background-size: 400% 400%;
+        animation: gradientMove 18s ease infinite;
+      }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-/* TOGGLE */
-.toggle{
-    width:65px;
-    height:34px;
-    border-radius:50px;
-    cursor:pointer;
-    position:relative;
-    background:#dcdde1;
-    border:2px solid rgba(0,0,0,0.2);
-}
+      /* TOGGLE */
+      .toggle {
+        width: 65px;
+        height: 34px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+      }
 
-body.dark .toggle{
-    background:#2f3640;
-    border:2px solid rgba(255,255,255,0.3);
-}
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
 
-.toggle.active{
-    background:#536DFE;
-    border:2px solid #536DFE;
-    box-shadow:0 0 10px rgba(83,109,254,0.6);
-}
+      .toggle.active {
+        background: #536dfe;
+        border: 2px solid #536dfe;
+        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
+      }
 
-.toggle-circle{
-    width:28px;
-    height:28px;
-    background:white;
-    position:absolute;
-    top:1px;
-    left:2px;
-    border-radius:50%;
-    transition:0.35s;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+        background: white;
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        border-radius: 50%;
+        transition: 0.35s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-.toggle.active .toggle-circle{
-    left:33px;
-}
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
 
-/* FX */
+      /* FX */
 
+      @keyframes dustFade {
+        to {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.5);
+        }
+      }
 
-@keyframes dustFade{
-    to{opacity:0;transform:translateY(-20px) scale(0.5);}
-}
+      .particle {
+        position: fixed;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        animation: floatUp linear infinite;
+      }
 
-.particle{
-    position:fixed;
-    width:5px;height:5px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.15);
-    animation:floatUp linear infinite;
-}
+      @keyframes floatUp {
+        from {
+          transform: translateY(100vh);
+        }
+        to {
+          transform: translateY(-10vh);
+        }
+      }
 
-@keyframes floatUp{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
-}
+      /* MOBILE */
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 0 15px;
+          height: 55px;
+        }
 
-/* MOBILE */
-@media (max-width: 600px){
-    .navbar{
-        padding:0 15px;
-        height:55px;
-    }
+        .navbar-content {
+          gap: 10px;
+          flex-wrap: wrap;
+        }
 
-    .navbar-content{
-        gap:10px;
-        flex-wrap:wrap;
-    }
+        .navbar a {
+          font-size: 16px;
+        }
 
-    .navbar a{
-        font-size:16px;
-    }
+        .main-content {
+          margin-top: 70px;
+          padding: 15px;
+        }
 
-    .main-content{
-        margin-top:70px;
-        padding:15px;
-    }
+        h1 {
+          font-size: 28px;
+        }
 
-    h1{
-        font-size:28px;
-    }
+        .game-link {
+          font-size: 16px;
+          padding: 10px 18px;
+        }
 
-    .game-link{
-        font-size:16px;
-        padding:10px 18px;
-    }
+        #gameCanvas {
+          width: 100%;
+          height: auto;
+        }
 
-    #gameCanvas{
-        width:100%;
-        height:auto;
-    }
+        .cursor-glow,
+        .dust {
+          display: none;
+        }
+      }
+      #ui {
+        position: static;
+        margin-top: 15px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      #gameCanvas {
+        position: relative;
+        z-index: 1;
+      }
+      #gameContainer {
+        position: relative;
+        width: 600px;
+        height: 400px;
+      }
+    </style>
+  </head>
 
-    .cursor-glow,.dust{
-        display:none;
-    }
-}
-#ui{
-    position:static;
-    margin-top:15px;
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-#gameCanvas{
-    position:relative;
-    z-index:1;
-}
-#gameContainer{
-    position:relative;
-    width:600px;
-    height:400px;
-}
-
-
-</style>
-</head>
-
-<body>
-
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
-    <a href="/games">Games</a>
-    <a href="/tools">Tools</a>
-    <a href="/donatejk">Donate</a>
-    <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
-  </div>
-    <div class="toggle" id="toggle">
+  <body>
+    <div class="navbar">
+      <div class="navbar-content">
+        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/downloadpage">Exhibit</a>
+      </div>
+      <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
+      </div>
     </div>
-</div>
 
-<div class="main-content">
-<h1>Pixel Survivor (Desktop) {Beta}</h1>
+    <div class="main-content">
+      <h1>Pixel Survivor (Desktop) {Beta}</h1>
 
-<a class="game-link" onclick="startGame()">Begin</a>
+      <a class="game-link" onclick="startGame()">Begin</a>
 
-<div class="mobile-warning" id="mobileMsg">
-This game cannot be played on mobile. Please use a computer.
-</div>
+      <div class="mobile-warning" id="mobileMsg">
+        This game cannot be played on mobile. Please use a computer.
+      </div>
 
-<canvas id="gameCanvas"></canvas>
-<div id="ui"></div>
-</div>
+      <canvas id="gameCanvas"></canvas>
+      <div id="ui"></div>
+    </div>
 
-<script>
-/* DARK MODE */
-const toggle=document.getElementById("toggle");
-const icon=document.getElementById("icon");
+    <script>
+      /* DARK MODE */
+      const toggle = document.getElementById("toggle");
+      const icon = document.getElementById("icon");
 
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        toggle.classList.add("active");
+        icon.textContent = "☀️";
+      }
 
-if(localStorage.getItem("darkMode")==="on"){
-    document.body.classList.add("dark");
-    toggle.classList.add("active");
-    icon.textContent="☀️";
-}
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.classList.toggle("active");
+        icon.textContent = document.body.classList.contains("dark")
+          ? "☀️"
+          : "🌙";
+        localStorage.setItem(
+          "darkMode",
+          document.body.classList.contains("dark") ? "on" : "off",
+        );
+      };
 
-toggle.onclick=()=>{
-    document.body.classList.toggle("dark");
-    toggle.classList.toggle("active");
-    icon.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
-    localStorage.setItem("darkMode",document.body.classList.contains("dark")?"on":"off");
-};
+      /* MOBILE CHECK */
+      function isMobile() {
+        return /Mobi|Android|iPhone/i.test(navigator.userAgent);
+      }
 
-/* MOBILE CHECK */
-function isMobile(){
-    return /Mobi|Android|iPhone/i.test(navigator.userAgent);
-}
+      /* GAME */
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 600;
+      canvas.height = 400;
 
-/* GAME */
-const canvas=document.getElementById("gameCanvas");
-const ctx=canvas.getContext("2d");
-canvas.width=600;
-canvas.height=400;
+      let player,
+        enemies,
+        bullets,
+        keys = {},
+        gameOver = false;
+      let kills = 0,
+        paused = false,
+        moveDir = { x: 0, y: 0 },
+        obtained = new Set();
+      let abilities = {
+        darkMagic: false,
+        waves: false,
+        spirit: false,
+        laser: false,
+        multi: false,
+        heal: false,
+      };
+      let spirit = null,
+        pulses = [],
+        darkActive = true,
+        darkTimer = 0,
+        lastLevelUp = 0,
+        startTime = 0;
+      let difficulty = 1;
+      let chaosLevel = 1;
 
-let player,enemies,bullets,keys={},gameOver=false;
-let kills=0,paused=false,moveDir={x:0,y:0},obtained=new Set();
-let abilities={darkMagic:false,waves:false,spirit:false,laser:false,multi:false,heal:false};
-let spirit=null,pulses=[],darkActive=true,darkTimer=0,lastLevelUp=0,startTime=0;
-let difficulty=1;
-let chaosLevel = 1;
+      /* INPUT */
+      document.addEventListener(
+        "keydown",
+        (e) => (keys[e.key.toLowerCase()] = true),
+      );
+      document.addEventListener(
+        "keyup",
+        (e) => (keys[e.key.toLowerCase()] = false),
+      );
 
-/* INPUT */
-document.addEventListener("keydown",e=>keys[e.key.toLowerCase()]=true);
-document.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
-
-/* INIT */
-function init(){
-    player={x:300,y:200,speed:3,hp:20};
-    enemies=[];
-    bullets=[];
-    kills=0;
-    gameOver=false;
-    paused=false;
-    obtained.clear();
-    abilities={darkMagic:false,waves:false,spirit:false,laser:false,multi:false,heal:false};
-    spirit=null;
-    pulses=[];
-    darkActive=true;
-    darkTimer=Date.now();
-    lastLevelUp=Date.now();
-    startTime=Date.now();
-}
-
-/* START */
-function startGame(){
-    canvas.style.display="block";
-    init();
-}
-
-/* POWERUPS */
-const powerups=[
-    {name:"Dark Magic",key:"darkMagic",effect:()=>abilities.darkMagic=true},
-    {name:"Void Pulse",key:"waves",effect:()=>abilities.waves=true},
-    {name:"Spirit",key:"spirit",effect:()=>abilities.spirit=true},
-    {name:"Heal",key:"heal",effect:()=>obtained.add("heal")}
-];
-
-/* LEVEL UP */
-function showLevelUp(){
-    paused=true;
-    const ui=document.getElementById("ui");
-    ui.style.display="flex";
-    ui.innerHTML="";
-
-    let available=powerups.filter(p=>!obtained.has(p.key));
-    if(available.length===0){
-        paused=false;
-        return;
-    }
-
-    let choices=available.sort(()=>Math.random()-0.5).slice(0,3);
-
-    choices.forEach(p=>{
-        let btn=document.createElement("a");
-        btn.className="game-link";
-        btn.textContent=p.name;
-
-        btn.onclick=()=>{
-            p.effect();
-            obtained.add(p.key);
-            ui.innerHTML="";
-            paused=false;
-            lastLevelUp=Date.now();
+      /* INIT */
+      function init() {
+        player = { x: 300, y: 200, speed: 3, hp: 20 };
+        enemies = [];
+        bullets = [];
+        kills = 0;
+        gameOver = false;
+        paused = false;
+        obtained.clear();
+        abilities = {
+          darkMagic: false,
+          waves: false,
+          spirit: false,
+          laser: false,
+          multi: false,
+          heal: false,
         };
+        spirit = null;
+        pulses = [];
+        darkActive = true;
+        darkTimer = Date.now();
+        lastLevelUp = Date.now();
+        startTime = Date.now();
+      }
 
-        ui.appendChild(btn);
-    });
-}
+      /* START */
+      function startGame() {
+        canvas.style.display = "block";
+        init();
+      }
 
-/* SPAWN */
-let lastSpawnTime = Date.now();
+      /* POWERUPS */
+      const powerups = [
+        {
+          name: "Dark Magic",
+          key: "darkMagic",
+          effect: () => (abilities.darkMagic = true),
+        },
+        {
+          name: "Void Pulse",
+          key: "waves",
+          effect: () => (abilities.waves = true),
+        },
+        {
+          name: "Spirit",
+          key: "spirit",
+          effect: () => (abilities.spirit = true),
+        },
+        { name: "Heal", key: "heal", effect: () => obtained.add("heal") },
+      ];
 
-setInterval(()=>{
-    if(gameOver || paused) return;
+      /* LEVEL UP */
+      function showLevelUp() {
+        paused = true;
+        const ui = document.getElementById("ui");
+        ui.style.display = "flex";
+        ui.innerHTML = "";
 
-    let now = Date.now();
-
-    let allUnlocked = obtained.size >= powerups.length;
-
-    difficulty = 1 + (now - startTime)/20000;
-
-    /* FIX: chaos does NOT run per enemy anymore */
-    if(allUnlocked && Math.random() < 0.02){
-        chaosLevel += 0.002;
-    }
-
-    /* keeps original pacing behavior */
-    let spawnRate = allUnlocked ? 250 : 800;
-
-    if(now - lastSpawnTime < spawnRate) return;
-    lastSpawnTime = now;
-
-    let scale = difficulty * (allUnlocked ? 3 : 1);
-
-    let count;
-
-    if(allUnlocked){
-        count = 6 + Math.floor(difficulty*2);   // same logic you had
-    } else {
-        count = 1 + Math.floor(difficulty/2);
-    }
-
-    for(let i=0;i<count;i++){
-
-        let spawnType = Math.random();
-        let x,y;
-
-        if(allUnlocked && spawnType < 0.5){
-            let minDist = 80;
-do {
-    x = player.x + (Math.random()-0.5)*300;
-    y = player.y + (Math.random()-0.5)*300;
-} while (Math.hypot(x-player.x, y-player.y) < minDist);
-        } else {
-            x = Math.random()*canvas.width;
-            y = Math.random()*canvas.height;
+        let available = powerups.filter((p) => !obtained.has(p.key));
+        if (available.length === 0) {
+          paused = false;
+          return;
         }
 
-        enemies.push({
-            x:x,
-            y:y,
-            speed:2 + Math.random()*scale,
-            size:6 + Math.min(scale,12),
-            color: allUnlocked ? "magenta" : "red",
-hp: Math.floor(3 + scale * 0.7),            type: Math.random()<0.6 ? "chaser" : "strafer",
-            attackCooldown:0
-        });
+        let choices = available.sort(() => Math.random() - 0.5).slice(0, 3);
 
-    }
+        choices.forEach((p) => {
+          let btn = document.createElement("a");
+          btn.className = "game-link";
+          btn.textContent = p.name;
 
-}, 50);
-/* VOID PULSE */
-function updateWaves(){
-if(!abilities.waves) return;
-
-let now = Date.now();
-if(!updateWaves.last) updateWaves.last = now;
-
-if(now - updateWaves.last > 10000){
-updateWaves.last = now;
-pulses.push({x: player.x,y: player.y,r: 0,max: 140});
-}
-
-pulses.forEach(p=>{
-p.r += 3;
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.strokeStyle="orange";
-ctx.lineWidth=4;
-ctx.stroke();
-
-enemies.forEach(e=>{
-let dx=e.x-p.x,dy=e.y-p.y;
-let dist=Math.hypot(dx,dy);
-
-if(dist<p.r && dist>p.r-10){
-e.hp--;
-if(e.hp<=0) killEnemy(e);
-}
-});
-});
-
-pulses=pulses.filter(p=>p.r<p.max);
-}
-
-/* DARK MAGIC */
-function updateDarkMagic(){
-if(!abilities.darkMagic) return;
-
-for(let i=0;i<6;i++){
-let angle=Date.now()/200+i;
-let ox=player.x+Math.cos(angle)*25;
-let oy=player.y+Math.sin(angle)*25;
-
-ctx.fillStyle="purple";
-ctx.fillRect(ox,oy,4,4);
-
-enemies=enemies.filter(e=>{
-if(Math.hypot(e.x-ox,e.y-oy)<12){ killEnemy(e); return false; }
-return true;
-});
-}
-}
-
-/* SPIRIT */
-function updateSpirit(){
-if(!abilities.spirit) return;
-
-if(!spirit) spirit={x:player.x,y:player.y};
-
-spirit.x+=(player.x-spirit.x)*0.05;
-spirit.y+=(player.y-spirit.y)*0.05;
-
-ctx.fillStyle="cyan";
-ctx.fillRect(spirit.x,spirit.y,5,5);
-
-enemies=enemies.filter(e=>{
-if(Math.hypot(e.x-spirit.x,e.y-spirit.y)<15){ killEnemy(e); return false; }
-return true;
-});
-}
-
-/* LASER */
-function drawLaser(){
-if(!abilities.laser) return;
-
-let dx = moveDir.x;
-let dy = moveDir.y;
-let d = Math.hypot(dx,dy);
-
-/* FIX: allow shooting even if not moving */
-if(d === 0){
-    dx = 0;
-    dy = -1; // default shoot upward
-    d = 1;
-}
-
-ctx.strokeStyle="lime";
-ctx.beginPath();
-ctx.moveTo(player.x,player.y);
-ctx.lineTo(player.x+(dx/d)*600,player.y+(dy/d)*600);
-ctx.stroke();
-
-enemies=enemies.filter(e=>{
-let dist=Math.abs((e.x-player.x)*(dy/d)-(e.y-player.y)*(dx/d));
-if(dist<10){ killEnemy(e); return false; }
-return true;
-});
-}
-
-/* KILL */
-function killEnemy(e){
-if(!e) return;    kills++;
-
-    if(obtained.has("heal")){
-        player.hp += 5;
-        if(player.hp > 20) player.hp = 20;
-    }
-
-    /* 💥 EXPLOSION SPAWN */
-    if(Math.random() < 0.35 * chaosLevel){
-        for(let i=0;i<3;i++){
-            enemies.push({
-                x:e.x,
-                y:e.y,
-                speed:3 + chaosLevel,
-                size:5,
-                color:"orange",
-                hp:1,
-                type:"chaser",
-                attackCooldown:0
-            });
-        }
-    }
-
-    /* 👥 SPLIT SPAWN */
-    if(e.size > 7 && Math.random() < 0.6){
-        for(let i=0;i<2;i++){
-            enemies.push({
-                x:e.x + (Math.random()-0.5)*20,
-                y:e.y + (Math.random()-0.5)*20,
-speed: Math.min(e.speed + 0.5, 5),                size:e.size * 0.7,
-                color:"yellow",
-                hp:Math.max(1, e.hp-1),
-                type:"chaser",
-                attackCooldown:0
-            });
-        }
-    }
-}
-
-/* LOOP */
-function loop(){
-ctx.clearRect(0,0,600,400);
-
-if(player && !gameOver && !paused){
-
-difficulty=1+(Date.now()-startTime)/20000;
-let allUnlocked=obtained.size>=powerups.length;
-
-moveDir.x=0; moveDir.y=0;
-if(keys["w"]||keys["arrowup"]) moveDir.y=-1;
-if(keys["s"]||keys["arrowdown"]) moveDir.y=1;
-if(keys["a"]||keys["arrowleft"]) moveDir.x=-1;
-if(keys["d"]||keys["arrowright"]) moveDir.x=1;
-
-let d=Math.hypot(moveDir.x,moveDir.y)||1;
-player.x+=moveDir.x/d*player.speed;
-player.y+=moveDir.y/d*player.speed;
-
-player.x=Math.max(0,Math.min(canvas.width-6,player.x));
-player.y=Math.max(0,Math.min(canvas.height-6,player.y));
-
-enemies.forEach(e=>{
-let dx=player.x-e.x,dy=player.y-e.y;
-
-if(e.type==="chaser"){
-let px=player.x+moveDir.x*20;
-let py=player.y+moveDir.y*20;
-dx=px-e.x; dy=py-e.y;
-}else{
-dx+=Math.sin(Date.now()/300)*20;
-dy+=Math.cos(Date.now()/300)*20;
-}
-
-let d2=Math.hypot(dx,dy)||1;
-
-if(Date.now()>e.attackCooldown){
-    e.speed += 1; // controlled burst instead of multiplier
-    e.attackCooldown=Date.now()+2000;
-}
-
-e.x+=dx/d2*e.speed;
-e.y+=dy/d2*e.speed;
-e.speed *= 0.98;
-if(e.speed < 0.5) e.speed = 0.5; // prevent stalling
-if(allUnlocked){
-
-    /* SPEED RAMP (keeps increasing forever) */
-let maxSpeed = 4 + difficulty * 0.5;
-e.speed = Math.min(e.speed, maxSpeed);
-    /* SMART PREDICTION BOOST */
-    let predictBoost = 40 + difficulty*5;
-    dx = (player.x + moveDir.x*predictBoost) - e.x;
-    dy = (player.y + moveDir.y*predictBoost) - e.y;
-
-    /* RANDOM TELEPORT DASH */
-    if(Math.random() < 0.02){
-        e.x += (Math.random()-0.5)*120;
-        e.y += (Math.random()-0.5)*120;
-    }
-
-    /* SWARM SPAWN */
-    if(Math.random() < 0.08){
-        enemies.push({
-            x:player.x + (Math.random()-0.5)*150,
-            y:player.y + (Math.random()-0.5)*150,
-            speed:4 + difficulty,
-            size:8,
-            color:"magenta",
-            hp:6,
-            type:"chaser",
-            attackCooldown:0
-        });
-    }
-
-    /* CONSTANT PRESSURE DAMAGE */
-player.hp -= 0.01 + difficulty*0.002;
-    /* ARENA CHAOS (screen shake style movement) */
-    if(Math.random()<0.01){
-        player.x += (Math.random()-0.5)*10;
-        player.y += (Math.random()-0.5)*10;
-    }
-}
-
-e.x=Math.max(0,Math.min(canvas.width-e.size,e.x));
-e.y=Math.max(0,Math.min(canvas.height-e.size,e.y));
-
-ctx.fillStyle=e.color;
-ctx.fillRect(e.x,e.y,e.size,e.size);
-
-if(Math.hypot(player.x-e.x,player.y-e.y)<8){
-player.hp--;
-if(player.hp<=0) gameOver=true;
-}
-});
-
-bullets=bullets.filter(b=>{
-b.x+=b.dx*b.speed;
-b.y+=b.dy*b.speed;
-
-if(b.x<0||b.x>canvas.width||b.y<0||b.y>canvas.height) return false;
-
-ctx.fillStyle="white";
-ctx.fillRect(b.x,b.y,2,2);
-
-enemies=enemies.filter(e=>{
-if(Math.abs(b.x-e.x)<6 && Math.abs(b.y-e.y)<6){
-e.hp--;
-if(e.hp<=0){ killEnemy(e); return false; }
-}
-return true;
-});
-
-return true;
-});
-
-/* ABILITIES (FIXED) */
-drawLaser();
-updateDarkMagic();
-updateWaves();
-updateSpirit();
-
-ctx.fillStyle="#536DFE";
-ctx.fillRect(player.x,player.y,6,6);
-
-ctx.fillStyle="white";
-ctx.fillText("HP:"+Math.floor(player.hp),10,20);
-ctx.fillText("KILLS:"+kills,10,40);
-}
-
-if(!paused && Date.now()-lastLevelUp>10000){
-showLevelUp();
-}
-
-if(gameOver){
-ctx.fillStyle="rgba(0,0,0,0.6)";
-ctx.fillRect(0,0,600,400);
-ctx.fillStyle="white";
-ctx.fillText("GAME OVER",250,200);
-}
-
-requestAnimationFrame(loop);
-}
-
-loop();
-let enterUsed=false;
-
-document.addEventListener("keydown",e=>{
-    if(e.key==="Enter" && !enterUsed){
-        enterUsed=true;
-        requestAnimationFrame(()=>activateAllPowerups());
-    }
-});
-function activateAllPowerups(){
-
-    paused=true;
-
-    powerups.forEach(p=>{
-        if(!obtained.has(p.key)){
+          btn.onclick = () => {
             p.effect();
             obtained.add(p.key);
+            ui.innerHTML = "";
+            paused = false;
+            lastLevelUp = Date.now();
+          };
+
+          ui.appendChild(btn);
+        });
+      }
+
+      /* SPAWN */
+      let lastSpawnTime = Date.now();
+
+      setInterval(() => {
+        if (gameOver || paused) return;
+
+        let now = Date.now();
+
+        let allUnlocked = obtained.size >= powerups.length;
+
+        difficulty = 1 + (now - startTime) / 20000;
+
+        /* FIX: chaos does NOT run per enemy anymore */
+        if (allUnlocked && Math.random() < 0.02) {
+          chaosLevel += 0.002;
         }
-    });
 
-    chaosLevel = 3;
+        /* keeps original pacing behavior */
+        let spawnRate = allUnlocked ? 250 : 800;
 
-    const ui=document.getElementById("ui");
-    ui.innerHTML="";
-    ui.style.display="none";
+        if (now - lastSpawnTime < spawnRate) return;
+        lastSpawnTime = now;
 
-    lastLevelUp = Date.now();
+        let scale = difficulty * (allUnlocked ? 3 : 1);
 
-    setTimeout(()=>{
-        paused=false;
-    },50);
-}
-let entered=false;
+        let count;
 
-document.addEventListener("keydown",e=>{
-    if(e.key==="Enter" && !entered){
-        entered=true;
-        activateAllPowerups();
-    }
-});
-init();
-</script>
-</body>
+        if (allUnlocked) {
+          count = 6 + Math.floor(difficulty * 2); // same logic you had
+        } else {
+          count = 1 + Math.floor(difficulty / 2);
+        }
+
+        for (let i = 0; i < count; i++) {
+          let spawnType = Math.random();
+          let x, y;
+
+          if (allUnlocked && spawnType < 0.5) {
+            let minDist = 80;
+            do {
+              x = player.x + (Math.random() - 0.5) * 300;
+              y = player.y + (Math.random() - 0.5) * 300;
+            } while (Math.hypot(x - player.x, y - player.y) < minDist);
+          } else {
+            x = Math.random() * canvas.width;
+            y = Math.random() * canvas.height;
+          }
+
+          enemies.push({
+            x: x,
+            y: y,
+            speed: 2 + Math.random() * scale,
+            size: 6 + Math.min(scale, 12),
+            color: allUnlocked ? "magenta" : "red",
+            hp: Math.floor(3 + scale * 0.7),
+            type: Math.random() < 0.6 ? "chaser" : "strafer",
+            attackCooldown: 0,
+          });
+        }
+      }, 50);
+      /* VOID PULSE */
+      function updateWaves() {
+        if (!abilities.waves) return;
+
+        let now = Date.now();
+        if (!updateWaves.last) updateWaves.last = now;
+
+        if (now - updateWaves.last > 10000) {
+          updateWaves.last = now;
+          pulses.push({ x: player.x, y: player.y, r: 0, max: 140 });
+        }
+
+        pulses.forEach((p) => {
+          p.r += 3;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.strokeStyle = "orange";
+          ctx.lineWidth = 4;
+          ctx.stroke();
+
+          enemies.forEach((e) => {
+            let dx = e.x - p.x,
+              dy = e.y - p.y;
+            let dist = Math.hypot(dx, dy);
+
+            if (dist < p.r && dist > p.r - 10) {
+              e.hp--;
+              if (e.hp <= 0) killEnemy(e);
+            }
+          });
+        });
+
+        pulses = pulses.filter((p) => p.r < p.max);
+      }
+
+      /* DARK MAGIC */
+      function updateDarkMagic() {
+        if (!abilities.darkMagic) return;
+
+        for (let i = 0; i < 6; i++) {
+          let angle = Date.now() / 200 + i;
+          let ox = player.x + Math.cos(angle) * 25;
+          let oy = player.y + Math.sin(angle) * 25;
+
+          ctx.fillStyle = "purple";
+          ctx.fillRect(ox, oy, 4, 4);
+
+          enemies = enemies.filter((e) => {
+            if (Math.hypot(e.x - ox, e.y - oy) < 12) {
+              killEnemy(e);
+              return false;
+            }
+            return true;
+          });
+        }
+      }
+
+      /* SPIRIT */
+      function updateSpirit() {
+        if (!abilities.spirit) return;
+
+        if (!spirit) spirit = { x: player.x, y: player.y };
+
+        spirit.x += (player.x - spirit.x) * 0.05;
+        spirit.y += (player.y - spirit.y) * 0.05;
+
+        ctx.fillStyle = "cyan";
+        ctx.fillRect(spirit.x, spirit.y, 5, 5);
+
+        enemies = enemies.filter((e) => {
+          if (Math.hypot(e.x - spirit.x, e.y - spirit.y) < 15) {
+            killEnemy(e);
+            return false;
+          }
+          return true;
+        });
+      }
+
+      /* LASER */
+      function drawLaser() {
+        if (!abilities.laser) return;
+
+        let dx = moveDir.x;
+        let dy = moveDir.y;
+        let d = Math.hypot(dx, dy);
+
+        /* FIX: allow shooting even if not moving */
+        if (d === 0) {
+          dx = 0;
+          dy = -1; // default shoot upward
+          d = 1;
+        }
+
+        ctx.strokeStyle = "lime";
+        ctx.beginPath();
+        ctx.moveTo(player.x, player.y);
+        ctx.lineTo(player.x + (dx / d) * 600, player.y + (dy / d) * 600);
+        ctx.stroke();
+
+        enemies = enemies.filter((e) => {
+          let dist = Math.abs(
+            (e.x - player.x) * (dy / d) - (e.y - player.y) * (dx / d),
+          );
+          if (dist < 10) {
+            killEnemy(e);
+            return false;
+          }
+          return true;
+        });
+      }
+
+      /* KILL */
+      function killEnemy(e) {
+        if (!e) return;
+        kills++;
+
+        if (obtained.has("heal")) {
+          player.hp += 5;
+          if (player.hp > 20) player.hp = 20;
+        }
+
+        /* 💥 EXPLOSION SPAWN */
+        if (Math.random() < 0.35 * chaosLevel) {
+          for (let i = 0; i < 3; i++) {
+            enemies.push({
+              x: e.x,
+              y: e.y,
+              speed: 3 + chaosLevel,
+              size: 5,
+              color: "orange",
+              hp: 1,
+              type: "chaser",
+              attackCooldown: 0,
+            });
+          }
+        }
+
+        /* 👥 SPLIT SPAWN */
+        if (e.size > 7 && Math.random() < 0.6) {
+          for (let i = 0; i < 2; i++) {
+            enemies.push({
+              x: e.x + (Math.random() - 0.5) * 20,
+              y: e.y + (Math.random() - 0.5) * 20,
+              speed: Math.min(e.speed + 0.5, 5),
+              size: e.size * 0.7,
+              color: "yellow",
+              hp: Math.max(1, e.hp - 1),
+              type: "chaser",
+              attackCooldown: 0,
+            });
+          }
+        }
+      }
+
+      /* LOOP */
+      function loop() {
+        ctx.clearRect(0, 0, 600, 400);
+
+        if (player && !gameOver && !paused) {
+          difficulty = 1 + (Date.now() - startTime) / 20000;
+          let allUnlocked = obtained.size >= powerups.length;
+
+          moveDir.x = 0;
+          moveDir.y = 0;
+          if (keys["w"] || keys["arrowup"]) moveDir.y = -1;
+          if (keys["s"] || keys["arrowdown"]) moveDir.y = 1;
+          if (keys["a"] || keys["arrowleft"]) moveDir.x = -1;
+          if (keys["d"] || keys["arrowright"]) moveDir.x = 1;
+
+          let d = Math.hypot(moveDir.x, moveDir.y) || 1;
+          player.x += (moveDir.x / d) * player.speed;
+          player.y += (moveDir.y / d) * player.speed;
+
+          player.x = Math.max(0, Math.min(canvas.width - 6, player.x));
+          player.y = Math.max(0, Math.min(canvas.height - 6, player.y));
+
+          enemies.forEach((e) => {
+            let dx = player.x - e.x,
+              dy = player.y - e.y;
+
+            if (e.type === "chaser") {
+              let px = player.x + moveDir.x * 20;
+              let py = player.y + moveDir.y * 20;
+              dx = px - e.x;
+              dy = py - e.y;
+            } else {
+              dx += Math.sin(Date.now() / 300) * 20;
+              dy += Math.cos(Date.now() / 300) * 20;
+            }
+
+            let d2 = Math.hypot(dx, dy) || 1;
+
+            if (Date.now() > e.attackCooldown) {
+              e.speed += 1; // controlled burst instead of multiplier
+              e.attackCooldown = Date.now() + 2000;
+            }
+
+            e.x += (dx / d2) * e.speed;
+            e.y += (dy / d2) * e.speed;
+            e.speed *= 0.98;
+            if (e.speed < 0.5) e.speed = 0.5; // prevent stalling
+            if (allUnlocked) {
+              /* SPEED RAMP (keeps increasing forever) */
+              let maxSpeed = 4 + difficulty * 0.5;
+              e.speed = Math.min(e.speed, maxSpeed);
+              /* SMART PREDICTION BOOST */
+              let predictBoost = 40 + difficulty * 5;
+              dx = player.x + moveDir.x * predictBoost - e.x;
+              dy = player.y + moveDir.y * predictBoost - e.y;
+
+              /* RANDOM TELEPORT DASH */
+              if (Math.random() < 0.02) {
+                e.x += (Math.random() - 0.5) * 120;
+                e.y += (Math.random() - 0.5) * 120;
+              }
+
+              /* SWARM SPAWN */
+              if (Math.random() < 0.08) {
+                enemies.push({
+                  x: player.x + (Math.random() - 0.5) * 150,
+                  y: player.y + (Math.random() - 0.5) * 150,
+                  speed: 4 + difficulty,
+                  size: 8,
+                  color: "magenta",
+                  hp: 6,
+                  type: "chaser",
+                  attackCooldown: 0,
+                });
+              }
+
+              /* CONSTANT PRESSURE DAMAGE */
+              player.hp -= 0.01 + difficulty * 0.002;
+              /* ARENA CHAOS (screen shake style movement) */
+              if (Math.random() < 0.01) {
+                player.x += (Math.random() - 0.5) * 10;
+                player.y += (Math.random() - 0.5) * 10;
+              }
+            }
+
+            e.x = Math.max(0, Math.min(canvas.width - e.size, e.x));
+            e.y = Math.max(0, Math.min(canvas.height - e.size, e.y));
+
+            ctx.fillStyle = e.color;
+            ctx.fillRect(e.x, e.y, e.size, e.size);
+
+            if (Math.hypot(player.x - e.x, player.y - e.y) < 8) {
+              player.hp--;
+              if (player.hp <= 0) gameOver = true;
+            }
+          });
+
+          bullets = bullets.filter((b) => {
+            b.x += b.dx * b.speed;
+            b.y += b.dy * b.speed;
+
+            if (b.x < 0 || b.x > canvas.width || b.y < 0 || b.y > canvas.height)
+              return false;
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(b.x, b.y, 2, 2);
+
+            enemies = enemies.filter((e) => {
+              if (Math.abs(b.x - e.x) < 6 && Math.abs(b.y - e.y) < 6) {
+                e.hp--;
+                if (e.hp <= 0) {
+                  killEnemy(e);
+                  return false;
+                }
+              }
+              return true;
+            });
+
+            return true;
+          });
+
+          /* ABILITIES (FIXED) */
+          drawLaser();
+          updateDarkMagic();
+          updateWaves();
+          updateSpirit();
+
+          ctx.fillStyle = "#536DFE";
+          ctx.fillRect(player.x, player.y, 6, 6);
+
+          ctx.fillStyle = "white";
+          ctx.fillText("HP:" + Math.floor(player.hp), 10, 20);
+          ctx.fillText("KILLS:" + kills, 10, 40);
+        }
+
+        if (!paused && Date.now() - lastLevelUp > 10000) {
+          showLevelUp();
+        }
+
+        if (gameOver) {
+          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          ctx.fillRect(0, 0, 600, 400);
+          ctx.fillStyle = "white";
+          ctx.fillText("GAME OVER", 250, 200);
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      loop();
+      let enterUsed = false;
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !enterUsed) {
+          enterUsed = true;
+          requestAnimationFrame(() => activateAllPowerups());
+        }
+      });
+      function activateAllPowerups() {
+        paused = true;
+
+        powerups.forEach((p) => {
+          if (!obtained.has(p.key)) {
+            p.effect();
+            obtained.add(p.key);
+          }
+        });
+
+        chaosLevel = 3;
+
+        const ui = document.getElementById("ui");
+        ui.innerHTML = "";
+        ui.style.display = "none";
+
+        lastLevelUp = Date.now();
+
+        setTimeout(() => {
+          paused = false;
+        }, 50);
+      }
+      let entered = false;
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !entered) {
+          entered = true;
+          activateAllPowerups();
+        }
+      });
+      init();
+    </script>
+  </body>
 </html>

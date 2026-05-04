@@ -1,359 +1,434 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jasonyen.me</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jasonyen.me</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="/images/favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-body{
-    font-family:'Fredoka',sans-serif;
-    font-size:18px;
-    background-color:#f5f6fa;
-    overflow-x:hidden;
-    transition: background 0.4s,color 0.4s;
-    line-height:1.6;
-}
+      body {
+        font-family: "Fredoka", sans-serif;
+        font-size: 18px;
+        background-color: #f5f6fa;
+        overflow-x: hidden;
+        transition:
+          background 0.4s,
+          color 0.4s;
+        line-height: 1.6;
+      }
 
-/* NAVBAR */
-.navbar{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:60px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(20px);
-    z-index:9999;
-}
+      /* NAVBAR */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+      }
 
-.navbar-content{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.navbar a{
-    color:#536DFE;
-    text-decoration:none;
-    font-size:18px;
-    position:relative;
-    white-space:nowrap;
-}
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
 
-.navbar a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-3px;
-    width:0%;
-    height:3px;
-    background:#536DFE;
-    border-radius:2px;
-    transition:width 0.3s ease;
-}
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 3px;
+        background: #536dfe;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
 
-.navbar a:hover::after{
-    width:100%;
-}
+      .navbar a:hover::after {
+        width: 100%;
+      }
 
-/* LOGO */
-.nav-logo{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:block;
-    transition:transform 0.25s ease,box-shadow 0.25s ease;
-}
+      /* LOGO */
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: block;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
 
-.nav-logo:hover{
-    transform:scale(1.08);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
-}
+      .nav-logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
 
-/* MAIN CONTENT */
-.main-content{
-    margin-top:80px;
-    padding:20px;
-    max-width:700px;
-}
+      /* MAIN CONTENT */
+      .main-content {
+        margin-top: 80px;
+        padding: 20px;
+        max-width: 700px;
+      }
 
-/* TOOL SECTION */
-.section{
-    margin-bottom:30px;
-    padding-bottom:10px;
-}
+      /* TOOL SECTION */
+      .section {
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+      }
 
-textarea{
-    width:100%;
-    height:100px;
-    border-radius:10px;
-    padding:10px;
-    font-size:16px;
-    border:none;
-    outline:none;
-    font-family:'Fredoka',sans-serif;
-}
+      textarea {
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        font-family: "Fredoka", sans-serif;
+      }
 
-.game-link{
-    display:inline-block;
-    margin:10px 10px 0 0;
-    padding:12px 24px;
-    background-color:#4c5eaf;
-    color:white;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-    font-family:'Fredoka',sans-serif;
-}
+      .game-link {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+        padding: 12px 24px;
+        background-color: #4c5eaf;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-family: "Fredoka", sans-serif;
+      }
 
-/* RESULT */
-#outputText{
-    margin-top:30px; /* more space below buttons */
-    padding:10px;
-    background:rgba(0,0,0,0.05);
-    border-radius:10px;
-    letter-spacing:0.2em; /* spaced out more */
-    min-height:50px;
-    font-family:'Fredoka',sans-serif;
-    word-break:break-word;
-}
+      /* RESULT */
+      #outputText {
+        margin-top: 30px; /* more space below buttons */
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        letter-spacing: 0.2em; /* spaced out more */
+        min-height: 50px;
+        font-family: "Fredoka", sans-serif;
+        word-break: break-word;
+      }
 
-/* DARK MODE */
-body.dark{
-    color:#e6e6e6;
-    background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-    background-size:400% 400%;
-    animation:gradientMove 18s ease infinite;
-}
+      /* DARK MODE */
+      body.dark {
+        color: #e6e6e6;
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+        background-size: 400% 400%;
+        animation: gradientMove 18s ease infinite;
+      }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-/* TOGGLE */
-.toggle{
-    width:65px;
-    height:34px;
-    border-radius:50px;
-    cursor:pointer;
-    position:relative;
-    background:#dcdde1;
-    border:2px solid rgba(0,0,0,0.2);
-}
+      /* TOGGLE */
+      .toggle {
+        width: 65px;
+        height: 34px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+      }
 
-body.dark .toggle{
-    background:#2f3640;
-    border:2px solid rgba(255,255,255,0.3);
-}
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
 
-.toggle.active{
-    background:#536DFE;
-    border:2px solid #536DFE;
-    box-shadow:0 0 10px rgba(83,109,254,0.6);
-}
+      .toggle.active {
+        background: #536dfe;
+        border: 2px solid #536dfe;
+        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
+      }
 
-.toggle-circle{
-    width:28px;
-    height:28px;
-    background:white;
-    position:absolute;
-    top:1px;
-    left:2px;
-    border-radius:50%;
-    transition:0.35s;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:14px;
-}
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+        background: white;
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        border-radius: 50%;
+        transition: 0.35s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+      }
 
-.toggle.active .toggle-circle{
-    left:33px;
-}
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
 
-/* FX */
+      /* FX */
 
+      @keyframes floatUp {
+        from {
+          transform: translateY(100vh);
+        }
+        to {
+          transform: translateY(-10vh);
+        }
+      }
 
-@keyframes floatUp{
-    from{transform:translateY(100vh);}
-    to{transform:translateY(-10vh);}
-}
-
-/* MOBILE */
-@media (max-width: 600px){
-    .main-content{margin-top:70px;padding:15px;}
-    textarea{height:80px;}
-}
-</style>
-</head>
-<body>
-
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
-    <a href="/games">Games</a>
-    <a href="/tools">Tools</a>
-    <a href="/donatejk">Donate</a>
-    <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
-  </div>
-    <div class="toggle" id="toggle">
+      /* MOBILE */
+      @media (max-width: 600px) {
+        .main-content {
+          margin-top: 70px;
+          padding: 15px;
+        }
+        textarea {
+          height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="navbar-content">
+        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/downloadpage">Exhibit</a>
+      </div>
+      <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
+      </div>
     </div>
-</div>
 
-<!-- MAIN TOOL -->
-<div class="main-content">
-    <div class="section">
-        <h2>Encoder / Decoder</h2><br>
-        <textarea id="inputText" placeholder="Enter text..."></textarea><br>
+    <!-- MAIN TOOL -->
+    <div class="main-content">
+      <div class="section">
+        <h2>Encoder / Decoder</h2>
+        <br />
+        <textarea id="inputText" placeholder="Enter text..."></textarea><br />
 
         <button class="game-link" onclick="encodeText()">Encode</button>
         <button class="game-link" onclick="decodeText()">Decode</button>
 
         <p><strong>Result:</strong></p>
         <div id="outputText"></div>
+      </div>
     </div>
-</div>
 
-<script>
-// Dark mode toggle with localStorage
-const toggle=document.getElementById("toggle");
-const icon=document.getElementById("icon");
+    <script>
+      // Dark mode toggle with localStorage
+      const toggle = document.getElementById("toggle");
+      const icon = document.getElementById("icon");
 
-if(localStorage.getItem("darkMode")==="on"){
-    document.body.classList.add("dark");
-    toggle.classList.add("active");
-    icon.textContent="☀️";
-} else {
-    icon.textContent="🌙";
-}
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        toggle.classList.add("active");
+        icon.textContent = "☀️";
+      } else {
+        icon.textContent = "🌙";
+      }
 
-toggle.onclick=()=>{
-    document.body.classList.toggle("dark");
-    toggle.classList.toggle("active");
-    if(document.body.classList.contains("dark")){
-        icon.textContent="☀️";
-        localStorage.setItem("darkMode","on");
-    } else {
-        icon.textContent="🌙";
-        localStorage.setItem("darkMode","off");
-    }
-};
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.classList.toggle("active");
+        if (document.body.classList.contains("dark")) {
+          icon.textContent = "☀️";
+          localStorage.setItem("darkMode", "on");
+        } else {
+          icon.textContent = "🌙";
+          localStorage.setItem("darkMode", "off");
+        }
+      };
 
-// FX
-const glow=document.createElement("div");
-glow.className="cursor-glow";
-document.body.appendChild(glow);
+      // FX
+      const glow = document.createElement("div");
+      glow.className = "cursor-glow";
+      document.body.appendChild(glow);
 
-document.addEventListener("mousemove",e=>{
-    glow.style.left=e.clientX+"px";
-    glow.style.top=e.clientY+"px";
-});
+      document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+      });
 
-for(let i=0;i<25;i++){
-    let p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"vw";
-    p.style.animationDuration=(12+Math.random()*18)+"s";
-    document.body.appendChild(p);
-}
+      for (let i = 0; i < 25; i++) {
+        let p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 12 + Math.random() * 18 + "s";
+        document.body.appendChild(p);
+      }
 
-// ===== CIPHER =====
-function swapChar(ch){
-    let c=ch.charCodeAt(0);
-    if(c>=97&&c<=122) return String.fromCharCode(c%2===0?c-1:c+1);
-    if(c>=65&&c<=90) return String.fromCharCode(c%2===0?c-1:c+1);
-    return ch;
-}
+      // ===== CIPHER =====
+      function swapChar(ch) {
+        let c = ch.charCodeAt(0);
+        if (c >= 97 && c <= 122)
+          return String.fromCharCode(c % 2 === 0 ? c - 1 : c + 1);
+        if (c >= 65 && c <= 90)
+          return String.fromCharCode(c % 2 === 0 ? c - 1 : c + 1);
+        return ch;
+      }
 
-const map={a:"!",b:"@",c:"#",d:"$",e:"%",f:"^",g:"&",h:"*",i:"(",j:")",k:"-",l:"_",m:"=",n:"+",o:"[",p:"]",q:"{",r:"}",s:";",t:":",u:"'",v:'"',w:"<",x:">",y:"?",z:"/"};
-const rev=Object.fromEntries(Object.entries(map).map(([k,v])=>[v,k]));
+      const map = {
+        a: "!",
+        b: "@",
+        c: "#",
+        d: "$",
+        e: "%",
+        f: "^",
+        g: "&",
+        h: "*",
+        i: "(",
+        j: ")",
+        k: "-",
+        l: "_",
+        m: "=",
+        n: "+",
+        o: "[",
+        p: "]",
+        q: "{",
+        r: "}",
+        s: ";",
+        t: ":",
+        u: "'",
+        v: '"',
+        w: "<",
+        x: ">",
+        y: "?",
+        z: "/",
+      };
+      const rev = Object.fromEntries(
+        Object.entries(map).map(([k, v]) => [v, k]),
+      );
 
-const flip={"!":"¡","¡":"!","?":"¿","¿":"?","(":")",")":"(","<":">",">":"<","[":"]","]":"[","{":"}","}":"{","/":"\\","\\":"/"};
-const f=c=>flip[c]||c;
+      const flip = {
+        "!": "¡",
+        "¡": "!",
+        "?": "¿",
+        "¿": "?",
+        "(": ")",
+        ")": "(",
+        "<": ">",
+        ">": "<",
+        "[": "]",
+        "]": "[",
+        "{": "}",
+        "}": "{",
+        "/": "\\",
+        "\\": "/",
+      };
+      const f = (c) => flip[c] || c;
 
-const revWords=t=>t.split(" ").map(w=>w.split("").reverse().join("")).join(" ");
+      const revWords = (t) =>
+        t
+          .split(" ")
+          .map((w) => w.split("").reverse().join(""))
+          .join(" ");
 
-// ✅ FIXED (no overwriting)
-function shiftF(t){
-    let w = t.split(" ");
-    let n = w.length;
-    if(n === 0) return t;
+      // ✅ FIXED (no overwriting)
+      function shiftF(t) {
+        let w = t.split(" ");
+        let n = w.length;
+        if (n === 0) return t;
 
-    let shift = n % 5 + 1; // deterministic but safe
-    shift = shift % n;
+        let shift = (n % 5) + 1; // deterministic but safe
+        shift = shift % n;
 
-    return w.slice(-shift).concat(w.slice(0, -shift)).join(" ");
-}
+        return w.slice(-shift).concat(w.slice(0, -shift)).join(" ");
+      }
 
-function shiftB(t){
-    let w = t.split(" ");
-    let n = w.length;
-    if(n === 0) return t;
+      function shiftB(t) {
+        let w = t.split(" ");
+        let n = w.length;
+        if (n === 0) return t;
 
-    let shift = n % 5 + 1;
-    shift = shift % n;
+        let shift = (n % 5) + 1;
+        shift = shift % n;
 
-    return w.slice(shift).concat(w.slice(0, shift)).join(" ");
-}
+        return w.slice(shift).concat(w.slice(0, shift)).join(" ");
+      }
 
-// ✅ FIXED (reverse safely)
-function shiftB(t){
-    let w=t.split(" "),n=w.length;
-    let r=Array.from({length:n},()=>[]);
+      // ✅ FIXED (reverse safely)
+      function shiftB(t) {
+        let w = t.split(" "),
+          n = w.length;
+        let r = Array.from({ length: n }, () => []);
 
-    for(let i=0;i<n;i++){
-        let s=w[i].length % n;
-        r[(i-s+n)%n].push(w[i]);
-    }
+        for (let i = 0; i < n; i++) {
+          let s = w[i].length % n;
+          r[(i - s + n) % n].push(w[i]);
+        }
 
-    return r.flat().join(" ");
-}
+        return r.flat().join(" ");
+      }
 
-// ENCODE (stable)
-function encodeText(){
-    let input = document.getElementById("inputText").value.toLowerCase();
+      // ENCODE (stable)
+      function encodeText() {
+        let input = document.getElementById("inputText").value.toLowerCase();
 
-    // reverse each word (safe operation)
-    let reversed = revWords(input);
+        // reverse each word (safe operation)
+        let reversed = revWords(input);
 
-    let t="";
-    for(let ch of reversed){
-        let s = swapChar(ch);
-        t += f(map[s] || ch);
-    }
+        let t = "";
+        for (let ch of reversed) {
+          let s = swapChar(ch);
+          t += f(map[s] || ch);
+        }
 
-    document.getElementById("outputText").textContent = t;
-}
+        document.getElementById("outputText").textContent = t;
+      }
 
-function decodeText(){
-    let input = document.getElementById("inputText").value; // ✅ FIX
+      function decodeText() {
+        let input = document.getElementById("inputText").value; // ✅ FIX
 
-    let temp="";
-    for(let ch of input){
-        let l = rev[f(ch)];
-        temp += l ? swapChar(l) : ch;
-    }
+        let temp = "";
+        for (let ch of input) {
+          let l = rev[f(ch)];
+          temp += l ? swapChar(l) : ch;
+        }
 
-    let result = revWords(temp);
+        let result = revWords(temp);
 
-    document.getElementById("outputText").textContent = result;
-}
-</script>
-
-</body>
+        document.getElementById("outputText").textContent = result;
+      }
+    </script>
+  </body>
 </html>
