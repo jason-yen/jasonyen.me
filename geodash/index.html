@@ -530,6 +530,8 @@
         let score = 0;
         let highScore = localStorage.getItem("gd_highscore") || 0;
         let gameOver = false;
+        let lastSpawnX = canvas.width;
+        const MIN_GAP = 2 * 34 + 40; // ~2 spikes + extra safety space
 
         // ===== TIME TRACKING (for real seconds) =====
         let startTime = Date.now();
@@ -537,12 +539,21 @@
         // ===== SPAWN SPIKE OBSTACLES =====
         // ===== SPAWN SPIKE CLUMPS =====
         function spawnObstacle() {
-          // random clump size (1–4 spikes)
-          // ===== CLUMP SIZE (1–3 spikes only, always possible) =====
           const count = Math.floor(Math.random() * 3) + 1;
+
+          // find rightmost existing obstacle
+          let rightmost = -Infinity;
+          if (obstacles.length > 0) {
+            rightmost = Math.max(...obstacles.map((o) => o.x));
+          }
+
+          const MIN_GAP = 2 * 34 + 40;
+
+          // if too close to last obstacle, don't spawn
+          if (canvas.width - rightmost < MIN_GAP) return;
+
           for (let i = 0; i < count; i++) {
             obstacles.push({
-              // add slight gap so triple spikes are actually jumpable
               x: canvas.width + i * 34,
               y: GROUND_Y,
               size: 30,
@@ -568,7 +579,7 @@
 
           // ===== RANDOM SPAWN TIMING =====
           // ===== CONTROLLED SPAWN DELAY =====
-          if (frame % (80 + Math.random() * 60) < 1) {
+          if  (Math.random() < 0.02) {
             spawnObstacle();
           }
           // ===== GRAVITY + MOVEMENT =====
