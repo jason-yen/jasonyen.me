@@ -525,6 +525,8 @@
         };
 
         let obstacles = [];
+        let rollingSpikes = [];
+        let platforms = [];
         let frame = 0;
         // ===== SCORE =====
         let score = 0;
@@ -539,18 +541,73 @@
         // ===== SPAWN SPIKE OBSTACLES =====
         // ===== SPAWN SPIKE CLUMPS =====
         function spawnObstacle() {
-          const count = Math.floor(Math.random() * 3) + 1;
+          // ===== FIND RIGHTMOST OBJECT =====
+          let furthestX = -Infinity;
 
-          // find rightmost existing obstacle
-          let rightmost = -Infinity;
           if (obstacles.length > 0) {
-            rightmost = Math.max(...obstacles.map((o) => o.x));
+            furthestX = Math.max(
+              furthestX,
+              ...obstacles.map((o) => o.x + o.size),
+            );
           }
 
-          const MIN_GAP = 2 * 34 + 40;
+          if (rollingSpikes.length > 0) {
+            furthestX = Math.max(
+              furthestX,
+              ...rollingSpikes.map((r) => r.x + r.size),
+            );
+          }
 
-          // if too close to last obstacle, don't spawn
-          if (canvas.width - rightmost < MIN_GAP) return;
+          // ===== PREVENT OVERLAP BETWEEN TYPES =====
+          const SAFE_GAP = 220;
+
+          if (canvas.width - furthestX < SAFE_GAP) return;
+
+          const isRolling = Math.random() < 0.35;
+
+          // =========================================
+          // ===== ROLLING RED SPIKE =====
+          // =========================================
+          if (isRolling) {
+            // FRONT spinning spike
+            rollingSpikes.push({
+              x: canvas.width - 42,
+              y: GROUND_Y - 8,
+              size: 34,
+              rotation: 0,
+            });
+
+            // MIDDLE spinning spike
+            rollingSpikes.push({
+              x: canvas.width,
+              y: GROUND_Y - 8,
+              size: 34,
+              rotation: 0,
+            });
+
+            // BACK spinning spike
+            rollingSpikes.push({
+              x: canvas.width + 42,
+              y: GROUND_Y - 8,
+              size: 34,
+              rotation: 0,
+            });
+
+            // platform only above middle spike
+            platforms.push({
+              x: canvas.width - 5,
+              y: GROUND_Y - 75,
+              width: 45,
+              height: 12,
+            });
+
+            return;
+          }
+
+          // =========================================
+          // ===== NORMAL SPIKE CLUMPS =====
+          // =========================================
+          const count = Math.floor(Math.random() * 3) + 1;
 
           for (let i = 0; i < count; i++) {
             obstacles.push({
@@ -560,9 +617,9 @@
             });
           }
         }
-
         function resetGame() {
           obstacles = [];
+          platforms = [];
           player.y = GROUND_Y - player.size;
           player.velocityY = 0;
           score = 0;
@@ -579,7 +636,7 @@
 
           // ===== RANDOM SPAWN TIMING =====
           // ===== CONTROLLED SPAWN DELAY =====
-          if  (Math.random() < 0.02) {
+          if (Math.random() < 0.02) {
             spawnObstacle();
           }
           // ===== GRAVITY + MOVEMENT =====
@@ -593,17 +650,48 @@
             player.rotation = 0; // reset when on ground
           }
 
-          // ===== COLLISION WITH GROUND =====
+          // ===== PLATFORM COLLISION =====
+          let onPlatform = false;
+
+          platforms.forEach((p) => {
+            const withinX =
+              player.x + player.size > p.x && player.x < p.x + p.width;
+
+            const touchingTop =
+              player.y + player.size >= p.y &&
+              player.y + player.size <= p.y + p.height + 8 &&
+              player.velocityY >= 0;
+
+            if (withinX && touchingTop) {
+              player.y = p.y - player.size;
+              player.velocityY = 0;
+              player.grounded = true;
+              onPlatform = true;
+            }
+          });
+
+          // ===== GROUND COLLISION =====
           if (player.y >= GROUND_Y - player.size) {
-            player.y = GROUND_Y - player.size; // snap to ground
+            player.y = GROUND_Y - player.size;
             player.velocityY = 0;
             player.grounded = true;
+          } else if (!onPlatform) {
+            player.grounded = false;
           }
+          // ===== GAME SPEED =====
+          const GAME_SPEED = 7;
 
-          // ===== GAME SPEED (increase this for faster gameplay) =====
-          const GAME_SPEED = 7; // was 5 (higher = faster)
+          platforms.forEach((p) => (p.x -= GAME_SPEED));
+          platforms = platforms.filter((p) => p.x > -100);
 
           obstacles.forEach((obs) => (obs.x -= GAME_SPEED)); // ===== COLLISION DETECTION (spike hitbox) =====
+          rollingSpikes.forEach((r) => {
+            r.x -= GAME_SPEED;
+            r.rotation += 0.18;
+          });
+
+          rollingSpikes = rollingSpikes.filter((r) => r.x > -60);
+
           // ===== PRECISE SPIKE HITBOX (FIXED) =====
           obstacles.forEach((obs) => {
             const px = player.x;
@@ -657,7 +745,11 @@
 
           ctx.shadowBlur = 15;
           ctx.shadowColor = "#536dfe";
+          ctx.fillStyle = "#00ff88";
 
+          platforms.forEach((p) => {
+            ctx.fillRect(p.x, p.y, p.width, p.height);
+          });
           // ===== PLAYER (ROTATING CUBE) =====
           ctx.save();
           ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
@@ -672,18 +764,115 @@
           ctx.restore();
 
           ctx.shadowBlur = 0;
+          ctx.shadowBlur = 0;
+
+          // 👇 PASTE SECTION 5 HERE
+
+          // ===== ROLLING SPIKES =====
+          ctx.strokeStyle = "#ffea00";
+          ctx.lineWidth = 4;
+
+          rollingSpikes.forEach((r) => {
+            ctx.save();
+
+            ctx.translate(r.x, r.y);
+            ctx.rotate(r.rotation);
+
+            ctx.beginPath();
+            ctx.arc(0, 0, r.radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            for (let i = 0; i < 8; i++) {
+              ctx.rotate(Math.PI / 4);
+
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.lineTo(r.radius, 0);
+              ctx.stroke();
+            }
+
+            ctx.restore();
+          });
 
           // ===== SPIKES (TRIANGLES) =====
           ctx.fillStyle = "#ff3d00";
+
           obstacles.forEach((obs) => {
             ctx.beginPath();
-            ctx.moveTo(obs.x, obs.y); // bottom left
-            ctx.lineTo(obs.x + obs.size / 2, obs.y - obs.size); // top
-            ctx.lineTo(obs.x + obs.size, obs.y); // bottom right
+            ctx.moveTo(obs.x, obs.y);
+            ctx.lineTo(obs.x + obs.size / 2, obs.y - obs.size);
+            ctx.lineTo(obs.x + obs.size, obs.y);
             ctx.closePath();
             ctx.fill();
           });
+          // ===== ROLLING RED SPIKES =====
+          ctx.fillStyle = "#ff3d00";
 
+          rollingSpikes.forEach((r) => {
+            ctx.save();
+
+            ctx.translate(r.x + r.size / 2, r.y - r.size / 2);
+            ctx.rotate(r.rotation);
+
+            ctx.beginPath();
+            ctx.moveTo(-r.size / 2, r.size / 2);
+            ctx.lineTo(0, -r.size / 2);
+            ctx.lineTo(r.size / 2, r.size / 2);
+            ctx.closePath();
+
+            ctx.fill();
+
+            ctx.restore();
+          });
+          // ===== NORMAL SPIKE COLLISION =====
+          obstacles.forEach((obs) => {
+            const px = player.x;
+            const py = player.y;
+            const ps = player.size;
+
+            const left = obs.x;
+            const right = obs.x + obs.size;
+            const bottom = obs.y;
+            const top = obs.y - obs.size;
+
+            const overlapX = px < right && px + ps > left;
+            const overlapY = py < bottom && py + ps > top;
+
+            if (overlapX && overlapY) {
+              gameOver = true;
+
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("gd_highscore", highScore);
+              }
+            }
+          });
+
+          // 👇 PASTE SECTION 4 RIGHT HERE
+
+          rollingSpikes.forEach((r) => {
+            const px = player.x;
+            const py = player.y;
+            const ps = player.size;
+
+            const left = r.x;
+            const right = r.x + r.size;
+            const bottom = r.y;
+            const top = r.y - r.size;
+
+            const overlapX = px < right && px + ps > left;
+            const overlapY = py < bottom && py + ps > top;
+
+            if (overlapX && overlapY) {
+              gameOver = true;
+
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("gd_highscore", highScore);
+              }
+            }
+          });
+          obstacles = obstacles.filter((obs) => obs.x > -50);
           // ===== GAME OVER UI =====
           if (gameOver) {
             ctx.fillStyle = "white";
