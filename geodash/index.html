@@ -123,20 +123,6 @@
       }
 
       /* ================= DISABLE ON MOBILE ================= */
-      @media (max-width: 600px) {
-        body::before,
-        body::after {
-          display: none;
-        }
-      }
-
-      /* ================= DISABLE FRAME ON MOBILE (SAFE) ================= */
-      @media (max-width: 600px) {
-        body::before,
-        body::after {
-          content: none !important;
-        }
-      }
 
       /* ================= NAVBAR ================= */
       .navbar {
@@ -418,6 +404,11 @@
         margin-top: 10px;
         font-size: 18px;
       }
+      #gameCanvas {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+      }
     </style>
   </head>
 
@@ -501,8 +492,6 @@
         }, 1000);
       }
       window.onload = () => {
-        let isPaused = false;
-
         const canvas = document.getElementById("gameCanvas");
         if (!canvas) return;
 
@@ -532,6 +521,7 @@
         let score = 0;
         let highScore = localStorage.getItem("gd_highscore") || 0;
         let gameOver = false;
+        let shakeTime = 0;
         let lastSpawnX = canvas.width;
         const MIN_GAP = 2 * 34 + 40; // ~2 spikes + extra safety space
 
@@ -558,7 +548,7 @@
             );
           }
 
-          // ===== PREVENT OVERLAP BETWEEN TYPES =====
+          // ===== PREVENT OVERLAP =====
           const SAFE_GAP = 220;
 
           if (canvas.width - furthestX < SAFE_GAP) return;
@@ -566,34 +556,31 @@
           const isRolling = Math.random() < 0.35;
 
           // =========================================
-          // ===== ROLLING RED SPIKE =====
+          // ===== SPAWN ROLLING SPIKES ==============
           // =========================================
           if (isRolling) {
-            // FRONT spinning spike
             rollingSpikes.push({
               x: canvas.width - 42,
-              y: GROUND_Y - 8,
+              y: GROUND_Y,
               size: 34,
               rotation: 0,
             });
 
-            // MIDDLE spinning spike
             rollingSpikes.push({
               x: canvas.width,
-              y: GROUND_Y - 8,
+              y: GROUND_Y,
               size: 34,
               rotation: 0,
             });
 
-            // BACK spinning spike
             rollingSpikes.push({
               x: canvas.width + 42,
-              y: GROUND_Y - 8,
+              y: GROUND_Y,
               size: 34,
               rotation: 0,
             });
 
-            // platform only above middle spike
+            // optional platform
             platforms.push({
               x: canvas.width - 5,
               y: GROUND_Y - 75,
@@ -605,7 +592,7 @@
           }
 
           // =========================================
-          // ===== NORMAL SPIKE CLUMPS =====
+          // ===== NORMAL SPIKE CLUMPS ===============
           // =========================================
           const count = Math.floor(Math.random() * 3) + 1;
 
@@ -619,16 +606,23 @@
         }
         function resetGame() {
           obstacles = [];
+          rollingSpikes = [];
           platforms = [];
+
           player.y = GROUND_Y - player.size;
           player.velocityY = 0;
+          player.rotation = 0;
+          player.grounded = true;
+
           score = 0;
           gameOver = false;
 
-          // ===== RESET TIMER =====
+          // reset timer
           startTime = Date.now();
-        }
 
+          // stop screen shake
+          canvas.style.transform = "translate(0,0)";
+        }
         function update() {
           if (gameOver) return;
 
@@ -636,7 +630,7 @@
 
           // ===== RANDOM SPAWN TIMING =====
           // ===== CONTROLLED SPAWN DELAY =====
-          if (Math.random() < 0.02) {
+          if (frame % (70 + Math.floor(Math.random() * 40)) === 0) {
             spawnObstacle();
           }
           // ===== GRAVITY + MOVEMENT =====
@@ -709,8 +703,10 @@
             const overlapY = py < bottom && py + ps > top;
 
             if (overlapX && overlapY) {
-              gameOver = true;
-
+              if (!gameOver) {
+                gameOver = true;
+                shakeTime = 20;
+              }
               // ===== SAVE HIGH SCORE =====
               if (score > highScore) {
                 highScore = score;
@@ -732,158 +728,217 @@
           // ===== CLEAR SCREEN =====
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          // ===== BACKGROUND (matches your dark gradient UI) =====
+          // ===== BACKGROUND =====
           const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
           bg.addColorStop(0, "#1a1f3a");
           bg.addColorStop(1, "#0f1117");
+
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          // ===== GLOWING GROUND LINE =====
+          // =========================================
+          // ===== PARALLAX MOUNTAINS (BACKGROUND) ===
+          // =========================================
+          ctx.fillStyle = "rgba(21,25,43,0.75)";
+
+          for (let i = 0; i < 12; i++) {
+            let x = i * 120 - ((frame * 0.3) % 120);
+
+            ctx.beginPath();
+            ctx.moveTo(x, GROUND_Y);
+
+            ctx.lineTo(x + 60, GROUND_Y - 90);
+
+            ctx.lineTo(x + 120, GROUND_Y);
+
+            ctx.closePath();
+            ctx.fill();
+          }
+
+          // =========================================
+          // ===== GRID BACKGROUND ===================
+          // =========================================
+          ctx.strokeStyle = "rgba(255,255,255,0.05)";
+          ctx.lineWidth = 1;
+
+          for (let x = 0; x < canvas.width; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+          }
+
+          for (let y = 0; y < canvas.height; y += 40) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+          }
+
+          // =========================================
+          // ===== GLOWING GROUND ====================
+          // =========================================
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = "#536dfe";
+
           ctx.fillStyle = "#536dfe";
           ctx.fillRect(0, GROUND_Y, canvas.width, 4);
 
+          ctx.shadowBlur = 0;
+
+          // =========================================
+          // ===== PLATFORMS =========================
+          // =========================================
           ctx.shadowBlur = 15;
-          ctx.shadowColor = "#536dfe";
+          ctx.shadowColor = "#00ff88";
+
           ctx.fillStyle = "#00ff88";
 
           platforms.forEach((p) => {
             ctx.fillRect(p.x, p.y, p.width, p.height);
           });
-          // ===== PLAYER (ROTATING CUBE) =====
+
+          ctx.shadowBlur = 0;
+
+          // =========================================
+          // ===== PLAYER ============================
+          // =========================================
           ctx.save();
+
           ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
+
           ctx.rotate(player.rotation);
+
+          // glow
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = "#00e5ff";
+
           ctx.fillStyle = "#00e5ff";
+
           ctx.fillRect(
             -player.size / 2,
             -player.size / 2,
             player.size,
             player.size,
           );
+
           ctx.restore();
 
           ctx.shadowBlur = 0;
-          ctx.shadowBlur = 0;
 
-          // 👇 PASTE SECTION 5 HERE
-
-          // ===== ROLLING SPIKES =====
-          ctx.strokeStyle = "#ffea00";
-          ctx.lineWidth = 4;
-
-          rollingSpikes.forEach((r) => {
-            ctx.save();
-
-            ctx.translate(r.x, r.y);
-            ctx.rotate(r.rotation);
-
-            ctx.beginPath();
-            ctx.arc(0, 0, r.radius, 0, Math.PI * 2);
-            ctx.stroke();
-
-            for (let i = 0; i < 8; i++) {
-              ctx.rotate(Math.PI / 4);
-
-              ctx.beginPath();
-              ctx.moveTo(0, 0);
-              ctx.lineTo(r.radius, 0);
-              ctx.stroke();
-            }
-
-            ctx.restore();
-          });
-
-          // ===== SPIKES (TRIANGLES) =====
-          ctx.fillStyle = "#ff3d00";
-
-          obstacles.forEach((obs) => {
-            ctx.beginPath();
-            ctx.moveTo(obs.x, obs.y);
-            ctx.lineTo(obs.x + obs.size / 2, obs.y - obs.size);
-            ctx.lineTo(obs.x + obs.size, obs.y);
-            ctx.closePath();
-            ctx.fill();
-          });
-          // ===== ROLLING RED SPIKES =====
-          ctx.fillStyle = "#ff3d00";
-
+          // =========================================
+          // ===== ROLLING SPIKES ====================
+          // =========================================
           rollingSpikes.forEach((r) => {
             ctx.save();
 
             ctx.translate(r.x + r.size / 2, r.y - r.size / 2);
+
             ctx.rotate(r.rotation);
 
+            ctx.shadowBlur = 18;
+            ctx.shadowColor = "#ff1744";
+
+            ctx.fillStyle = "#ff1744";
+
             ctx.beginPath();
+
             ctx.moveTo(-r.size / 2, r.size / 2);
             ctx.lineTo(0, -r.size / 2);
             ctx.lineTo(r.size / 2, r.size / 2);
-            ctx.closePath();
 
+            ctx.closePath();
             ctx.fill();
+
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+
+            ctx.moveTo(-8, 6);
+            ctx.lineTo(0, -10);
+            ctx.lineTo(8, 6);
+
+            ctx.stroke();
 
             ctx.restore();
           });
-          // ===== NORMAL SPIKE COLLISION =====
+
+          ctx.shadowBlur = 0;
+          // =========================================
+          // ===== NORMAL SPIKES =====================
+          // =========================================
           obstacles.forEach((obs) => {
-            const px = player.x;
-            const py = player.y;
-            const ps = player.size;
+            ctx.save();
 
-            const left = obs.x;
-            const right = obs.x + obs.size;
-            const bottom = obs.y;
-            const top = obs.y - obs.size;
+            // center the spike
+            ctx.translate(obs.x + obs.size / 2, obs.y - obs.size / 2);
 
-            const overlapX = px < right && px + ps > left;
-            const overlapY = py < bottom && py + ps > top;
+            // red glow
+            ctx.shadowBlur = 18;
+            ctx.shadowColor = "#ff1744";
 
-            if (overlapX && overlapY) {
-              gameOver = true;
+            ctx.fillStyle = "#ff1744";
 
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
-            }
+            // main triangle
+            ctx.beginPath();
+
+            ctx.moveTo(-obs.size / 2, obs.size / 2);
+            ctx.lineTo(0, -obs.size / 2);
+            ctx.lineTo(obs.size / 2, obs.size / 2);
+
+            ctx.closePath();
+            ctx.fill();
+
+            // inner white detail
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+
+            ctx.moveTo(-8, 6);
+            ctx.lineTo(0, -10);
+            ctx.lineTo(8, 6);
+
+            ctx.stroke();
+
+            ctx.restore();
           });
 
-          // 👇 PASTE SECTION 4 RIGHT HERE
+          ctx.shadowBlur = 0;
 
-          rollingSpikes.forEach((r) => {
-            const px = player.x;
-            const py = player.y;
-            const ps = player.size;
+          // rolling spikes
 
-            const left = r.x;
-            const right = r.x + r.size;
-            const bottom = r.y;
-            const top = r.y - r.size;
-
-            const overlapX = px < right && px + ps > left;
-            const overlapY = py < bottom && py + ps > top;
-
-            if (overlapX && overlapY) {
-              gameOver = true;
-
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
-            }
-          });
-          obstacles = obstacles.filter((obs) => obs.x > -50);
-          // ===== GAME OVER UI =====
+          // =========================================
+          // ===== GAME OVER SCREEN ==================
+          // =========================================
           if (gameOver) {
-            ctx.fillStyle = "white";
-            ctx.font = "bold 28px Fredoka";
-            ctx.fillText("Game Over", 300, 120);
+            // screen darken
+            ctx.fillStyle = "rgba(0,0,0,0.45)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.font = "16px Fredoka";
-            ctx.fillText("Click to Restart", 310, 150);
+            // screen shake
+            if (shakeTime > 0) {
+              canvas.style.transform = `translate(${Math.floor(Math.random() * 8 - 4)}px,
+               ${Math.floor(Math.random() * 8 - 4)}px)`;
+
+              shakeTime--;
+            } else {
+              canvas.style.transform = "translate(0,0)";
+            }
+
+            ctx.fillStyle = "white";
+
+            ctx.font = "bold 32px Fredoka";
+            ctx.fillText("Game Over", 285, 120);
+
+            ctx.font = "18px Fredoka";
+
+            ctx.fillText("Click to Restart", 300, 155);
+          } else {
+            canvas.style.transform = "translate(0,0)";
           }
         }
-
         function loop() {
           update();
           draw();
@@ -907,6 +962,14 @@
           }
         });
       };
+      const scale = canvas.clientWidth / canvas.width;
+      ctx.scale(scale, scale);
+      function resizeCanvas() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = 300;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
     </script>
   </body>
 </html>
