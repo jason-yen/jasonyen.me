@@ -444,10 +444,24 @@
       canvas {
         border: 2px solid rgba(255, 255, 255, 0.08);
       }
+      /* ================= RANDOM BLACKOUT ================= */
+      .blackout {
+        position: fixed;
+        inset: 0;
+        background: black;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 999999;
+        transition: opacity 0.08s linear;
+      }
+
+      .blackout.active {
+        opacity: 1;
+      }
     </style>
   </head>
-
   <body>
+    <div class="blackout" id="blackout"></div>
     <div class="navbar">
       <div class="navbar-content">
         <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
@@ -1154,6 +1168,28 @@
           }
         });
       };
+      /* ===== RANDOM BLACKOUT EFFECT ===== */
+
+      const blackout = document.getElementById("blackout");
+
+      function triggerBlackout() {
+        blackout.classList.add("active");
+
+        // blackout lasts 100–350ms
+        const duration = 100 + Math.random() * 250;
+
+        setTimeout(() => {
+          blackout.classList.remove("active");
+
+          // next blackout in 5–20 seconds
+          const nextTime = 5000 + Math.random() * 15000;
+
+          setTimeout(triggerBlackout, nextTime);
+        }, duration);
+      }
+
+      // start first blackout
+      setTimeout(triggerBlackout, 5000 + Math.random() * 15000);
     </script>
   </body>
 </html>
