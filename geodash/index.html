@@ -64,6 +64,7 @@
         0% {
           transform: translateX(-25%);
         }
+
         100% {
           transform: translateX(25%);
         }
@@ -90,6 +91,7 @@
       body.dark .footer a {
         color: #aaa;
       }
+
       body.dark .footer a:hover {
         color: #fff;
       }
@@ -266,9 +268,11 @@
         0% {
           transform: translateY(0);
         }
+
         50% {
           transform: translateY(-4px);
         }
+
         100% {
           transform: translateY(0);
         }
@@ -286,9 +290,11 @@
         0% {
           background-position: 0% 50%;
         }
+
         50% {
           background-position: 100% 50%;
         }
+
         100% {
           background-position: 0% 50%;
         }
@@ -353,6 +359,7 @@
         from {
           transform: translateY(100vh);
         }
+
         to {
           transform: translateY(-10vh);
         }
@@ -392,6 +399,7 @@
           max-width: 180px;
         }
       }
+
       #gameCanvas {
         display: block;
         margin-top: 20px;
@@ -404,10 +412,37 @@
         margin-top: 10px;
         font-size: 18px;
       }
+
       #gameCanvas {
         width: 100%;
         max-width: 800px;
         height: auto;
+      }
+      .score-ui {
+        margin-top: 14px;
+        font-size: 22px;
+        color: white;
+        text-shadow:
+          0 0 8px #536dfe,
+          0 0 16px #536dfe;
+        animation: pulseScore 2s infinite ease-in-out;
+      }
+
+      @keyframes pulseScore {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.03);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+      canvas {
+        border: 2px solid rgba(255, 255, 255, 0.08);
       }
     </style>
   </head>
@@ -432,7 +467,7 @@
       <h1>Geometry Dash {Beta}</h1>
 
       <canvas id="gameCanvas" width="800" height="300"></canvas>
-      <p id="score">Score: 0</p>
+      <p id="score" class="score-ui">Score: 0</p>
     </div>
     <script>
       let isPaused = false;
@@ -496,7 +531,13 @@
         if (!canvas) return;
 
         const ctx = canvas.getContext("2d");
+        function resizeCanvas() {
+          canvas.width = canvas.clientWidth;
+          canvas.height = 300;
+        }
 
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
         // ===== GROUND LEVEL =====
         const GROUND_Y = 250;
 
@@ -507,8 +548,8 @@
           size: 30,
           velocityY: 0,
           // ===== TIGHTER JUMP (faster + more responsive) =====
-          gravity: 1.2,
-          jumpPower: -18,
+          gravity: 1.45, //Change jump speed
+          jumpPower: -16,
           grounded: true,
           rotation: 0, // used for spinning effect
         };
@@ -516,9 +557,15 @@
         let obstacles = [];
         let rollingSpikes = [];
         let platforms = [];
-        let frame = 0;
-        // ===== SCORE =====
+        let stars = [];
+        let particles = [];
+        let clouds = [];
+        let floatingBlocks = [];
+        let spawnTimer = 0;
+        let nextSpawn = 90; // ===== SCORE =====
         let score = 0;
+        let worldOffset = 0;
+        let gridOffset = 0;
         let highScore = localStorage.getItem("gd_highscore") || 0;
         let gameOver = false;
         let shakeTime = 0;
@@ -527,7 +574,25 @@
 
         // ===== TIME TRACKING (for real seconds) =====
         let startTime = Date.now();
+        // ===== BACKGROUND STARS =====
+        for (let i = 0; i < 80; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            speed: 0.2 + Math.random() * 0.5,
+          });
+        }
 
+        // ===== CLOUDS =====
+        for (let i = 0; i < 8; i++) {
+          clouds.push({
+            x: Math.random() * canvas.width,
+            y: 40 + Math.random() * 100,
+            width: 100 + Math.random() * 120,
+            speed: 0.3 + Math.random() * 0.5,
+          });
+        }
         // ===== SPAWN SPIKE OBSTACLES =====
         // ===== SPAWN SPIKE CLUMPS =====
         function spawnObstacle() {
@@ -602,6 +667,15 @@
               y: GROUND_Y,
               size: 30,
             });
+            // random floating decoration block
+            if (Math.random() < 0.45) {
+              floatingBlocks.push({
+                x: canvas.width + Math.random() * 100,
+                y: 80 + Math.random() * 100,
+                size: 25 + Math.random() * 25,
+                rotation: 0,
+              });
+            }
           }
         }
         function resetGame() {
@@ -623,27 +697,79 @@
           // stop screen shake
           canvas.style.transform = "translate(0,0)";
         }
-        function update() {
+        function update(deltaTime) {
+          const GAME_SPEED = 13 * deltaTime; // Change game speed
+
+          // ===== MOVE STARS =====
+          stars.forEach((s) => {
+            s.x -= s.speed * deltaTime;
+
+            if (s.x < 0) {
+              s.x = canvas.width;
+              s.y = Math.random() * canvas.height;
+            }
+          });
+
+          // ===== MOVE CLOUDS =====
+          clouds.forEach((c) => {
+            c.x -= c.speed * deltaTime;
+
+            if (c.x + c.width < 0) {
+              c.x = canvas.width + 100;
+              c.y = 40 + Math.random() * 100;
+            }
+          });
+
+          // ===== FLOATING BLOCKS =====
+          floatingBlocks.forEach((b) => {
+            b.x -= GAME_SPEED * 0.7;
+            b.rotation += 0.01 * deltaTime;
+          });
+
+          floatingBlocks = floatingBlocks.filter((b) => b.x > -100);
+
+          // ===== PLAYER PARTICLES =====
+          particles.push({
+            x: player.x,
+            y: player.y + player.size,
+            size: 3 + Math.random() * 4,
+            life: 25,
+          });
+
+          particles.forEach((p) => {
+            p.x -= 2;
+            p.life--;
+          });
+
+          particles = particles.filter((p) => p.life > 0);
           if (gameOver) return;
+          worldOffset += 0.6 * deltaTime;
+          spawnTimer += deltaTime;
+          player.velocityY += player.gravity * deltaTime;
 
-          frame++;
+          if (player.velocityY > 0) {
+            player.velocityY += 0.9 * deltaTime;
+          }
 
-          // ===== RANDOM SPAWN TIMING =====
-          // ===== CONTROLLED SPAWN DELAY =====
-          if (frame % (70 + Math.floor(Math.random() * 40)) === 0) {
+          player.y += player.velocityY * deltaTime;
+          if (spawnTimer >= nextSpawn) {
             spawnObstacle();
+
+            spawnTimer = 0;
+            nextSpawn = 70 + Math.random() * 40;
           }
           // ===== GRAVITY + MOVEMENT =====
-          player.velocityY += player.gravity;
-          player.y += player.velocityY;
 
           // ===== ROTATION WHILE IN AIR =====
           if (!player.grounded) {
-            player.rotation += 0.1; // spin
+            player.rotation += 0.25 * deltaTime;
           } else {
             player.rotation = 0; // reset when on ground
           }
-
+          if (player.grounded) {
+            player.rotation =
+              Math.round(player.rotation / (Math.PI / 2)) * (Math.PI / 2);
+          }
           // ===== PLATFORM COLLISION =====
           let onPlatform = false;
 
@@ -662,6 +788,9 @@
               player.grounded = true;
               onPlatform = true;
             }
+            if (Math.abs(player.velocityY) < 0.5) {
+              player.velocityY *= 0.95;
+            }
           });
 
           // ===== GROUND COLLISION =====
@@ -672,16 +801,14 @@
           } else if (!onPlatform) {
             player.grounded = false;
           }
-          // ===== GAME SPEED =====
-          const GAME_SPEED = 7;
-
+          // ===== Game speed =====
           platforms.forEach((p) => (p.x -= GAME_SPEED));
           platforms = platforms.filter((p) => p.x > -100);
 
           obstacles.forEach((obs) => (obs.x -= GAME_SPEED)); // ===== COLLISION DETECTION (spike hitbox) =====
           rollingSpikes.forEach((r) => {
             r.x -= GAME_SPEED;
-            r.rotation += 0.18;
+            r.rotation += 0.18 * deltaTime;
           });
 
           rollingSpikes = rollingSpikes.filter((r) => r.x > -60);
@@ -714,7 +841,31 @@
               }
             }
           });
+          rollingSpikes.forEach((r) => {
+            const px = player.x;
+            const py = player.y;
+            const ps = player.size;
 
+            const left = r.x;
+            const right = r.x + r.size;
+            const bottom = r.y;
+            const top = r.y - r.size;
+
+            const overlapX = px < right && px + ps > left;
+            const overlapY = py < bottom && py + ps > top;
+
+            if (overlapX && overlapY) {
+              if (!gameOver) {
+                gameOver = true;
+                shakeTime = 20;
+              }
+
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("gd_highscore", highScore);
+              }
+            }
+          });
           obstacles = obstacles.filter((obs) => obs.x > -50);
 
           // ===== SCORE BASED ON REAL TIME (seconds) =====
@@ -742,8 +893,7 @@
           ctx.fillStyle = "rgba(21,25,43,0.75)";
 
           for (let i = 0; i < 12; i++) {
-            let x = i * 120 - ((frame * 0.3) % 120);
-
+            let x = i * 120 - (worldOffset % 120);
             ctx.beginPath();
             ctx.moveTo(x, GROUND_Y);
 
@@ -754,13 +904,21 @@
             ctx.closePath();
             ctx.fill();
           }
+          // =========================================
+          // ===== CLOUDS ============================
+          // =========================================
+          ctx.fillStyle = "rgba(255,255,255,0.08)";
 
+          clouds.forEach((c) => {
+            ctx.beginPath();
+            ctx.roundRect(c.x, c.y, c.width, 35, 20);
+            ctx.fill();
+          });
           // =========================================
           // ===== GRID BACKGROUND ===================
           // =========================================
           ctx.strokeStyle = "rgba(255,255,255,0.05)";
           ctx.lineWidth = 1;
-
           for (let x = 0; x < canvas.width; x += 40) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
@@ -774,7 +932,19 @@
             ctx.lineTo(canvas.width, y);
             ctx.stroke();
           }
+          // =========================================
+          // ===== STARS =============================
+          // =========================================
+          ctx.fillStyle = "white";
 
+          stars.forEach((s) => {
+            ctx.globalAlpha = 0.7;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          ctx.globalAlpha = 1;
           // =========================================
           // ===== GLOWING GROUND ====================
           // =========================================
@@ -785,7 +955,26 @@
           ctx.fillRect(0, GROUND_Y, canvas.width, 4);
 
           ctx.shadowBlur = 0;
+          // =========================================
+          // ===== FLOATING BLOCKS ===================
+          // =========================================
+          floatingBlocks.forEach((b) => {
+            ctx.save();
 
+            ctx.translate(b.x, b.y);
+            ctx.rotate(b.rotation);
+
+            ctx.fillStyle = "#8e99f3";
+
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#8e99f3";
+
+            ctx.fillRect(-b.size / 2, -b.size / 2, b.size, b.size);
+
+            ctx.restore();
+          });
+
+          ctx.shadowBlur = 0;
           // =========================================
           // ===== PLATFORMS =========================
           // =========================================
@@ -939,14 +1128,17 @@
             canvas.style.transform = "translate(0,0)";
           }
         }
-        function loop() {
-          update();
+        let lastTime = 0;
+        function loop(timestamp) {
+          const deltaTime = Math.min((timestamp - lastTime) / 16.67, 2);
+          lastTime = timestamp;
+
+          update(deltaTime);
           draw();
+
           requestAnimationFrame(loop);
         }
-
-        loop();
-
+        requestAnimationFrame(loop);
         document.addEventListener("keydown", (e) => {
           if (e.code === "Space" && player.grounded && !gameOver) {
             player.velocityY = player.jumpPower;
@@ -962,14 +1154,6 @@
           }
         });
       };
-      const scale = canvas.clientWidth / canvas.width;
-      ctx.scale(scale, scale);
-      function resizeCanvas() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = 300;
-      }
-      window.addEventListener("resize", resizeCanvas);
-      resizeCanvas();
     </script>
   </body>
 </html>
