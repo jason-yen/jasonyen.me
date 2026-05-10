@@ -568,7 +568,7 @@
           rotation: 0, // used for spinning effect
         };
 
-        let obstacles = [];
+        let obstacles = []; // Variables
         let rollingSpikes = [];
         let platforms = [];
         let stars = [];
@@ -576,6 +576,7 @@
         let clouds = [];
         let floatingBlocks = [];
         let spawnTimer = 0;
+        let ballSpikes = [];
         let nextSpawn = 90; // ===== SCORE =====
         let score = 0;
         let worldOffset = 0;
@@ -628,8 +629,7 @@
           }
 
           // ===== PREVENT OVERLAP =====
-          const SAFE_GAP = 220;
-
+          const SAFE_GAP = 140;
           if (canvas.width - furthestX < SAFE_GAP) return;
 
           const isRolling = Math.random() < 0.35;
@@ -669,7 +669,30 @@
 
             return;
           }
+          // =========================================
+          // ===== BALL SPIKES =======================
+          // =========================================
+          // ===== BALL SPIKE CLUMPS =================
+          // =========================================
+          if (Math.random() < 0.35) {
+            // only 1–2 ball spikes together
+            const count = Math.floor(Math.random() * 2) + 1;
 
+            for (let i = 0; i < count; i++) {
+              ballSpikes.push({
+                x: canvas.width + i * 46,
+                y: GROUND_Y - 18,
+
+                size: 36,
+                rotation: 0,
+
+                // slower rolling
+                spinSpeed: 0.018 + Math.random() * 0.008,
+              });
+            }
+
+            return;
+          }
           // =========================================
           // ===== NORMAL SPIKE CLUMPS ===============
           // =========================================
@@ -696,6 +719,7 @@
           obstacles = [];
           rollingSpikes = [];
           platforms = [];
+          ballSpikes = [];
 
           player.y = GROUND_Y - player.size;
           player.velocityY = 0;
@@ -770,7 +794,7 @@
             spawnObstacle();
 
             spawnTimer = 0;
-            nextSpawn = 70 + Math.random() * 40;
+            nextSpawn = 38 + Math.random() * 28; // Change obstacle frequency
           }
           // ===== GRAVITY + MOVEMENT =====
 
@@ -826,53 +850,104 @@
           });
 
           rollingSpikes = rollingSpikes.filter((r) => r.x > -60);
+          ballSpikes.forEach((b) => {
+            // slower movement
+            b.x -= GAME_SPEED * 0.88;
 
-          // ===== PRECISE SPIKE HITBOX (FIXED) =====
+            // slower rolling
+            b.rotation += b.spinSpeed * deltaTime;
+          });
+
+          ballSpikes = ballSpikes.filter((b) => b.x > -100);
+          // ===== FAIRER TRIANGLE HITBOX =====
           obstacles.forEach((obs) => {
-            const px = player.x;
-            const py = player.y;
-            const ps = player.size;
+            const paddingX = 8;
+            const paddingTop = 12;
+            const paddingBottom = 4;
 
-            // spike bounds
-            const left = obs.x;
-            const right = obs.x + obs.size;
-            const bottom = obs.y;
-            const top = obs.y - obs.size;
+            const spikeLeft = obs.x + paddingX;
+            const spikeRight = obs.x + obs.size - paddingX;
 
-            // AABB check first (fast rejection)
-            const overlapX = px < right && px + ps > left;
-            const overlapY = py < bottom && py + ps > top;
+            const spikeTop = obs.y - obs.size + paddingTop;
+            const spikeBottom = obs.y - paddingBottom;
 
-            if (overlapX && overlapY) {
+            const playerLeft = player.x + 4;
+            const playerRight = player.x + player.size - 4;
+            const playerTop = player.y + 4;
+            const playerBottom = player.y + player.size - 4;
+
+            const hit =
+              playerRight > spikeLeft &&
+              playerLeft < spikeRight &&
+              playerBottom > spikeTop &&
+              playerTop < spikeBottom;
+
+            if (hit) {
               if (!gameOver) {
                 gameOver = true;
                 shakeTime = 20;
               }
-              // ===== SAVE HIGH SCORE =====
+
               if (score > highScore) {
                 highScore = score;
                 localStorage.setItem("gd_highscore", highScore);
               }
             }
           });
+
+          // ===== FAIRER ROLLING SPIKE HITBOX =====
           rollingSpikes.forEach((r) => {
-            const px = player.x;
-            const py = player.y;
-            const ps = player.size;
+            const paddingX = 8;
+            const paddingTop = 12;
+            const paddingBottom = 4;
 
-            const left = r.x;
-            const right = r.x + r.size;
-            const bottom = r.y;
-            const top = r.y - r.size;
+            const spikeLeft = r.x + paddingX;
+            const spikeRight = r.x + r.size - paddingX;
 
-            const overlapX = px < right && px + ps > left;
-            const overlapY = py < bottom && py + ps > top;
+            const spikeTop = r.y - r.size + paddingTop;
+            const spikeBottom = r.y - paddingBottom;
 
-            if (overlapX && overlapY) {
+            const playerLeft = player.x + 4;
+            const playerRight = player.x + player.size - 4;
+            const playerTop = player.y + 4;
+            const playerBottom = player.y + player.size - 4;
+
+            const hit =
+              playerRight > spikeLeft &&
+              playerLeft < spikeRight &&
+              playerBottom > spikeTop &&
+              playerTop < spikeBottom;
+
+            if (hit) {
               if (!gameOver) {
                 gameOver = true;
                 shakeTime = 20;
               }
+
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("gd_highscore", highScore);
+              }
+            }
+          });
+          ballSpikes.forEach((b) => {
+            const cx = b.x + b.size / 2;
+            const cy = b.y;
+
+            const px = player.x + player.size / 2;
+            const py = player.y + player.size / 2;
+
+            const dx = px - cx;
+            const dy = py - cy;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            const ballRadius = b.size * 0.34;
+            const playerRadius = player.size * 0.36;
+
+            if (distance < ballRadius + playerRadius) {
+              gameOver = true;
+              shakeTime = 20;
 
               if (score > highScore) {
                 highScore = score;
@@ -1111,7 +1186,49 @@
           ctx.shadowBlur = 0;
 
           // rolling spikes
+          // =========================================
+          // ===== BALL SPIKES DRAW ==================
+          // =========================================
+          ballSpikes.forEach((b) => {
+            ctx.save();
 
+            ctx.translate(b.x + b.size / 2, b.y);
+            ctx.rotate(b.rotation);
+
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = "#ff1744";
+
+            const spikes = 14;
+            const outerR = b.size / 2;
+            const innerR = b.size / 3;
+
+            ctx.beginPath();
+
+            for (let i = 0; i < spikes * 2; i++) {
+              const angle = (Math.PI / spikes) * i;
+
+              const r = i % 2 === 0 ? outerR : innerR;
+
+              const x = Math.cos(angle) * r;
+              const y = Math.sin(angle) * r;
+
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+
+            ctx.closePath();
+
+            ctx.fillStyle = "#c0c0c0";
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, outerR * 0.25, 0, Math.PI * 2);
+
+            ctx.fillStyle = "#ff1744";
+            ctx.fill();
+
+            ctx.restore();
+          });
           // =========================================
           // ===== GAME OVER SCREEN ==================
           // =========================================
@@ -1154,9 +1271,19 @@
         }
         requestAnimationFrame(loop);
         document.addEventListener("keydown", (e) => {
+          // jump
           if (e.code === "Space" && player.grounded && !gameOver) {
             player.velocityY = player.jumpPower;
             player.grounded = false;
+          }
+
+          // press 5 to clear high score
+          if (e.key === "5") {
+            highScore = 0;
+            localStorage.removeItem("gd_highscore");
+
+            document.getElementById("score").textContent =
+              "Score: " + score + " | Best: " + highScore;
           }
         });
 
