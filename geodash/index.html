@@ -572,6 +572,7 @@
         let rollingSpikes = [];
         let platforms = [];
         let stars = [];
+        let spikePlatforms = [];
         let particles = [];
         let clouds = [];
         let floatingBlocks = [];
@@ -690,6 +691,37 @@
                 spinSpeed: 0.018 + Math.random() * 0.008,
               });
             }
+
+            return;
+          }
+          // =========================================
+          // ===== FLOOR PLATFORM SECTIONS ===========
+          // =========================================
+          if (Math.random() < 0.25) {
+            const tileSize = 68;
+
+            // 4–10 platform sections
+            const length = Math.floor(Math.random() * 7) + 4;
+
+            const platformY = GROUND_Y - 55;
+
+            let spikes = [];
+
+            // random spike clumps ON platform
+            const spikeCount = Math.floor(Math.random() * 3) + 1;
+
+            for (let i = 0; i < spikeCount; i++) {
+              spikes.push(Math.floor(Math.random() * length));
+            }
+
+            spikePlatforms.push({
+              x: canvas.width,
+              y: platformY,
+              width: length * tileSize,
+              height: 14,
+              spikes,
+              tileSize,
+            });
 
             return;
           }
@@ -930,30 +962,50 @@
               }
             }
           });
-          ballSpikes.forEach((b) => {
-            const cx = b.x + b.size / 2;
-            const cy = b.y;
+          spikePlatforms.forEach((p) => (p.x -= GAME_SPEED));
+          spikePlatforms = spikePlatforms.filter((p) => p.x > -200);
+          spikePlatforms.forEach((p) => {
+            // ===== LAND ON TOP =====
+            const withinX =
+              player.x + player.size > p.x && player.x < p.x + p.width;
 
-            const px = player.x + player.size / 2;
-            const py = player.y + player.size / 2;
+            const touchingTop =
+              player.y + player.size >= p.y &&
+              player.y + player.size <= p.y + p.height + 10 &&
+              player.velocityY >= 0;
 
-            const dx = px - cx;
-            const dy = py - cy;
-
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            const ballRadius = b.size * 0.34;
-            const playerRadius = player.size * 0.36;
-
-            if (distance < ballRadius + playerRadius) {
-              gameOver = true;
-              shakeTime = 20;
-
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
+            if (withinX && touchingTop) {
+              player.y = p.y - player.size;
+              player.velocityY = 0;
+              player.grounded = true;
             }
+
+            // ===== SPIKES ON PLATFORM =====
+            p.spikes.forEach((index) => {
+              const spikeX = p.x + index * 34;
+
+              const spikeLeft = spikeX + 6;
+              const spikeRight = spikeX + 28;
+
+              const spikeTop = p.y - 28;
+              const spikeBottom = p.y;
+
+              const playerLeft = player.x + 4;
+              const playerRight = player.x + player.size - 4;
+              const playerTop = player.y + 4;
+              const playerBottom = player.y + player.size - 4;
+
+              const hit =
+                playerRight > spikeLeft &&
+                playerLeft < spikeRight &&
+                playerBottom > spikeTop &&
+                playerTop < spikeBottom;
+
+              if (hit) {
+                gameOver = true;
+                shakeTime = 20;
+              }
+            });
           });
           obstacles = obstacles.filter((obs) => obs.x > -50);
 
@@ -1144,6 +1196,59 @@
 
           ctx.shadowBlur = 0;
           // =========================================
+          // ===== FLOOR SPIKE PLATFORMS =============
+          // =========================================
+          spikePlatforms.forEach((p) => {
+            // ===== PLATFORM =====
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#00ff88";
+
+            ctx.fillStyle = "#00ff88";
+
+            ctx.fillRect(p.x, p.y, p.width, p.height);
+
+            // ===== PLATFORM DETAILS =====
+            ctx.fillStyle = "rgba(255,255,255,0.18)";
+
+            for (let i = 0; i < p.width; i += 34) {
+              ctx.fillRect(p.x + i + 4, p.y + 3, 24, 3);
+            }
+
+            // ===== SPIKES ON TOP =====
+            ctx.fillStyle = "#ff1744";
+            ctx.shadowColor = "#ff1744";
+
+            p.spikes.forEach((index) => {
+              const spikeX = p.x + index * 34;
+
+              ctx.beginPath();
+
+              ctx.moveTo(spikeX, p.y);
+              ctx.lineTo(spikeX + 17, p.y - 30);
+              ctx.lineTo(spikeX + 34, p.y);
+
+              ctx.closePath();
+
+              ctx.fill();
+
+              // inner detail
+              ctx.strokeStyle = "#ffffff";
+              ctx.lineWidth = 2;
+
+              ctx.beginPath();
+
+              ctx.moveTo(spikeX + 9, p.y - 6);
+              ctx.lineTo(spikeX + 17, p.y - 20);
+              ctx.lineTo(spikeX + 25, p.y - 6);
+
+              ctx.stroke();
+            });
+
+            ctx.shadowBlur = 0;
+          });
+
+          ctx.shadowBlur = 0;
+          // =========================================
           // ===== NORMAL SPIKES =====================
           // =========================================
           obstacles.forEach((obs) => {
@@ -1228,6 +1333,34 @@
             ctx.fill();
 
             ctx.restore();
+          });
+          // ===== BALL SPIKE HITBOX =====
+          ballSpikes.forEach((b) => {
+            const centerX = b.x + b.size / 2;
+            const centerY = b.y;
+
+            const radius = b.size / 2 - 6;
+
+            const playerCenterX = player.x + player.size / 2;
+            const playerCenterY = player.y + player.size / 2;
+
+            const dx = playerCenterX - centerX;
+            const dy = playerCenterY - centerY;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // collision
+            if (distance < radius + player.size / 2 - 4) {
+              if (!gameOver) {
+                gameOver = true;
+                shakeTime = 20;
+              }
+
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("gd_highscore", highScore);
+              }
+            }
           });
           // =========================================
           // ===== GAME OVER SCREEN ==================
