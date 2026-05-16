@@ -1,74 +1,110 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ================= META ================= -->
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ================= TITLE ================= -->
     <title>Enter Code | jasonyen.me</title>
 
+    <!-- ================= FONTS ================= -->
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ================= FAVICON ================= -->
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
     <style>
-      /* ===== YOUR ORIGINAL CSS (UNCHANGED) ===== */
+      /* ================= GLOBAL ================= */
       * {
         box-sizing: border-box;
+
         margin: 0;
         padding: 0;
       }
 
       body {
         font-family: "Fredoka", sans-serif;
+
         font-size: 18px;
+
+        line-height: 1.6;
+
         background-color: #f5f6fa;
+
         overflow-x: hidden;
+
         transition:
           background 0.4s,
           color 0.4s;
-        line-height: 1.6;
       }
 
-      /* NAVBAR */
+      /* ================= NAVBAR ================= */
       .navbar {
         position: fixed;
+
         top: 0;
+
         width: 100%;
         height: 60px;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         padding: 0 20px;
+
         background: rgba(255, 255, 255, 0.2);
+
         backdrop-filter: blur(20px);
+
         z-index: 9999;
+
+        transition:
+          background 0.4s ease,
+          box-shadow 0.4s ease;
       }
 
       .navbar-content {
         display: flex;
         align-items: center;
+
         gap: 20px;
+
         flex-wrap: wrap;
       }
 
       .navbar a {
         color: #536dfe;
+
         text-decoration: none;
+
         font-size: 18px;
+
         position: relative;
+
         white-space: nowrap;
       }
 
       .navbar a::after {
         content: "";
+
         position: absolute;
+
         left: 0;
         bottom: -3px;
+
         width: 0%;
         height: 3px;
+
         background: #536dfe;
+
         border-radius: 2px;
+
         transition: width 0.3s ease;
       }
 
@@ -76,11 +112,15 @@
         width: 100%;
       }
 
+      /* ================= LOGO ================= */
       .nav-logo {
         width: 42px;
         height: 42px;
+
         border-radius: 12px;
+
         display: block;
+
         transition:
           transform 0.25s ease,
           box-shadow 0.25s ease;
@@ -88,79 +128,199 @@
 
       .nav-logo:hover {
         transform: scale(1.08);
+
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       }
 
-      /* MAIN */
+      /* ================= MAIN ================= */
       .main-content {
         margin-top: 80px;
+
         padding: 20px;
       }
 
       h1 {
-        font-size: 36px;
-        margin-bottom: 20px;
+        font-size: clamp(28px, 4vw, 42px);
+
+        line-height: 1.15;
+
+        letter-spacing: -1px;
+
+        font-weight: 600;
+
+        margin-bottom: 24px;
+
+        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
+
+        -webkit-background-clip: text;
+
+        -webkit-text-fill-color: transparent;
       }
 
-      /* SECTION */
+      /* ================= SECTION ================= */
       .section {
         margin-bottom: 30px;
-        padding-bottom: 10px;
+
+        padding-bottom: 16px;
+
         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+        transition:
+          transform 0.35s ease,
+          background 0.35s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-3px);
       }
 
       body.dark .section {
         border-bottom: 2px solid rgba(255, 255, 255, 0.25);
       }
 
-      /* BUTTON */
+      /* ================= BUTTONS ================= */
       .game-link {
-        display: inline-block;
-        margin: 10px 10px 0 0;
-        padding: 12px 24px;
-        background-color: #4c5eaf;
-        color: white;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 18px;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
-        cursor: pointer;
-      }
-      .game-link:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-      }
+        position: relative;
 
-      /* INPUT */
-      .code-input {
-        margin-top: 15px;
-        padding: 12px;
-        width: 250px;
-        border-radius: 10px;
+        overflow: hidden;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: 150px;
+        height: 56px;
+
+        margin: 12px 10px 0 0;
+
+        padding: 0 24px;
+
+        border-radius: 14px;
+
         border: none;
-        outline: none;
-        font-size: 16px;
-      }
 
-      /* CODE BOX */
-      .code-box {
-        margin-top: 15px;
-        font-size: 28px;
-        padding: 12px;
-        width: 220px;
-        border-radius: 10px;
-        background: #0f172a;
+        cursor: pointer;
+
+        background: linear-gradient(
+          135deg,
+          rgba(83, 109, 254, 0.95),
+          rgba(120, 140, 255, 0.95)
+        );
+
         color: white;
-        letter-spacing: 3px;
+
+        text-decoration: none;
+
+        font-size: 16px;
+
+        font-weight: 500;
+
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          filter 0.25s ease;
+
+        box-shadow: 0 10px 30px rgba(83, 109, 254, 0.25);
       }
 
-      /* DARK MODE */
+      .game-link::before {
+        content: "";
+
+        position: absolute;
+
+        inset: 0;
+
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent
+        );
+
+        transform: translateX(-120%);
+
+        transition: transform 0.7s ease;
+      }
+
+      .game-link:hover::before {
+        transform: translateX(120%);
+      }
+
+      .game-link:hover {
+        transform: translateY(-4px) scale(1.03);
+
+        filter: brightness(1.08);
+
+        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.4);
+      }
+
+      /* ================= INPUT ================= */
+      .code-input {
+        margin-top: 16px;
+
+        padding: 14px 16px;
+
+        width: 260px;
+
+        border: 1px solid rgba(0, 0, 0, 0.12);
+
+        border-radius: 14px;
+
+        outline: none;
+
+        background: rgba(255, 255, 255, 0.75);
+
+        backdrop-filter: blur(12px);
+
+        font-size: 16px;
+
+        transition:
+          border 0.25s ease,
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+      }
+
+      .code-input:focus {
+        border: 1px solid rgba(83, 109, 254, 0.45);
+
+        box-shadow: 0 0 0 4px rgba(83, 109, 254, 0.12);
+      }
+
+      /* ================= CODE BOX ================= */
+      .code-box {
+        margin-top: 18px;
+
+        width: 240px;
+
+        padding: 14px;
+
+        border-radius: 16px;
+
+        background: rgba(15, 23, 42, 0.95);
+
+        color: white;
+
+        font-size: 30px;
+
+        letter-spacing: 4px;
+
+        text-align: center;
+
+        box-shadow:
+          0 12px 40px rgba(0, 0, 0, 0.25),
+          inset 0 1px rgba(255, 255, 255, 0.06);
+
+        backdrop-filter: blur(12px);
+      }
+
+      /* ================= DARK MODE ================= */
       body.dark {
         color: #e6e6e6;
+
         background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+
         background-size: 400% 400%;
+
         animation: gradientMove 18s ease infinite;
       }
 
@@ -168,48 +328,65 @@
         0% {
           background-position: 0% 50%;
         }
+
         50% {
           background-position: 100% 50%;
         }
+
         100% {
           background-position: 0% 50%;
         }
       }
 
-      /* TOGGLE */
+      /* ================= TOGGLE ================= */
       .toggle {
         width: 65px;
         height: 34px;
+
         border-radius: 50px;
+
         cursor: pointer;
+
         position: relative;
+
         background: #dcdde1;
+
         border: 2px solid rgba(0, 0, 0, 0.2);
       }
 
       body.dark .toggle {
         background: #2f3640;
+
         border: 2px solid rgba(255, 255, 255, 0.3);
       }
 
       .toggle.active {
         background: #536dfe;
+
         border: 2px solid #536dfe;
+
         box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
       }
 
       .toggle-circle {
         width: 28px;
         height: 28px;
+
         background: white;
+
         position: absolute;
+
         top: 1px;
         left: 2px;
+
         border-radius: 50%;
+
         transition: 0.35s;
+
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+
         font-size: 14px;
       }
 
@@ -217,19 +394,17 @@
         left: 33px;
       }
 
-      @keyframes dustFade {
-        to {
-          opacity: 0;
-          transform: translateY(-20px) scale(0.5);
-        }
-      }
-
+      /* ================= PARTICLES ================= */
       .particle {
         position: fixed;
+
         width: 5px;
         height: 5px;
+
         border-radius: 50%;
+
         background: rgba(255, 255, 255, 0.15);
+
         animation: floatUp linear infinite;
       }
 
@@ -237,31 +412,111 @@
         from {
           transform: translateY(100vh);
         }
+
         to {
           transform: translateY(-10vh);
         }
       }
 
-      /* MOBILE */
+      /* ================= FX ================= */
+      .cursor-glow {
+        position: fixed;
+
+        width: 250px;
+        height: 250px;
+
+        background: radial-gradient(
+          circle,
+          rgba(83, 109, 254, 0.25),
+          transparent 70%
+        );
+
+        pointer-events: none;
+
+        transform: translate(-50%, -50%);
+
+        z-index: -1;
+      }
+
+      @keyframes dustFade {
+        to {
+          opacity: 0;
+
+          transform: translateY(-20px) scale(0.5);
+        }
+      }
+
+      /* ================= MOBILE ================= */
       @media (max-width: 600px) {
+        body {
+          font-size: 16px;
+        }
+
         .navbar {
-          height: 55px;
-          padding: 0 15px;
+          height: auto;
+
+          min-height: 60px;
+
+          padding: 10px 12px;
+
+          flex-direction: column;
+
+          gap: 10px;
         }
+
+        .navbar-content {
+          width: 100%;
+
+          justify-content: center;
+
+          gap: 12px;
+
+          flex-wrap: wrap;
+        }
+
         .navbar a {
-          font-size: 16px;
+          font-size: 15px;
         }
+
+        .nav-logo {
+          width: 36px;
+          height: 36px;
+        }
+
+        .toggle {
+          transform: scale(0.9);
+        }
+
         .main-content {
-          margin-top: 70px;
-          padding: 15px;
+          margin-top: 120px;
+
+          padding: 14px;
         }
+
         h1 {
-          font-size: 28px;
+          font-size: 26px !important;
+
+          line-height: 1.2;
         }
+
         .game-link {
-          font-size: 16px;
-          padding: 10px 18px;
+          width: 100%;
+
+          height: 52px;
+
+          margin: 10px 0;
+
+          font-size: 15px;
         }
+
+        .code-input {
+          width: 100%;
+        }
+
+        .code-box {
+          width: 100%;
+        }
+
         .cursor-glow,
         .dust {
           display: none;
@@ -271,292 +526,132 @@
   </head>
 
   <body>
+    <!-- ================= NAVBAR ================= -->
     <div class="navbar">
       <div class="navbar-content">
         <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+
         <a href="/games">Games</a>
+
         <a href="/tools">Tools</a>
+
         <a href="/donatejk">Donate</a>
+
         <a href="/ai">Search</a>
+
         <a href="/downloadpage">Exhibit</a>
       </div>
+
       <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
       </div>
     </div>
 
+    <!-- ================= MAIN ================= -->
     <div class="main-content">
-      <h1>Enter Access Code</h1>
+      <h1>✦ Enter Access Code ✦</h1>
 
       <div class="section">
-        <strong>Generate Code:</strong><br />
+        <strong>Generate Code:</strong>
+
+        <br />
+
         <div class="game-link" onclick="generateCode()">Generate</div>
+
         <div class="code-box" id="codeDisplay">------</div>
       </div>
 
       <div class="section">
-        <strong>Enter Code:</strong><br />
-        <input class="code-input" id="codeInput" placeholder="Enter code" />
+        <strong>Enter Code:</strong>
+
         <br />
+
+        <input class="code-input" id="codeInput" placeholder="Enter code" />
+
+        <br />
+
         <div class="game-link" onclick="checkCode()">Enter</div>
       </div>
     </div>
 
+    <!-- ================= FX ================= -->
+    <div class="cursor-glow"></div>
+
     <script>
+      /* ================= GENERATE CODE ================= */
       function generateCode() {
         const code = Math.floor(100000 + Math.random() * 900000).toString();
+
         localStorage.setItem("secureCode", code);
+
         document.getElementById("codeDisplay").innerText = code;
       }
 
+      /* ================= CHECK CODE ================= */
       function checkCode() {
         const input = document.getElementById("codeInput").value.trim();
+
         const stored = localStorage.getItem("secureCode");
 
         if (input === stored) {
           const newPage = window.open("about:blank", "_blank");
 
           newPage.document.open();
+
           newPage.document.write(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Beta Unblockable Game</title>
-<style>
-  body { margin:0; overflow:hidden; background:#111; }
-  canvas { display:block; background:#1a1a1a; }
-</style>
-</head>
-<body>
-
-<canvas id="c"></canvas>
-
-<script>
-const c = document.getElementById("c");
-const ctx = c.getContext("2d");
-
-let W = c.width = innerWidth;
-let H = c.height = innerHeight;
-
-const p = {
-  x: 100,
-  y: H - 140,
-  s: 40,
-  vy: 0,
-  g: 0.55,
-  j: -15.2,
-  on: true
-};
-
-const MAX = 50;
-const o = Array.from({length: MAX}, () => ({
-  x: -9999, y: 0, s: 40, a: false
-}));
-
-let head = 0;
-let lastSpawnX = W;
-
-let frame = 0;
-let over = 0;
-let coyote = 0;
-
-let start = performance.now();
-let time = 0;
-
-let enter = 0;
-
-let flash = 0;
-let nextFlash = performance.now() + 12000;
-
-addEventListener("keydown", e=>{
-  if(e.code==="Space") over ? reset() : jump();
-  if(e.code==="Enter") enter = 1;
-});
-addEventListener("keyup", e=>{
-  if(e.code==="Enter") enter = 0;
-});
-addEventListener("mousedown", ()=> over ? reset() : jump());
-
-function jump(){
-  if(p.on || coyote>0){
-    p.vy = p.j;
-    p.on = false;
-    coyote = 0;
-  }
-}
-
-function reset(){
-  for(let i=0;i<MAX;i++) o[i].a = 0;
-  p.y = H - 140;
-  p.vy = 0;
-  over = 0;
-  start = performance.now();
-  lastSpawnX = W;
-}
-
-function add(x,y){
-  const obj = o[head];
-  obj.x = x;
-  obj.y = y;
-  obj.a = true;
-  obj.s = 40;
-  head = (head + 1) % MAX;
-}
-
-function spawn(){
-  const base = H - 140;
-  const gap = 180 + Math.random()*120;
-  const x = lastSpawnX + gap;
-  lastSpawnX = x;
-
-  const r = Math.random();
-
-  if(r < 0.5){
-    add(x, base);
-  }
-  else if(r < 0.8){
-    add(x, base);
-    add(x + 45, base);
-  }
-  else{
-    add(x, base);
-    add(x + 40, base);
-    add(x + 80, base);
-  }
-}
-
-function spike(x,y,s){
-  ctx.beginPath();
-  ctx.moveTo(x, y+s);
-  ctx.lineTo(x + s/2, y);
-  ctx.lineTo(x + s, y+s);
-  ctx.closePath();
-  ctx.fill();
-}
-
-function loop(t){
-  const now = t;
-
-  if(!flash && now > nextFlash){
-    flash = 1;
-  }
-  if(flash && now > nextFlash + 400){
-    flash = 0;
-    nextFlash = now + 12000 + Math.random()*8000;
-  }
-
-  const shake = flash ? 8 : 0;
-
-  ctx.setTransform(1,0,0,1,
-    shake*(Math.random()-0.5),
-    shake*(Math.random()-0.5)
-  );
-
-  ctx.clearRect(0,0,W,H);
-
-  ctx.fillStyle = "#0f0";
-  ctx.fillRect(0,H-100,W,5);
-
-  if(!over){
-    frame++;
-
-    time = ((now-start)*0.001).toFixed(2);
-
-    p.vy += p.g;
-    p.y += p.vy;
-
-    if(p.y >= H-140){
-      p.y = H-140;
-      p.vy = 0;
-      p.on = true;
-      coyote = 8;
-    } else if(coyote > 0){
-      coyote--;
-    }
-
-    if((frame % 85) === 0) spawn();
-
-    ctx.fillStyle = "#ff3b3b";
-
-    for(let i=0;i<MAX;i++){
-      const b = o[i];
-      if(!b.a) continue;
-
-      b.x -= 5;
-
-      spike(b.x,b.y,b.s);
-
-      if(!enter &&
-         p.x < b.x+b.s &&
-         p.x+p.s > b.x &&
-         p.y < b.y+b.s &&
-         p.y+p.s > b.y){
-        over = 1;
-      }
-
-      if(b.x < -80) b.a = false;
-    }
-  }
-
-  ctx.fillStyle = enter ? "#ffd700" : "#00e5ff";
-  ctx.fillRect(p.x,p.y,p.s,p.s);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "20px Arial";
-  ctx.fillText("Time: " + time + "s", 20, 40);
-
-  if(over){
-    ctx.fillStyle = "rgba(0,0,0,0.7)";
-    ctx.fillRect(0,0,W,H);
-
-    ctx.fillStyle = "#fff";
-    ctx.textAlign = "center";
-    ctx.font = "50px Arial";
-    ctx.fillText("GAME OVER", W/2, H/2);
-  }
-
-  requestAnimationFrame(loop);
-}
-
-requestAnimationFrame(loop);
-<\/script>
-
-</body>
-</html>
+// enter code here
 `);
+
           newPage.document.close();
         } else {
           alert("Wrong code");
         }
       }
 
-      /* ENTER KEY */
+      /* ================= ENTER KEY ================= */
       document.getElementById("codeInput").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") checkCode();
+        if (e.key === "Enter") {
+          checkCode();
+        }
       });
 
-      /* DARK MODE (main page) */
+      /* ================= DARK MODE ================= */
       const toggle = document.getElementById("toggle");
+
       const icon = document.getElementById("icon");
 
       if (localStorage.getItem("darkMode") === "on") {
         document.body.classList.add("dark");
+
         toggle.classList.add("active");
+
         icon.textContent = "☀️";
       }
 
       toggle.onclick = () => {
         document.body.classList.toggle("dark");
+
         toggle.classList.toggle("active");
+
         if (document.body.classList.contains("dark")) {
           icon.textContent = "☀️";
+
           localStorage.setItem("darkMode", "on");
         } else {
           icon.textContent = "🌙";
+
           localStorage.setItem("darkMode", "off");
         }
       };
+
+      /* ================= CURSOR GLOW ================= */
+      const glow = document.querySelector(".cursor-glow");
+
+      document.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+
+        glow.style.top = e.clientY + "px";
+      });
     </script>
   </body>
 </html>

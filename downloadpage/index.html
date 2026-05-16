@@ -3,15 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>jasonyen.me</title>
+    <title>jasonyen.me - STL Downloads</title>
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
     <style>
+      /* ================= GLOBAL ================= */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -21,12 +23,10 @@
       body {
         font-family: "Fredoka", sans-serif;
         font-size: 18px;
+        line-height: 1.6;
         background-color: #f5f6fa;
         overflow-x: hidden;
-        transition:
-          background 0.4s,
-          color 0.4s;
-        line-height: 1.6;
+        transition: background 0.4s, color 0.4s;
       }
 
       /* ================= NAVBAR ================= */
@@ -48,7 +48,6 @@
         display: flex;
         align-items: center;
         gap: 20px;
-        flex-wrap: wrap;
       }
 
       .navbar a {
@@ -56,7 +55,6 @@
         text-decoration: none;
         font-size: 18px;
         position: relative;
-        white-space: nowrap;
       }
 
       .navbar a::after {
@@ -67,7 +65,6 @@
         width: 0%;
         height: 3px;
         background: #536dfe;
-        border-radius: 2px;
         transition: width 0.3s ease;
       }
 
@@ -78,16 +75,12 @@
       .nav-logo {
         width: 42px;
         height: 42px;
-        border-radius: 12px;
-        display: block;
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
+        border-radius: 6px;
+        transition: transform 0.25s ease;
       }
 
       .nav-logo:hover {
         transform: scale(1.08);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       }
 
       /* ================= MAIN ================= */
@@ -97,39 +90,89 @@
       }
 
       h1 {
-        font-size: 36px;
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 700;
+        letter-spacing: -1px;
         margin-bottom: 20px;
+
+        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
-      /* ================= SECTIONS ================= */
+      h3 {
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: #444;
+      }
+
+      /* ================= SECTION ================= */
       .section {
         margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 20px;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+        max-width: 900px;
       }
 
       body.dark .section {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.15);
       }
 
-      /* ================= BUTTONS ================= */
-      .game-link {
-        display: inline-block;
-        margin: 10px 10px 0 0;
-        padding: 14px 26px; /* slightly bigger = easier to click */
-        background-color: #4c5eaf;
-        color: white;
+      /* ================= GRID ================= */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      /* ================= CARD ================= */
+      .card {
+        background: white;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.25);
+      }
+
+      .card img {
+        width: 100%;
+        display: block;
+      }
+
+      .card-content {
+        padding: 14px;
+      }
+
+      .card-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      /* ================= BUTTON ================= */
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 44px;
+
         border-radius: 10px;
+        background: linear-gradient(135deg, #536dfe, #788cff);
+        color: white;
         text-decoration: none;
-        font-size: 18px;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
+        font-weight: 600;
+
+        transition: transform 0.2s ease;
       }
 
-      .game-link:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      .download-btn:hover {
+        transform: scale(1.03);
       }
 
       /* ================= DARK MODE ================= */
@@ -141,15 +184,9 @@
       }
 
       @keyframes gradientMove {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
       /* ================= TOGGLE ================= */
@@ -170,8 +207,6 @@
 
       .toggle.active {
         background: #536dfe;
-        border: 2px solid #536dfe;
-        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
       }
 
       .toggle-circle {
@@ -184,54 +219,29 @@
         border-radius: 50%;
         transition: 0.35s;
         display: flex;
-        justify-content: center;
         align-items: center;
-        font-size: 14px;
+        justify-content: center;
       }
 
       .toggle.active .toggle-circle {
         left: 33px;
       }
 
-      @keyframes dustFade {
-        to {
-          opacity: 0;
-          transform: translateY(-20px) scale(0.5);
-        }
-      }
-
       /* ================= MOBILE ================= */
-      @media (max-width: 600px) {
-        .navbar {
-          padding: 0 15px;
-          height: 55px;
-        }
-        .navbar-content {
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-        .navbar a {
-          font-size: 16px;
-        }
+      @media (max-width: 768px) {
         .main-content {
-          margin-top: 70px;
-          padding: 15px;
+          margin-top: 100px;
         }
-        h1 {
-          font-size: 28px;
-        }
-        .game-link {
-          font-size: 16px;
-          padding: 12px 20px;
-        }
-        .cursor-glow,
-        .dust {
-          display: none;
+
+        .grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
+
   <body>
+    <!-- NAVBAR -->
     <div class="navbar">
       <div class="navbar-content">
         <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
@@ -241,21 +251,64 @@
         <a href="/ai">Search</a>
         <a href="/downloadpage">Exhibit</a>
       </div>
+
       <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
       </div>
     </div>
 
+    <!-- CONTENT -->
     <div class="main-content">
-      <h1>Exhibit</h1>
+      <h1>✦ STL Downloads ✦</h1>
 
       <div class="section">
-        <strong>Choose a Page:</strong><br />
-        <a href="/downloadpage/downloadz2" class="game-link">Essays</a>
-        <a href="/downloadpage/downloadz" class="game-link">STLs</a>
+        <h3>Download Free 3D Models</h3>
+
+        <div class="grid">
+          <div class="card">
+            <img src="/images/p1.png" />
+            <div class="card-content">
+              <div class="card-title">Panda Pencil Holder</div>
+              <a href="/stl/panda.stl" class="download-btn" download>Download</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="/images/p2.png" />
+            <div class="card-content">
+              <div class="card-title">Tanjiro Statue</div>
+              <a href="/stl/tanjiro.stl" class="download-btn" download>Download</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="/images/p3.png" />
+            <div class="card-content">
+              <div class="card-title">Asian Temple</div>
+              <a href="/stl/temple.stl" class="download-btn" download>Download</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="/images/p4.png" />
+            <div class="card-content">
+              <div class="card-title">Dragon Model</div>
+              <a href="/stl/dragon.stl" class="download-btn" download>Download</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="/images/p5.png" />
+            <div class="card-content">
+              <div class="card-title">Mini Castle</div>
+              <a href="/stl/castle.stl" class="download-btn" download>Download</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- DARK MODE -->
     <script>
       const toggle = document.getElementById("toggle");
       const icon = document.getElementById("icon");
@@ -269,32 +322,11 @@
       toggle.onclick = () => {
         document.body.classList.toggle("dark");
         toggle.classList.toggle("active");
-        if (document.body.classList.contains("dark")) {
-          icon.textContent = "☀️";
-          localStorage.setItem("darkMode", "on");
-        } else {
-          icon.textContent = "🌙";
-          localStorage.setItem("darkMode", "off");
-        }
+
+        const dark = document.body.classList.contains("dark");
+        icon.textContent = dark ? "☀️" : "🌙";
+        localStorage.setItem("darkMode", dark ? "on" : "off");
       };
-
-      /* cursor glow + dust */
-      const glow = document.createElement("div");
-      glow.className = "cursor-glow";
-      document.body.appendChild(glow);
-
-      document.addEventListener("mousemove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-        for (let i = 0; i < 2; i++) {
-          let d = document.createElement("div");
-          d.className = "dust";
-          d.style.left = e.clientX + Math.random() * 10 - 5 + "px";
-          d.style.top = e.clientY + Math.random() * 10 - 5 + "px";
-          document.body.appendChild(d);
-          setTimeout(() => d.remove(), 1000);
-        }
-      });
     </script>
   </body>
 </html>

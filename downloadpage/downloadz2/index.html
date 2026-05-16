@@ -1,476 +1,374 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jasonyen.me</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jasonyen.me</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="/images/favicon.png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
+    <style>
+      /* ================= GLOBAL ================= */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-/* ================= GLOBAL ================= */
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+      body {
+        font-family: "Fredoka", sans-serif;
+        font-size: 18px;
+        background-color: #f5f6fa;
+        overflow-x: hidden;
+        transition: background 0.4s, color 0.4s;
+        line-height: 1.6;
+      }
 
-body{
-  font-family:'Fredoka',sans-serif;
-  font-size:18px;
-  background-color:#f5f6fa;
-  overflow-x:hidden;
-  transition: background 0.4s,color 0.4s;
-  line-height:1.6;
-}
+      /* ================= NAVBAR ================= */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        z-index: 9999;
+      }
 
-/* ================= NAVBAR ================= */
-.navbar{
-  position:fixed;
-  top:0;
-  width:100%;
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(20px);
-  z-index:9999;
-}
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
 
-.navbar-content{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
 
-.navbar a{
-  color:#536DFE;
-  text-decoration:none;
-  font-size:18px;
-  position:relative;
-  white-space:nowrap;
-}
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 0%;
+        height: 3px;
+        background: #536dfe;
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
 
-.navbar a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-3px;
-  width:0%;
-  height:3px;
-  background:#536DFE;
-  border-radius:2px;
-  transition:width 0.3s ease;
-}
+      .navbar a:hover::after {
+        width: 100%;
+      }
 
-.navbar a:hover::after{
-  width:100%;
-}
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 5px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
 
-.nav-logo{
-  width:42px;
-  height:42px;
-  border-radius:5px;
-  display:block;
-}
+      .nav-logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
 
-/* ================= MAIN ================= */
-.main-content{
-  margin-top:80px;
-  padding:20px;
-  min-height:100vh;
-}
+      /* ================= MAIN ================= */
+      .main-content {
+        margin-top: 80px;
+        padding: 20px;
+        min-height: 100vh;
+      }
 
-h1{
-  font-size:36px;
-  margin-bottom:20px;
-}
+      h1 {
+        font-size: clamp(26px, 4vw, 48px);
+        font-weight: 600;
+        margin-bottom: 20px;
 
-/* ================= DARK MODE ================= */
-body.dark{
-  color:#e6e6e6;
-  background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
-  background-size:400% 400%;
-  animation:gradientMove 18s ease infinite;
-}
+        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-@keyframes gradientMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
+      h3 {
+        margin-bottom: 10px;
+        color: #555;
+        font-weight: 400;
+      }
 
-/* ================= TOGGLE ================= */
-.toggle{
-  width:65px;
-  height:34px;
-  border-radius:50px;
-  cursor:pointer;
-  position:relative;
-  background:#dcdde1;
-  border:2px solid rgba(0,0,0,0.2);
-}
+      body.dark h3 {
+        color: #ccc;
+      }
 
-body.dark .toggle{
-  background:#2f3640;
-  border:2px solid rgba(255,255,255,0.3);
-}
+      /* ================= DARK MODE ================= */
+      body.dark {
+        color: #e6e6e6;
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+        background-size: 400% 400%;
+        animation: gradientMove 18s ease infinite;
+      }
 
-.toggle.active{
-  background:#536DFE;
-  border:2px solid #536DFE;
-  box-shadow:0 0 10px rgba(83,109,254,0.6);
-}
+      @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
 
-.toggle-circle{
-  width:28px;
-  height:28px;
-  background:white;
-  position:absolute;
-  top:1px;
-  left:2px;
-  border-radius:50%;
-  transition:0.35s;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:14px;
-}
+      /* ================= TOGGLE ================= */
+      .toggle {
+        width: 65px;
+        height: 34px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+      }
 
-.toggle.active .toggle-circle{
-  left:33px;
-}
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
 
-/* ================= CAROUSEL ================= */
-.carousel{
-  position:relative;
-  width:100%;
-  margin:40px 0;
-  overflow:hidden;
-  padding:0 60px; /* space for arrows */
-}
+      .toggle.active {
+        background: #536dfe;
+        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
+      }
 
-.carousel-track{
-  display:flex;
-  gap:20px;
-  transition:transform 0.4s ease;
-}
-.slide{
-  min-width:calc((100% - 40px) / 3); /* 3 per row with gap */
-  text-align:center;
-}
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+        background: white;
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        border-radius: 50%;
+        transition: 0.35s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
 
-.slide img{
-  width:100%;
-  max-width:300px;
-  border-radius:12px;
-  margin:0 auto;
-  display:block;
-}
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
 
-.download-btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:10px 20px;
-  background:#536DFE;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
-  font-size:16px;
-  transition:0.2s;
-}
+      /* ================= CAROUSEL ================= */
+      .carousel {
+        position: relative;
+        width: 100%;
+        margin: 40px 0;
+        overflow: hidden;
+        padding: 0 60px;
+      }
 
-.download-btn:hover{
-  background:#3f51b5;
-}
+      .carousel-track {
+        display: flex;
+        gap: 20px;
+        transition: transform 0.4s ease;
+      }
 
-/* arrows */
-.nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,0.4);
-  color:white;
-  border:none;
-  font-size:24px;
-  padding:10px;
-  cursor:pointer;
-  border-radius:50%;
-  z-index:10; /* FIX */
-}
+      .slide {
+        min-width: calc((100% - 40px) / 3);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
 
-.prev{ left:10px; }
-.next{ right:10px; }
-/* ================= MOBILE BLOCK ================= */
-.mobile-block{
-  display:none;
-}
+      .slide:hover {
+        transform: translateY(-6px);
+      }
 
-@media (max-width:768px){
-  .main-content{
-    display:none;
-  }
+      .slide img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 12px;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 10px 25px rgba(83, 109, 254, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
 
-  .mobile-block{
-    display:flex;
-    position:fixed;
-    top:60px; /* below navbar */
-    left:0;
-    width:100%;
-    height:calc(100vh - 60px);
-    background:#f5f6fa;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px;
-    z-index:9998;
-    font-size:24px;
-    font-weight:500;
-  }
+      .slide img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.35);
+      }
 
-  body.dark .mobile-block{
-    background:#0f1117;
-    color:#e6e6e6;
-  }
-}
-/* ================= MOBILE NAVBAR (IMPROVED) ================= */
-@media (max-width: 600px){
+      .nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+        border: none;
+        font-size: 24px;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 10;
+      }
 
-  .navbar{
-    height:55px;
-    padding:0 12px;
+      .prev { left: 10px; }
+      .next { right: 10px; }
 
-    background:#f5f6fa; /* solid fallback = no white glitch */
-    border-bottom:1px solid rgba(0,0,0,0.06);
+      /* ================= MOBILE ================= */
+      .mobile-block {
+        display: none;
+      }
 
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
+      @media (max-width: 768px) {
+        .main-content {
+          display: none;
+        }
 
-    z-index:9999;
-  }
+        .mobile-block {
+          display: flex;
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          height: calc(100vh - 60px);
+          background: #f5f6fa;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+        }
 
-  body.dark .navbar{
-    background:#0f1117;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-  }
+        body.dark .mobile-block {
+          background: #0f1117;
+          color: #e6e6e6;
+        }
+      }
 
-  .navbar-content{
-    display:flex;
-    flex-wrap:nowrap;
-    gap:12px;
+      /* ================= IMAGE MODAL ================= */
+      .img-wrapper {
+        position: relative;
+        display: inline-block;
+        cursor: zoom-in;
+      }
 
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-  }
+      .img-wrapper img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 12px;
+        user-select: none;
+        pointer-events: none;
+      }
 
-  .navbar-content::-webkit-scrollbar{
-    display:none;
-  }
+      .img-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+      }
 
-  .navbar a{
-    font-size:14px;
-    white-space:nowrap;
-    flex-shrink:0;
-  }
+      .img-modal img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
 
-  .nav-logo{
-    width:34px;
-    height:34px;
-    flex-shrink:0;
-  }
+  <body>
+    <div class="mobile-block">No mobile access</div>
 
-  .toggle{
-    transform:scale(0.85);
-    flex-shrink:0;
-  }
-
-  .main-content{
-    margin-top:55px;
-  }
-
-  .mobile-block{
-    top:55px;
-    height:calc(100vh - 55px);
-  }
-}
-.img-wrapper{
-  position:relative;
-  display:inline-block;
-  cursor:zoom-in;
-}
-
-.img-wrapper img{
-  width:100%;
-  max-width:300px;
-  border-radius:12px;
-  display:block;
-  pointer-events:none; /* blocks direct interaction */
-  user-select:none;
-}
-
-.img-overlay{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-.img-modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:99999;
-}
-
-.img-modal img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:12px;
-}
-</style>
-</head>
-
-<body>
-<div class="mobile-block">
-  No mobile access
-</div>
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="navbar-content">
-    <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
-    <a href="/games">Games</a>
-    <a href="/tools">Tools</a>
-    <a href="/donatejk">Donate</a>
-    <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
-  </div>
-
-  <div class="toggle" id="toggle">
-    <div class="toggle-circle" id="icon">🌙</div>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="main-content">
-  <h1>Read Free Articles {Still Updating!}</h1>
-  <h3>You shall not steal, copy, or advertise any of the following.</h3>
-
-  <div class="carousel">
-    <button class="nav prev">&#10094;</button>
-
-    <div class="carousel-track">
-
-      <!-- Slide 1 -->
-      <div class="slide">
-        <div class="img-wrapper">
-          <img src="/images/e1.png" draggable="false">
-          <div class="img-overlay"></div>
-        </div>
-        <h3>Unhealthy School Lunches Version 5</h3>
+    <div class="navbar">
+      <div class="navbar-content">
+        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/games">Games</a>
+        <a href="/tools">Tools</a>
+        <a href="/donatejk">Donate</a>
+        <a href="/ai">Search</a>
+        <a href="/downloadpage">Exhibit</a>
       </div>
 
-      <!-- Slide 2 -->
-      <div class="slide">
-        <div class="img-wrapper">
-          <img src="/images/e2.png" draggable="false">
-          <div class="img-overlay"></div>
-        </div>
-        <h3>Maine Bio</h3>
+      <div class="toggle" id="toggle">
+        <div class="toggle-circle" id="icon">🌙</div>
       </div>
-
-      <!-- Slide 3 -->
-      <div class="slide">
-        <div class="img-wrapper">
-          <img src="/images/replace.jpg" draggable="false">
-          <div class="img-overlay"></div>
-        </div>
-        <h3>In Progress</h3>
-      </div>
-
     </div>
 
-    <button class="nav next">&#10095;</button>
-  </div>
-</div>
-</div>
-<div id="imgModal" class="img-modal">
-  <img id="modalImg">
-</div>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    <div class="main-content">
+      <h1>Read Free Articles {Still Updating!}</h1>
+      <h3>You shall not steal, copy, or advertise any of the following.</h3>
 
-  // DARK MODE
-  const toggle=document.getElementById("toggle");
-  const icon=document.getElementById("icon");
+      <div class="carousel">
+        <button class="nav prev">&#10094;</button>
 
-  if(localStorage.getItem("darkMode")==="on"){
-    document.body.classList.add("dark");
-    toggle.classList.add("active");
-    icon.textContent="☀️";
-  }
+        <div class="carousel-track">
+          <div class="slide">
+            <img src="/images/e1.png" draggable="false" />
+            <h3>Unhealthy School Lunches Version 5</h3>
+          </div>
 
-  toggle.onclick=()=>{
-    document.body.classList.toggle("dark");
-    toggle.classList.toggle("active");
+          <div class="slide">
+            <img src="/images/e2.png" draggable="false" />
+            <h3>Maine Bio</h3>
+          </div>
 
-    if(document.body.classList.contains("dark")){
-      icon.textContent="☀️";
-      localStorage.setItem("darkMode","on");
-    } else {
-      icon.textContent="🌙";
-      localStorage.setItem("darkMode","off");
-    }
-  };
+          <div class="slide">
+            <img src="/images/replace.jpg" draggable="false" />
+            <h3>In Progress</h3>
+          </div>
+        </div>
 
-  // CAROUSEL
-  const track = document.querySelector(".carousel-track");
-  const slides = document.querySelectorAll(".slide");
-  const nextBtn = document.querySelector(".next");
-  const prevBtn = document.querySelector(".prev");
+        <button class="nav next">&#10095;</button>
+      </div>
+    </div>
 
-  let index = 0;
-nextBtn.addEventListener("click", () => {
-  if(index < slides.length - 3){
-    index++;
-    updateCarousel();
-  }
-});
+    <div id="imgModal" class="img-modal">
+      <img id="modalImg" />
+    </div>
 
-prevBtn.addEventListener("click", () => {
-  if(index > 0){
-    index--;
-    updateCarousel();
-  }
-});
-});
-document.addEventListener("contextmenu", e => e.preventDefault());
-const modal = document.getElementById("imgModal");
-const modalImg = document.getElementById("modalImg");
+    <script>
+      const toggle = document.getElementById("toggle");
+      const icon = document.getElementById("icon");
 
-document.querySelectorAll(".img-wrapper").forEach(wrapper => {
-  wrapper.addEventListener("click", () => {
-    const img = wrapper.querySelector("img");
-    modal.style.display = "flex";
-    modalImg.src = img.src;
-  });
-});
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        toggle.classList.add("active");
+        icon.textContent = "☀️";
+      }
 
-modal.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-</script>
+      toggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        toggle.classList.toggle("active");
 
-</body>
+        const isDark = document.body.classList.contains("dark");
+        icon.textContent = isDark ? "☀️" : "🌙";
+        localStorage.setItem("darkMode", isDark ? "on" : "off");
+      };
+
+      const modal = document.getElementById("imgModal");
+      const modalImg = document.getElementById("modalImg");
+
+      document.querySelectorAll(".img-wrapper").forEach((wrapper) => {
+        wrapper.addEventListener("click", () => {
+          modal.style.display = "flex";
+          modalImg.src = wrapper.querySelector("img").src;
+        });
+      });
+
+      modal.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+    </script>
+  </body>
 </html>
