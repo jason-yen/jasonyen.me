@@ -611,6 +611,51 @@ body.dark .score-ui {
   color: #8f9fff;
 }
 }
+/* ===== GAME CANVAS YELLOW GLOW MODE ===== */
+canvas.gold-mode {
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.4),
+    0 0 50px rgba(255, 215, 0, 0.35),
+    0 0 90px rgba(255, 215, 0, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+
+/* ===== BLACKOUT OVERLAY ===== */
+.blackout {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 999998;
+}
+
+.blackout.active {
+  opacity: 1;
+}
+/* ================= BLACKOUT ================= */
+.blackout {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 999999;
+}
+
+.blackout.active {
+  opacity: 1;
+}
+
+/* ================= YELLOW GLOW MODE ================= */
+canvas.gold-mode {
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.45),
+    0 0 50px rgba(255, 215, 0, 0.35),
+    0 0 90px rgba(255, 215, 0, 0.25);
+}
 </style>
 </head>
   </head>
