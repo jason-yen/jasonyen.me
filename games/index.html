@@ -9,9 +9,17 @@
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
     <style>
+      /* ================= GLOBAL ================= */
+
       * {
         box-sizing: border-box;
         margin: 0;
@@ -30,18 +38,27 @@
       }
 
       /* ================= NAVBAR ================= */
+
       .navbar {
         position: fixed;
         top: 0;
         width: 100%;
         height: 60px;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         padding: 0 20px;
+
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: blur(20px);
+
         z-index: 9999;
+
+        transition:
+          background 0.4s ease,
+          box-shadow 0.4s ease;
       }
 
       .navbar-content {
@@ -78,7 +95,7 @@
       .nav-logo {
         width: 42px;
         height: 42px;
-        border-radius: 12px;
+        border-radius: 5px;
         display: block;
         transition:
           transform 0.25s ease,
@@ -91,21 +108,37 @@
       }
 
       /* ================= MAIN ================= */
+
       .main-content {
         margin-top: 80px;
         padding: 20px;
       }
 
       h1 {
-        font-size: 36px;
+        font-size: clamp(24px, 4vw, 48px);
+        line-height: 1.15;
+        letter-spacing: -1px;
+        font-weight: 600;
         margin-bottom: 20px;
+
+        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       /* ================= SECTIONS ================= */
+
       .section {
         margin-bottom: 30px;
         padding-bottom: 10px;
         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.4s ease,
+          background 0.4s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-4px);
       }
 
       body.dark .section {
@@ -113,26 +146,71 @@
       }
 
       /* ================= BUTTONS ================= */
+
       .game-link {
-        display: inline-block;
-        margin: 10px 10px 0 0;
-        padding: 14px 26px; /* slightly bigger = easier to click */
-        background-color: #4c5eaf;
+        position: relative;
+        overflow: hidden;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 220px;
+        height: 56px;
+
+        margin: 10px;
+        padding: 0 20px;
+
+        border-radius: 14px;
+
+        background: linear-gradient(
+          135deg,
+          rgba(83, 109, 254, 0.95),
+          rgba(120, 140, 255, 0.95)
+        );
+
         color: white;
-        border-radius: 10px;
         text-decoration: none;
-        font-size: 18px;
+
+        font-size: 16px;
+        font-weight: 500;
+
         transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          filter 0.25s ease;
+
+        box-shadow: 0 10px 30px rgba(83, 109, 254, 0.25);
+      }
+
+      .game-link::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent
+        );
+
+        transform: translateX(-120%);
+        transition: transform 0.7s ease;
+      }
+
+      .game-link:hover::before {
+        transform: translateX(120%);
       }
 
       .game-link:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        transform: translateY(-4px) scale(1.03);
+        filter: brightness(1.08);
+        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.4);
       }
 
       /* ================= DARK MODE ================= */
+
       body.dark {
         color: #e6e6e6;
         background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
@@ -153,6 +231,7 @@
       }
 
       /* ================= TOGGLE ================= */
+
       .toggle {
         width: 65px;
         height: 34px;
@@ -193,72 +272,127 @@
         left: 33px;
       }
 
-      @keyframes dustFade {
-        to {
-          opacity: 0;
-          transform: translateY(-20px) scale(0.5);
-        }
+      /* ================= REVEAL ================= */
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(60px);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ================= SCROLL BAR ================= */
+
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, #536dfe, #b478ff);
+        z-index: 100000;
       }
 
       /* ================= MOBILE ================= */
+
       @media (max-width: 600px) {
-        .navbar {
-          padding: 0 15px;
-          height: 55px;
+        body {
+          font-size: 16px;
         }
-        .navbar-content {
+
+        .navbar {
+          height: auto;
+          min-height: 60px;
+          padding: 10px 12px;
+          flex-direction: column;
           gap: 10px;
+        }
+
+        .navbar-content {
+          width: 100%;
+          justify-content: center;
+          gap: 12px;
           flex-wrap: wrap;
         }
+
         .navbar a {
-          font-size: 16px;
+          font-size: 15px;
         }
+
+        .nav-logo {
+          width: 36px;
+          height: 36px;
+        }
+
+        .toggle {
+          transform: scale(0.9);
+        }
+
         .main-content {
-          margin-top: 70px;
-          padding: 15px;
+          margin-top: 120px;
+          padding: 14px;
         }
+
         h1 {
-          font-size: 28px;
+          font-size: 22px !important;
         }
+
+        .section {
+          margin-bottom: 24px;
+          padding-bottom: 16px;
+        }
+
         .game-link {
-          font-size: 16px;
-          padding: 12px 20px;
-        }
-        .cursor-glow,
-        .dust {
-          display: none;
+          display: block;
+          width: 100%;
+          height: 52px;
+          margin: 10px 0;
+          font-size: 15px;
         }
       }
     </style>
   </head>
+
   <body>
     <div class="navbar">
       <div class="navbar-content">
-        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+        <a href="/">
+          <img src="/images/logo.png" class="nav-logo" />
+        </a>
+
         <a href="/games">Games</a>
         <a href="/tools">Tools</a>
         <a href="/donatejk">Donate</a>
         <a href="/ai">Search</a>
         <a href="/downloadpage">Exhibit</a>
       </div>
+
       <div class="toggle" id="toggle">
         <div class="toggle-circle" id="icon">🌙</div>
       </div>
     </div>
 
-    <div class="main-content">
-      <h1>Games</h1>
+    <div class="scroll-progress"></div>
 
-      <div class="section">
+    <div class="main-content">
+      <h1>✦ Games ✦</h1>
+
+      <div class="section reveal">
         <strong>Choose a Game:</strong><br />
+
         <a href="/games/tic-tac-toe" class="game-link">Tic Tac Toe</a>
         <a href="/games/GuessNumber" class="game-link">Guess The Number</a>
         <a href="/games/simongame" class="game-link">Copy the Pattern</a>
         <a href="/games/platformer" class="game-link">Impossible Platformer</a>
         <a href="/games/betagame" class="game-link">Pixel Survivor</a>
         <a href="/games/spaceinvader" class="game-link">Space Invader</a>
-                <a href="/geodash" class="game-link">Geometry Dash</a>
-
+        <a href="/geodash" class="game-link">Geometry Dash</a>
       </div>
     </div>
 
@@ -275,6 +409,7 @@
       toggle.onclick = () => {
         document.body.classList.toggle("dark");
         toggle.classList.toggle("active");
+
         if (document.body.classList.contains("dark")) {
           icon.textContent = "☀️";
           localStorage.setItem("darkMode", "on");
@@ -284,22 +419,24 @@
         }
       };
 
-      /* cursor glow + dust */
-      const glow = document.createElement("div");
-      glow.className = "cursor-glow";
-      document.body.appendChild(glow);
+      const reveals = document.querySelectorAll(".reveal");
 
-      document.addEventListener("mousemove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-        for (let i = 0; i < 2; i++) {
-          let d = document.createElement("div");
-          d.className = "dust";
-          d.style.left = e.clientX + Math.random() * 10 - 5 + "px";
-          d.style.top = e.clientY + Math.random() * 10 - 5 + "px";
-          document.body.appendChild(d);
-          setTimeout(() => d.remove(), 1000);
-        }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      reveals.forEach((r) => observer.observe(r));
+
+      const progress = document.querySelector(".scroll-progress");
+
+      window.addEventListener("scroll", () => {
+        const h = document.body.scrollHeight - window.innerHeight;
+        progress.style.width = `${(window.scrollY / h) * 100}%`;
       });
     </script>
   </body>
