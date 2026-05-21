@@ -436,7 +436,49 @@
       .toggle.active .toggle-circle {
         left: 33px;
       }
+      .game-link {
+        position: relative;
 
+        overflow: hidden;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center; /* ADD THIS */
+
+        min-width: 140px;
+        height: 56px;
+
+        padding: 0 24px;
+
+        border: none;
+
+        border-radius: 14px;
+
+        cursor: pointer;
+
+        background: linear-gradient(
+          135deg,
+          rgba(83, 109, 254, 0.95),
+          rgba(120, 140, 255, 0.95)
+        );
+
+        color: white;
+
+        text-decoration: none;
+
+        font-size: 16px;
+
+        font-weight: 500;
+
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          filter 0.25s ease;
+
+        box-shadow: 0 10px 30px rgba(83, 109, 254, 0.25);
+      }
       /* ================= ANIMATIONS ================= */
       @keyframes gradientMove {
         0% {
@@ -532,7 +574,18 @@
 
           font-size: 15px;
         }
+        #full-article-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
 
+          vertical-align: middle;
+
+          line-height: normal;
+
+          padding-top: 0;
+          padding-bottom: 0;
+        }
         .cursor-glow {
           display: none;
         }
@@ -568,17 +621,13 @@
 
       <div class="chatbox">
         <ul id="chat-log">
-          <li class="bot-msg">Ask me anything.</li>
+          <li class="bot-msg">Type a word...</li>
         </ul>
 
         <div class="chat-input-area">
-          <input
-            type="text"
-            id="user-input"
-            placeholder="Type your question..."
-          />
+          <input type="text" id="user-input" placeholder="Type your word..." />
 
-          <button class="game-link" id="ask-btn">Ask</button>
+          <button class="game-link" id="ask-btn">Enter</button>
 
           <a
             class="game-link"
@@ -593,7 +642,6 @@
     </div>
 
     <!-- ================= FX ================= -->
-    <div class="cursor-glow"></div>
 
     <script>
       /* ================= DARK MODE ================= */
@@ -678,7 +726,7 @@
 
             fullArticleBtn.href = wikiData.content_urls.desktop.page;
 
-            fullArticleBtn.style.display = "inline-block";
+            fullArticleBtn.style.display = "inline-flex";
           }
         } catch {}
 
