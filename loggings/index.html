@@ -22,24 +22,10 @@ body{
   font-size:18px;
   background-color:#f5f6fa;
   overflow-x:hidden;
-  transition: background 0.4s,color 0.4s;
+  transition:
+    background 0.4s,
+    color 0.4s;
   line-height:1.6;
-}
-
-/* ================= DISABLE ON MOBILE ================= */
-@media (max-width: 600px){
-  body::before,
-  body::after{
-    display:none;
-  }
-}
-
-/* ================= DISABLE FRAME ON MOBILE (SAFE) ================= */
-@media (max-width: 600px){
-  body::before,
-  body::after{
-    content:none !important;
-  }
 }
 
 /* ================= NAVBAR ================= */
@@ -48,13 +34,21 @@ body{
   top:0;
   width:100%;
   height:60px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 20px;
+
   background:rgba(255,255,255,0.2);
   backdrop-filter:blur(20px);
+
   z-index:9999;
+
+  transition:
+    background 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
 .navbar-content{
@@ -65,7 +59,7 @@ body{
 }
 
 .navbar a{
-  color:#536DFE;
+  color:#536dfe;
   text-decoration:none;
   font-size:18px;
   position:relative;
@@ -77,10 +71,13 @@ body{
   position:absolute;
   left:0;
   bottom:-3px;
+
   width:0%;
   height:3px;
-  background:#536DFE;
+
+  background:#536dfe;
   border-radius:2px;
+
   transition:width 0.3s ease;
 }
 
@@ -88,13 +85,16 @@ body{
   width:100%;
 }
 
-/* LOGO */
+/* ================= LOGO ================= */
 .nav-logo{
   width:42px;
   height:42px;
   border-radius:5px;
   display:block;
-  transition:transform 0.25s ease,box-shadow 0.25s ease;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-logo:hover{
@@ -109,27 +109,39 @@ body{
 }
 
 h1{
-  font-size:36px;
+  font-size:clamp(24px,4vw,48px);
+  line-height:1.15;
+  letter-spacing:-1px;
+  font-weight:600;
+
   margin-bottom:20px;
+
+  background:linear-gradient(
+    135deg,
+    #536dfe,
+    #8f9fff,
+    #ffffff
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-/* About Me Section */
-.about-me{
-  text-align:left;
-  font-size:16px;
-  color:#555;
-  margin:10px 0 20px 0;
-}
-
-body.dark .about-me{
-  color:#ccc;
-}
 
 /* ================= SECTIONS ================= */
 .section{
   margin-bottom:30px;
   padding-bottom:10px;
+
   border-bottom:2px solid rgba(0,0,0,0.1);
+
+  transition:
+    transform 0.4s ease,
+    background 0.4s ease;
+}
+
+.section:hover{
+  transform:translateY(-4px);
 }
 
 body.dark .section{
@@ -138,70 +150,223 @@ body.dark .section{
 
 /* ================= BUTTONS ================= */
 .game-link{
-  display:inline-block;
-  margin:10px 10px 0 0;
-  padding:12px 24px;
-  background-color:#4c5eaf;
+  position:relative;
+  overflow:hidden;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  width:220px;
+  height:56px;
+
+  margin:10px;
+  padding:0 20px;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    rgba(83,109,254,0.95),
+    rgba(120,140,255,0.95)
+  );
+
   color:white;
-  border-radius:10px;
   text-decoration:none;
-  font-size:18px;
-  transition:transform 0.2s ease,box-shadow 0.2s ease;
+  font-size:16px;
+  font-weight:500;
+  text-align:center;
+
+  font-family:'Fredoka',sans-serif;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+
+  box-shadow:0 10px 30px rgba(83,109,254,0.25);
+
+  border:none;
+  cursor:pointer;
+}
+
+/* shine effect */
+.game-link::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+
+  transform:translateX(-120%);
+  transition:transform 0.7s ease;
+}
+
+.game-link:hover::before{
+  transform:translateX(120%);
 }
 
 .game-link:hover{
-  transform:scale(1.05);
-  box-shadow:0 8px 18px rgba(0,0,0,0.2);
+  transform:translateY(-4px) scale(1.03);
+
+  filter:brightness(1.08);
+
+  box-shadow:0 18px 40px rgba(83,109,254,0.4);
 }
 
-/* ================= IMAGE ================= */
-.bottom-image{
+/* ================= INPUT ================= */
+.log-input{
+  padding:14px 16px;
+  border-radius:14px;
+
+  border:2px solid rgba(0,0,0,0.15);
+
+  font-family:'Fredoka',sans-serif;
+  font-size:16px;
+
+  outline:none;
+
+  width:260px;
+  margin-right:12px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.log-input:focus{
+  border-color:#536DFE;
+  box-shadow:0 0 12px rgba(83,109,254,0.35);
+}
+
+body.dark .log-input{
+  background:#1e2233;
+  color:#eee;
+  border:2px solid rgba(255,255,255,0.2);
+}
+
+/* ================= LOG CONTAINER ================= */
+.log-container{
   margin-top:20px;
-  max-width:260px;
+  padding:16px;
+
+  background:#0f1117;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    inset 0 1px rgba(255,255,255,0.05);
+
+  max-height:420px;
+  overflow-y:auto;
+
+  font-size:14px;
+  font-family:monospace;
 }
 
-.bottom-image img{
-  width:100%;
-  border-radius:12px;
-  display:block;
-  animation: floatImage 3.5s ease-in-out infinite;
-  box-shadow:0 0 12px rgba(83,109,254,0.4);
-  transition:transform 0.3s ease,box-shadow 0.3s ease;
+/* scrollbar */
+.log-container::-webkit-scrollbar{
+  width:8px;
 }
 
-.bottom-image img:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 25px rgba(83,109,254,0.7);
+.log-container::-webkit-scrollbar-thumb{
+  background:#444;
+  border-radius:10px;
 }
 
-@keyframes floatImage{
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-4px);}
-  100%{transform:translateY(0);}
+/* ================= LOG ENTRY ================= */
+.log-entry{
+  padding:10px 12px;
+
+  border-left:3px solid #536DFE;
+
+  margin-bottom:8px;
+
+  background:rgba(255,255,255,0.03);
+
+  border-radius:8px;
+
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+
+  transition:
+    transform 0.2s ease,
+    background 0.25s ease;
+}
+
+.log-entry:hover{
+  transform:translateX(3px);
+  background:rgba(255,255,255,0.08);
+}
+
+.log-entry:nth-child(even){
+  background:rgba(255,255,255,0.05);
+}
+
+.log-time{
+  font-size:12px;
+  color:#8ab4ff;
+  min-width:145px;
+  opacity:0.7;
+}
+
+.log-entry span:last-child{
+  color:#e6e6e6;
+  word-break:break-word;
 }
 
 /* ================= DARK MODE ================= */
 body.dark{
   color:#e6e6e6;
-  background:linear-gradient(-45deg,#0f1117,#1a1f3a,#0f1117,#1c2240);
+
+  background:
+    linear-gradient(
+      -45deg,
+      #0f1117,
+      #1a1f3a,
+      #0f1117,
+      #1c2240
+    );
+
   background-size:400% 400%;
+
   animation:gradientMove 18s ease infinite;
 }
 
 @keyframes gradientMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
 }
 
 /* ================= TOGGLE ================= */
 .toggle{
   width:65px;
   height:34px;
+
   border-radius:50px;
+
   cursor:pointer;
   position:relative;
+
   background:#dcdde1;
+
   border:2px solid rgba(0,0,0,0.2);
 }
 
@@ -211,23 +376,30 @@ body.dark .toggle{
 }
 
 .toggle.active{
-  background:#536DFE;
-  border:2px solid #536DFE;
+  background:#536dfe;
+  border:2px solid #536dfe;
+
   box-shadow:0 0 10px rgba(83,109,254,0.6);
 }
 
 .toggle-circle{
   width:28px;
   height:28px;
+
   background:white;
+
   position:absolute;
   top:1px;
   left:2px;
+
   border-radius:50%;
+
   transition:0.35s;
+
   display:flex;
   justify-content:center;
   align-items:center;
+
   font-size:14px;
 }
 
@@ -235,171 +407,145 @@ body.dark .toggle{
   left:33px;
 }
 
-/* ================= FX ================= */
-.cursor-glow{
+/* ================= SCROLL BAR ================= */
+.scroll-progress{
   position:fixed;
-  width:250px;
-  height:250px;
-  background:radial-gradient(circle,rgba(83,109,254,0.25),transparent 70%);
-  pointer-events:none;
-  transform:translate(-50%,-50%);
+  top:0;
+  left:0;
+
+  height:3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #536dfe,
+      #b478ff
+    );
+
+  width:0%;
+
+  z-index:100000;
 }
 
+/* ================= REVEAL FX ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(60px);
 
-
-
-@keyframes floatUp{
-  from{transform:translateY(100vh);}
-  to{transform:translateY(-10vh);}
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
-@media (max-width: 600px){
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:600px){
+
   .navbar{
-    padding:0 15px;
-    height:55px;
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:10px 14px;
+
+    min-height:60px;
   }
 
   .navbar-content{
+    display:flex;
+    align-items:center;
     gap:10px;
+
     flex-wrap:wrap;
+
+    width:auto;
+  }
+  .navbar a{
+    font-size:14px;
   }
 
-  .navbar a{
-    font-size:16px;
+  .toggle{
+    flex-shrink:0;
+    margin-left:auto;
   }
 
   .main-content{
-    margin-top:70px;
-    padding:15px;
+    margin-top:95px;
   }
 
-  h1{
-    font-size:28px;
-  }
+}
+
 
   .game-link{
-    font-size:16px;
-    padding:10px 18px;
+    width:100%;
+    height:52px;
+
+    margin:10px 0;
+
+    font-size:15px;
   }
 
-  .bottom-image{
-    max-width:180px;
+  .log-input{
+    width:100%;
+    margin-bottom:12px;
   }
 
+  .log-container{
+    font-size:13px;
+  }
 
-}
-
-.log-container{
-  margin-top:20px;
-  padding:15px;
-  background:#0f1117;
-  border-radius:12px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.25);
-  max-height:400px;
-  overflow-y:auto;
-  font-size:14px;
-  font-family:monospace;
-}
-
-/* scrollbar (clean) */
-.log-container::-webkit-scrollbar{
-  width:8px;
-}
-.log-container::-webkit-scrollbar-thumb{
-  background:#444;
-  border-radius:10px;
-}
-
-.log-entry{
-  padding:8px 10px;
-  border-left:3px solid #536DFE;
-  margin-bottom:6px;
-  background:rgba(255,255,255,0.03);
-  border-radius:6px;
-  display:flex;
-  align-items:flex-start;
-  gap:6px;
-}
-
-/* alternating rows */
-.log-entry:nth-child(even){
-  background:rgba(255,255,255,0.06);
-}
-
-.log-time{
-  font-size:12px;
-  color:#8ab4ff;
-  min-width:140px;
-}
-
-/* message text */
-.log-entry span:last-child{
-  color:#e6e6e6;
-  word-break:break-word;
-}
-.log-time{
-  font-size:12px;
-  opacity:0.6;
-  margin-right:8px;
-}
-.log-input{
-  padding:10px 14px;
-  border-radius:10px;
-  border:2px solid rgba(0,0,0,0.15);
-  font-family:'Fredoka',sans-serif;
-  font-size:16px;
-  outline:none;
-  width:250px;
-  margin-right:10px;
-  transition:0.2s;
-}
-
-.log-input:focus{
-  border-color:#536DFE;
-  box-shadow:0 0 8px rgba(83,109,254,0.3);
-}
-
-body.dark .log-input{
-  background:#1e2233;
-  color:#eee;
-  border:2px solid rgba(255,255,255,0.2);
-}
 
 </style>
 </head>
 
 <body>
-
+<div class="scroll-progress"></div>
 <div class="navbar">
+
   <div class="navbar-content">
     <a href="/"><img src="/images/logo.png" class="nav-logo"></a>
     <a href="/games">Games</a>
     <a href="/tools">Tools</a>
     <a href="/donatejk">Donate</a>
     <a href="/ai">Search</a>
-      <a href="/downloadpage">Exhibit</a>
+    <a href="/downloadpage">Exhibit</a>
   </div>
 
   <div class="toggle" id="toggle">
     <div class="toggle-circle" id="icon">🌙</div>
   </div>
-</div>
 
+</div>
+<div class="section reveal">
 <div class="main-content">
-  <h1>Log</h1>
+  <h1>✦
+ Log ✦
+</h1>
 
 
 
 <div style="margin-bottom:15px;">
   <input id="log-input" type="text" placeholder="Enter log message..." class="log-input">
-  <button class="game-link" onclick="submitLog()">Add Log</button>
+<button class="game-link" onclick="submitLog()">
+  Add Log
+</button>
 </div>
 <button class="game-link" onclick="clearLogs()" style="background:#e74c3c;">
   Clear Logs
 </button>
 <div id="log-container" class="log-container"></div>
-
+</div>
 
 <script>
 const toggle=document.getElementById("toggle");
@@ -514,6 +660,70 @@ yearEl.textContent = new Date().getFullYear();
 setInterval(() => {
   dateEl.textContent = getFormattedDateTime();
 }, 1000);
+</script>
+<script>
+
+/* ================= SCROLL PROGRESS ================= */
+const progressBar = document.querySelector(".scroll-progress");
+
+window.addEventListener("scroll", () => {
+
+  const scroll = window.scrollY;
+
+  const height =
+    document.body.scrollHeight - window.innerHeight;
+
+  const progress = (scroll / height) * 100;
+
+  progressBar.style.width = `${progress}%`;
+});
+
+/* ================= REVEAL ANIMATION ================= */
+const reveals = document.querySelectorAll(".reveal");
+
+const revealObserver = new IntersectionObserver((entries) => {
+
+  entries.forEach((entry) => {
+
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+
+  });
+
+},{
+  threshold:0.15
+});
+
+reveals.forEach((el) =>
+  revealObserver.observe(el)
+);
+
+/* ================= NAVBAR SHADOW ================= */
+window.addEventListener("scroll", () => {
+
+  const navbar = document.querySelector(".navbar");
+
+  if(window.scrollY > 50){
+
+    navbar.style.boxShadow =
+      "0 8px 30px rgba(0,0,0,0.12)";
+
+    navbar.style.background =
+      "rgba(15,17,23,0.72)";
+
+    navbar.style.backdropFilter =
+      "blur(24px)";
+
+  } else {
+
+    navbar.style.boxShadow = "none";
+
+    navbar.style.background =
+      "rgba(255,255,255,0.08)";
+  }
+});
+
 </script>
 
 </body>
