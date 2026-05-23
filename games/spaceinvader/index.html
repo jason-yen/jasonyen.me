@@ -14,332 +14,347 @@
     />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: "Fredoka", sans-serif;
-    font-size: 18px;
-    background: #f5f6fa;
-    color: #1b1f3b;
-    overflow-x: hidden;
-    line-height: 1.6;
-    transition:
-      background 0.4s,
-      color 0.4s;
-  }
-
-  /* ================= NAVBAR ================= */
-
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 20px;
-
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-
-    z-index: 9999;
-  }
-
-  .navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .navbar a {
-    color: #536dfe;
-    text-decoration: none;
-    font-size: 18px;
-    position: relative;
-    white-space: nowrap;
-  }
-
-  .navbar a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-
-    width: 0%;
-    height: 3px;
-
-    background: #536dfe;
-    border-radius: 2px;
-
-    transition: width 0.3s ease;
-  }
-
-  .navbar a:hover::after {
-    width: 100%;
-  }
-
-  .nav-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
-  }
-
-  .nav-logo:hover {
-    transform: scale(1.08);
-
-    box-shadow:
-      0 8px 18px rgba(0, 0, 0, 0.25);
-  }
-
-  /* ================= MAIN ================= */
-
-  .main-content {
-    margin-top: 72px;
-    padding: 18px;
-    max-width: 760px;
-  }
-
-  h1 {
-    font-size: clamp(30px, 5vw, 52px);
-    line-height: 1.1;
-    margin-bottom: 18px;
-    font-weight: 600;
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Fredoka", sans-serif;
+        font-size: 18px;
+        background: #f5f6fa;
+        color: #1b1f3b;
+        overflow-x: hidden;
+        line-height: 1.6;
+        transition:
+          background 0.4s,
+          color 0.4s;
+      }
+
+      /* ================= NAVBAR ================= */
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 60px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 20px;
+
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+
+        z-index: 9999;
+      }
+
+      .navbar-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .navbar a {
+        color: #536dfe;
+        text-decoration: none;
+        font-size: 18px;
+        position: relative;
+        white-space: nowrap;
+      }
+
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+
+        width: 0%;
+        height: 3px;
+
+        background: #536dfe;
+        border-radius: 2px;
+
+        transition: width 0.3s ease;
+      }
+
+      .navbar a:hover::after {
+        width: 100%;
+      }
+
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .nav-logo:hover {
+        transform: scale(1.08);
+
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
+
+      /* ================= MAIN ================= */
+
+      .main-content {
+        margin-top: 72px;
+        padding: 18px;
+        max-width: 760px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 5vw, 52px);
+        line-height: 1.1;
+        margin-bottom: 18px;
+        font-weight: 600;
 
-    background: linear-gradient(
-      135deg,
-      #536dfe,
-      #8f9fff,
-      #ffffff
-    );
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* ================= GAME PANEL ================= */
-
-  .game-panel {
-    background: rgba(255, 255, 255, 0.16);
-    backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 26px;
-
-    padding: 26px;
-
-    box-shadow:
-      0 10px 40px rgba(83, 109, 254, 0.12),
-      0 0 30px rgba(120, 140, 255, 0.08);
-
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
+        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
 
-  .game-panel:hover {
-    transform: translateY(-4px);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-    box-shadow:
-      0 20px 50px rgba(83, 109, 254, 0.18),
-      0 0 40px rgba(120, 140, 255, 0.12);
-  }
+      /* ================= GAME PANEL ================= */
 
-  /* ================= CANVAS ================= */
+      .game-panel {
+        background: rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(18px);
 
-  #gameCanvas {
-    display: block;
-    width: 100%;
-    max-width: 600px;
-    height: auto;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 26px;
 
-    margin-top: 10px;
+        padding: 26px;
 
-    border-radius: 22px;
+        box-shadow:
+          0 10px 40px rgba(83, 109, 254, 0.12),
+          0 0 30px rgba(120, 140, 255, 0.08);
 
-    background:
-      linear-gradient(
-        180deg,
-        rgba(8, 12, 25, 0.95),
-        rgba(20, 28, 48, 0.98)
-      );
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
 
-    border: 1px solid rgba(255, 255, 255, 0.08);
+      .game-panel:hover {
+        transform: translateY(-4px);
 
-    box-shadow:
-      inset 0 0 30px rgba(255, 255, 255, 0.03),
-      0 12px 35px rgba(0, 0, 0, 0.28);
-  }
+        box-shadow:
+          0 20px 50px rgba(83, 109, 254, 0.18),
+          0 0 40px rgba(120, 140, 255, 0.12);
+      }
 
-  body.dark #gameCanvas {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(5, 8, 20, 1),
-        rgba(15, 20, 35, 1)
-      );
+      /* ================= CANVAS ================= */
 
-    border: 1px solid rgba(255, 255, 255, 0.06);
-  }
+      #gameCanvas {
+        display: block;
+        width: 100%;
+        max-width: 600px;
+        height: auto;
 
-  /* ================= INFO TEXT ================= */
+        margin-top: 10px;
 
-  .game-info {
-    margin-top: 16px;
-    font-size: 15px;
-    opacity: 0.7;
-    letter-spacing: 0.3px;
-  }
+        border-radius: 22px;
 
-  /* ================= TOGGLE ================= */
+        background: linear-gradient(
+          180deg,
+          rgba(8, 12, 25, 0.95),
+          rgba(20, 28, 48, 0.98)
+        );
 
-  .toggle {
-    width: 65px;
-    height: 34px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
 
-    border-radius: 50px;
-    cursor: pointer;
-    position: relative;
+        box-shadow:
+          inset 0 0 30px rgba(255, 255, 255, 0.03),
+          0 12px 35px rgba(0, 0, 0, 0.28);
+      }
 
-    background: #dcdde1;
-    border: 2px solid rgba(0, 0, 0, 0.15);
+      body.dark #gameCanvas {
+        background: linear-gradient(
+          180deg,
+          rgba(5, 8, 20, 1),
+          rgba(15, 20, 35, 1)
+        );
 
-    transition:
-      background 0.3s ease,
-      border 0.3s ease,
-      box-shadow 0.3s ease;
-  }
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
 
-  body.dark .toggle {
-    background: #2f3640;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-  }
+      /* ================= INFO TEXT ================= */
 
-  .toggle.active {
-    background: #536dfe;
-    border: 2px solid #536dfe;
+      .game-info {
+        margin-top: 16px;
+        font-size: 15px;
+        opacity: 0.7;
+        letter-spacing: 0.3px;
+      }
 
-    box-shadow:
-      0 0 12px rgba(83, 109, 254, 0.55);
-  }
+      /* ================= TOGGLE ================= */
 
-  .toggle-circle {
-    width: 28px;
-    height: 28px;
+      .toggle {
+        width: 65px;
+        height: 34px;
 
-    background: white;
-
-    position: absolute;
-    top: 1px;
-    left: 2px;
-
-    border-radius: 50%;
-
-    transition: 0.35s ease;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 14px;
-  }
-
-  .toggle.active .toggle-circle {
-    left: 33px;
-  }
-
-  /* ================= DARK MODE ================= */
-
-  body.dark {
-    color: #e6e6e6;
-
-    background:
-      linear-gradient(
-        -45deg,
-        #0f1117,
-        #1a1f3a,
-        #0f1117,
-        #1c2240
-      );
-
-    background-size: 400% 400%;
-
-    animation: gradientMove 18s ease infinite;
-  }
-
-  @keyframes gradientMove {
-    0% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
-
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  body.dark .game-panel {
-    background: rgba(25, 28, 48, 0.5);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(83, 109, 254, 0.12);
-  }
-
-  /* ================= MOBILE ================= */
-
-  @media (max-width: 600px) {
-    .navbar {
-      padding: 0 15px;
-      height: 55px;
-    }
-
-    .navbar-content {
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .navbar a {
-      font-size: 16px;
-    }
-
-    .main-content {
-      margin-top: 66px;
-      padding: 14px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 16px;
-    }
-
-    .game-panel {
-      padding: 16px;
-      border-radius: 22px;
-    }
-
-    #gameCanvas {
-      border-radius: 18px;
-    }
-  }
-</style>
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+
+        background: #dcdde1;
+        border: 2px solid rgba(0, 0, 0, 0.15);
+
+        transition:
+          background 0.3s ease,
+          border 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      body.dark .toggle {
+        background: #2f3640;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+      }
+
+      .toggle.active {
+        background: #536dfe;
+        border: 2px solid #536dfe;
+
+        box-shadow: 0 0 12px rgba(83, 109, 254, 0.55);
+      }
+
+      .toggle-circle {
+        width: 28px;
+        height: 28px;
+
+        background: white;
+
+        position: absolute;
+        top: 1px;
+        left: 2px;
+
+        border-radius: 50%;
+
+        transition: 0.35s ease;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 14px;
+      }
+
+      .toggle.active .toggle-circle {
+        left: 33px;
+      }
+
+      /* ================= DARK MODE ================= */
+
+      body.dark {
+        color: #e6e6e6;
+
+        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
+
+        background-size: 400% 400%;
+
+        animation: gradientMove 18s ease infinite;
+      }
+
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      body.dark .game-panel {
+        background: rgba(25, 28, 48, 0.5);
+
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        box-shadow:
+          0 10px 40px rgba(0, 0, 0, 0.4),
+          0 0 40px rgba(83, 109, 254, 0.12);
+      }
+      #restartBtn {
+        margin-top: 18px;
+        padding: 12px 22px;
+
+        border: none;
+        border-radius: 16px;
+
+        background: linear-gradient(135deg, #536dfe, #8f9fff);
+
+        color: white;
+        font-family: "Fredoka", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        box-shadow: 0 8px 20px rgba(83, 109, 254, 0.3);
+
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      #restartBtn:hover {
+        transform: translateY(-2px);
+
+        box-shadow: 0 12px 28px rgba(83, 109, 254, 0.45);
+      }
+
+      #restartBtn:active {
+        transform: scale(0.98);
+      }
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 0 15px;
+          height: 55px;
+        }
+
+        .navbar-content {
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .navbar a {
+          font-size: 16px;
+        }
+
+        .main-content {
+          margin-top: 66px;
+          padding: 14px;
+        }
+
+        h1 {
+          font-size: 32px;
+          margin-bottom: 16px;
+        }
+
+        .game-panel {
+          padding: 16px;
+          border-radius: 22px;
+        }
+
+        #gameCanvas {
+          border-radius: 18px;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -362,6 +377,8 @@
       <h1>Space Invaders (Desktop) {Beta}</h1>
 
       <canvas id="gameCanvas" width="600" height="500"></canvas>
+
+      <button id="restartBtn">Restart Game</button>
     </div>
     <script>
       const toggle = document.getElementById("toggle");
@@ -430,7 +447,42 @@
           });
         }
       }
+      function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+        if (typeof radius === "number") {
+          radius = {
+            tl: radius,
+            tr: radius,
+            br: radius,
+            bl: radius,
+          };
+        }
 
+        ctx.beginPath();
+
+        ctx.moveTo(x + radius.tl, y);
+
+        ctx.lineTo(x + width - radius.tr, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+
+        ctx.lineTo(x + width, y + height - radius.br);
+        ctx.quadraticCurveTo(
+          x + width,
+          y + height,
+          x + width - radius.br,
+          y + height,
+        );
+
+        ctx.lineTo(x + radius.bl, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+
+        ctx.lineTo(x, y + radius.tl);
+        ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+
+        ctx.closePath();
+
+        if (fill) ctx.fill();
+        if (stroke) ctx.stroke();
+      }
       // start empty
       spawnRow(-30);
       let keys = {};
@@ -568,7 +620,198 @@
           ctx.fillText("GAME OVER", canvas.width / 2 - 130, canvas.height / 2);
         }
       }
+      let startTime = Date.now();
+      let score = 0;
 
+      let highScore = localStorage.getItem("spaceHighScore") || 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const darkMode = document.body.classList.contains("dark");
+
+        const playerColor = darkMode ? "#00ffcc" : "#00796b";
+        const bulletColor = darkMode ? "#ffffff" : "#111111";
+        const textColor = darkMode ? "#ffffff" : "#111111";
+
+        // ================= SCORE =================
+
+        score = Math.floor((Date.now() - startTime) / 1000);
+
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("spaceHighScore", highScore);
+        }
+
+        // glass score panel
+        ctx.fillStyle = darkMode
+          ? "rgba(255,255,255,0.08)"
+          : "rgba(255,255,255,0.6)";
+
+        roundRect(ctx, 14, 14, 180, 62, 18, true);
+
+        // score text gradient
+        const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+
+        gradient.addColorStop(0, "#536dfe");
+        gradient.addColorStop(1, "#b478ff");
+
+        ctx.fillStyle = gradient;
+
+        ctx.font = "600 18px Fredoka";
+
+        ctx.fillText(`Score: ${score}s`, 28, 40);
+
+        ctx.fillText(`Best: ${highScore}s`, 28, 65);
+
+        // ================= PLAYER =================
+
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = playerColor;
+
+        ctx.fillStyle = playerColor;
+
+        roundRect(ctx, player.x, player.y, player.w, player.h, 6, true);
+
+        // ================= BULLETS =================
+
+        bullets.forEach((b) => {
+          const bulletGradient = ctx.createLinearGradient(
+            b.x,
+            b.y,
+            b.x,
+            b.y + b.h,
+          );
+
+          bulletGradient.addColorStop(0, "#ffffff");
+          bulletGradient.addColorStop(1, "#8f9fff");
+
+          ctx.fillStyle = bulletGradient;
+
+          ctx.shadowBlur = 18;
+          ctx.shadowColor = "#8f9fff";
+
+          roundRect(ctx, b.x, b.y, b.w, b.h, 10, true);
+        });
+
+        // ================= ENEMIES =================
+
+        enemies.forEach((e) => {
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = `hsl(${enemyHue},80%,60%)`;
+
+          ctx.fillStyle = `hsl(${enemyHue}, 80%, 60%)`;
+
+          roundRect(ctx, e.x, e.y, e.w, e.h, 5, true);
+        });
+
+        // ================= GAME OVER =================
+
+        if (gameOver) {
+          // dark overlay
+          ctx.fillStyle = "rgba(0,0,0,0.55)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // glass card
+          ctx.fillStyle = darkMode
+            ? "rgba(20,25,40,0.75)"
+            : "rgba(255,255,255,0.75)";
+
+          roundRect(
+            ctx,
+            canvas.width / 2 - 170,
+            canvas.height / 2 - 110,
+            340,
+            180,
+            28,
+            true,
+          );
+
+          // border glow
+          ctx.strokeStyle = "rgba(143,159,255,0.6)";
+          ctx.lineWidth = 2;
+
+          roundRect(
+            ctx,
+            canvas.width / 2 - 170,
+            canvas.height / 2 - 110,
+            340,
+            180,
+            28,
+            false,
+            true,
+          );
+
+          // title gradient
+          const overGradient = ctx.createLinearGradient(160, 0, 430, 0);
+
+          overGradient.addColorStop(0, "#536dfe");
+          overGradient.addColorStop(1, "#b478ff");
+
+          ctx.fillStyle = overGradient;
+
+          ctx.font = "600 42px Fredoka";
+
+          ctx.fillText(
+            "GAME OVER",
+            canvas.width / 2 - 125,
+            canvas.height / 2 - 25,
+          );
+
+          // stats
+          ctx.fillStyle = darkMode ? "#ffffff" : "#111111";
+
+          ctx.font = "20px Fredoka";
+
+          ctx.fillText(
+            `Score: ${score}s`,
+            canvas.width / 2 - 55,
+            canvas.height / 2 + 18,
+          );
+
+          ctx.fillText(
+            `Best: ${highScore}s`,
+            canvas.width / 2 - 50,
+            canvas.height / 2 + 48,
+          );
+
+          // restart hint
+          ctx.font = "16px Fredoka";
+
+          ctx.fillStyle = "#8f9fff";
+
+          ctx.fillText(canvas.width / 2 - 82, canvas.height / 2 + 88);
+        }
+
+        ctx.shadowBlur = 0;
+      }
+      const restartBtn = document.getElementById("restartBtn");
+
+      function restartGame() {
+        player = {
+          x: canvas.width / 2 - 20,
+          y: canvas.height - 40,
+          w: 40,
+          h: 20,
+          speed: 5,
+        };
+
+        bullets = [];
+        enemies = [];
+        enemyDirection = 1;
+        enemyHue = 0;
+
+        gameOver = false;
+
+        startTime = Date.now();
+        score = 0;
+
+        spawnRow(-30);
+
+        loop();
+      }
+
+      restartBtn.onclick = restartGame;
       function loop() {
         update();
         draw();
