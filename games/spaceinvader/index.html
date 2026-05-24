@@ -13,8 +13,25 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
-
+<head>
+  <div class="cursor"></div>
+</head>
     <style>
+      body {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
       * {
         box-sizing: border-box;
         margin: 0;
@@ -381,6 +398,12 @@
       <button id="restartBtn">Restart Game</button>
     </div>
     <script>
+    const cursor = document.querySelector(".cursor");
+
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
       const toggle = document.getElementById("toggle");
       const icon = document.getElementById("icon");
 

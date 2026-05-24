@@ -128,6 +128,21 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+body {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
       .subtitle {
         color: #555;
         margin-bottom: 35px;
@@ -585,7 +600,12 @@ body.dark {
           document.body.classList.contains("dark") ? "on" : "off",
         );
       };
+const cursor = document.querySelector(".cursor");
 
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
       /* CALCULATOR */
 
       function calculate() {
@@ -628,5 +648,8 @@ body.dark {
 
 
     </script>
+    <head>
+  <div class="cursor"></div>
+</head>
   </body>
 </html>

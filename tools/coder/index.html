@@ -215,7 +215,21 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+body {
+  cursor: none;
+}
 
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
       /* About Me Section */
       .about-me {
         text-align: left;
@@ -411,19 +425,6 @@
         left: 33px;
       }
 
-      /* ================= FX ================= */
-      .cursor-glow {
-        position: fixed;
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(
-          circle,
-          rgba(83, 109, 254, 0.25),
-          transparent 70%
-        );
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-      }
 
       @keyframes floatUp {
         from {
@@ -1037,7 +1038,12 @@ body.dark #outputText {
 
         return w.slice(-shift).concat(w.slice(0, -shift)).join(" ");
       }
+const cursor = document.querySelector(".cursor");
 
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
       function shiftB(t) {
         let w = t.split(" ");
         let n = w.length;
@@ -1092,6 +1098,9 @@ body.dark #outputText {
 
         document.getElementById("outputText").textContent = result;
       }
+      <head>
+  <div class="cursor"></div>
+</head>
     </script>
   </body>
 </html>

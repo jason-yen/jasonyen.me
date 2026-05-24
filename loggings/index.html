@@ -322,7 +322,21 @@ body.dark .log-input{
   color:#e6e6e6;
   word-break:break-word;
 }
+body {
+  cursor: none;
+}
 
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
 /* ================= DARK MODE ================= */
 body.dark{
   color:#e6e6e6;
@@ -723,8 +737,15 @@ window.addEventListener("scroll", () => {
       "rgba(255,255,255,0.08)";
   }
 });
+const cursor = document.querySelector(".cursor");
 
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
 </script>
-
+<head>
+  <div class="cursor"></div>
+</head>
 </body>
 </html>

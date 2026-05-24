@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>jasonyen.me</title>
-
+<head>
+  <div class="cursor"></div>
+</head>
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
       rel="stylesheet"
@@ -15,6 +17,21 @@
     />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
     <style>
+body {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
       /* ================= FOOTER ================= */
       /* ================= LAYOUT FIX (sticky footer) ================= */
       .footer {
@@ -794,7 +811,7 @@
     <div class="main-content">
       <h1>✦ Jasonyen.me ✦</h1>
 
-      <div class="about-me">Version 113.2</div>
+      <div class="about-me">Version 125.3</div> //Version
 
       <div class="section reveal">
         <strong>Choose a subpage:</strong><br />
@@ -803,7 +820,7 @@
         <a href="/donatejk" class="game-link">Donate</a>
         <a href="/ai" class="game-link">Search Engine</a>
       </div>
-
+<div class="cursor"></div>
       <div class="section reveal">
         <strong>Choose a webpage:</strong><br />
         <a href="https://www.printables.com/@wardenmonster" class="game-link"
@@ -926,6 +943,12 @@
       popupClose.onclick = () => {
         aiPopup.style.display = "none";
       };
+      const cursor = document.querySelector(".cursor");
+
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 
