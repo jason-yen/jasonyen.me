@@ -7,7 +7,9 @@
 
     <!-- ================= TITLE ================= -->
     <title>jasonyen.me</title>
-
+    <head>
+  <div class="cursor"></div>
+</head>
     <!-- ================= FONTS ================= -->
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
@@ -23,6 +25,21 @@
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
     <style>
+      body {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
       body {
   cursor: none;
 }
@@ -964,15 +981,14 @@
           }
         }
       });
+
       const cursor = document.querySelector(".cursor");
 
 document.addEventListener("mousemove", (e) => {
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
 });
-<head>
-  <div class="cursor"></div>
-</head>
     </script>
+
   </body>
 </html>

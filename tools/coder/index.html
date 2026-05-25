@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>jasonyen.me</title>
-
+      <head>
+  <div class="cursor"></div>
+</head>
     <link
       href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
+    
     <style>
       /* ================= FOOTER ================= */
       /* ================= LAYOUT FIX (sticky footer) ================= */
@@ -903,20 +906,60 @@ body.dark #outputText {
       </div>
     </div>
 
-    <!-- MAIN TOOL -->
-    <div class="main-content">
-      <div class="section">
-        <h2>Encoder / Decoder</h2>
-        <br />
-        <textarea id="inputText" placeholder="Enter text..."></textarea><br />
+   <!-- MAIN TOOL -->
+<div class="main-content">
+  <h1>Encoder / Decoder {Beta}</h1>
 
-        <button class="game-link" onclick="encodeText()">Encode</button>
-        <button class="game-link" onclick="decodeText()">Decode</button>
+  <div class="section">
+    <p class="about-me">
+      Transform text into a custom encrypted format and decode it instantly.
 
-        <p><strong>Result:</strong></p>
-        <div id="outputText"></div>
+    </p>
+
+    <textarea
+      id="inputText"
+      placeholder="Type or paste text here..."
+    ></textarea>
+
+    <div
+      style="
+        display:flex;
+        gap:14px;
+        flex-wrap:wrap;
+        margin-top:10px;
+      "
+    >
+      <button class="game-link" onclick="encodeText()">
+        Encode Text
+      </button>
+
+      <button class="game-link" onclick="decodeText()">
+        Decode Text
+      </button>
+    </div>
+
+    <div
+      style="
+        margin-top:28px;
+      "
+    >
+      <h3
+        style="
+          margin-bottom:12px;
+          font-size:20px;
+          color:#536dfe;
+          font-weight:600;
+        "
+      >
+        Result
+      </h3>
+
+      <div id="outputText">
+        Your encoded or decoded text will appear here...
       </div>
     </div>
+  </div>
+</div>
 
     <script>
       // Dark mode toggle with localStorage
@@ -1098,9 +1141,7 @@ document.addEventListener("mousemove", (e) => {
 
         document.getElementById("outputText").textContent = result;
       }
-      <head>
-  <div class="cursor"></div>
-</head>
+
     </script>
   </body>
 </html>
