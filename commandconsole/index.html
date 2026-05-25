@@ -782,15 +782,124 @@
 
         z-index: 1000000;
       }
+      /* TERMINAL */
+
+.terminal {
+  width: 100%;
+  max-width: 900px;
+
+  margin-top: 30px;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background: rgba(10, 10, 10, 0.9);
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 14px 16px;
+
+  background: rgba(255,255,255,0.06);
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.red {
+  background: #ff5f57;
+}
+
+.yellow {
+  background: #febc2e;
+}
+
+.green {
+  background: #28c840;
+}
+
+.terminal-title {
+  margin-left: 10px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.terminal-body {
+  height: 400px;
+
+  overflow-y: auto;
+
+  padding: 18px;
+
+  color: #00ff88;
+
+  font-family: monospace;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+.line {
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.terminal-input-area {
+  display: flex;
+  align-items: center;
+
+  padding: 14px 18px;
+
+  border-top: 1px solid rgba(255,255,255,0.08);
+
+  background: rgba(255,255,255,0.03);
+}
+
+.prompt {
+  color: #00ff88;
+
+  font-family: monospace;
+
+  margin-right: 10px;
+
+  font-size: 18px;
+}
+
+#terminalInput {
+  flex: 1;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  font-family: monospace;
+
+  font-size: 16px;
+}
     </style>
   </head>
 
   <body>
-    <div class="ai-popup" id="aiPopup">
-      <button class="popup-close" id="popupClose">✕</button>
-      <h3>✦ Jasonyen.me ✦</h3>
-      <p>Personal Website</p>
-    </div>
+
     <div class="navbar">
       <div class="navbar-content">
         <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
@@ -808,62 +917,35 @@
     <div class="scroll-progress"></div>
     <div class="main-content">
 
+      <div class="cursor"></div>
 
   <h1>
-    ✦ Jasonyen.me ✦<br />
+    ✦ Terminal {Beta} ✦<br />
 
   </h1>
 
-  <p class="hero-subtitle">
-    ✦ Personal Webpage ✦
-  </p>
-  <h1></h1>
-
-    <div class="hero-badge">
-    ✦ Version <span id="version"></span> ✦
+<div class="terminal">
+  <div class="terminal-header">
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+    <span class="terminal-title">terminal.js</span>
   </div>
-<h1></h1>
-  <div class="hero-buttons">
+
+  <div class="terminal-body" id="terminalBody">
+    <div class="line">Type "Help" to begin.</div>
   </div>
-</section>
-      <div class="section reveal">
-        <strong>✦ Choose a subpage: </strong><br />
-        <a href="/games" class="game-link">Games</a>
-        <a href="/tools" class="game-link">Tools</a>
-        <a href="/donatejk" class="game-link">Donate</a>
-        <a href="/ai" class="game-link">Search Engine</a>
-      </div>
-      <div class="cursor"></div>
-      <div class="section reveal">
-        <strong>✦ Choose a webpage:</strong><br />
-        <a href="https://www.printables.com/@wardenmonster" class="game-link"
-          >✦ Printables ✦</a
-        >
-        <a href="https://www.tinkercad.com/users/8Y0kQeRvjsZ/" class="game-link"
-          >Tinkercad</a
-        >
-        <a href="https://scratch.mit.edu/users/wardenmonster/" class="game-link"
-          >✦ Scratch ✦</a
-        >
-        <a href="https://makerworld.com/en/@wardenmonster" class="game-link"
-          >Makerworld</a
-        >
-      </div>
 
-      <div class="bottom-image">
-        <img src="/images/WardenmonsterLogo.PNG" />
-      </div>
-    </div>
-
-    <div class="footer">
-      ©<span id="current-dates"></span> • jasonyen.me<br />
-      ────────────────────────────────────────────────────────<br />
-      Built over 5 years • All rights reserved Started Dec 15, 2021 • Date:
-      <span id="current-date"></span><br />
-      ──────────────────────────────────────────────────────── <br />
-      <a href="https://jasonyen.me/loggings" class="game-link">Log </a>
-    </div>
-
+  <div class="terminal-input-area">
+    <span class="prompt">></span>
+    <input
+      type="text"
+      id="terminalInput"
+      autocomplete="off"
+      placeholder="Enter command..."
+    />
+  </div>
+</div>
     <script>
       const toggle = document.getElementById("toggle");
       const icon = document.getElementById("icon");
@@ -978,13 +1060,109 @@
       }
 
       requestAnimationFrame(raf);
+      
     </script>
-    <script>
-  fetch("/version.txt")
-    .then((res) => res.text())
-    .then((version) => {
-      document.getElementById("version").textContent = version.trim();
-    });
-</script>
+
   </body>
+<script>
+const terminalBody = document.getElementById("terminalBody");
+let siteVersion = "loading...";
+const commands = {
+  date: new Date().toString(),
+
+  about: "This is JasonYen Terminal Beta.",
+
+  help: "Commands: about, clear, date, version",
+
+  version: () => "Version: " + version.txt,
+};
+
+function addLine(text) {
+  const div = document.createElement("div");
+
+  div.className = "line";
+
+  div.textContent = text;
+
+  terminalBody.appendChild(div);
+
+  terminalBody.scrollTop = terminalBody.scrollHeight;
+}
+
+terminalInput.addEventListener("keydown", function (e) {
+
+  if (e.key !== "Enter") return;
+
+  const input = terminalInput.value.trim().toLowerCase();
+
+  if (!input) return;
+
+  addLine("> " + input);
+
+  /* CLEAR */
+
+  if (input === "clear") {
+
+    terminalBody.innerHTML = "";
+
+    terminalInput.value = "";
+
+    return;
+  }
+
+  /* COMMANDS */
+
+  if (commands[input]) {
+
+    addLine(commands[input]);
+
+  } else {
+
+    addLine("Command not found.");
+
+  }
+
+  terminalInput.value = "";
+
+});
+</script>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+  const cursor = document.querySelector(".cursor");
+
+  if (!cursor) return;
+
+  document.addEventListener("mousemove", (e) => {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+  });
+
+  const hoverTargets = document.querySelectorAll(
+    "a, button, input, .game-link, .toggle"
+  );
+
+  hoverTargets.forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      cursor.classList.add("hover");
+    });
+
+    el.addEventListener("mouseleave", () => {
+      cursor.classList.remove("hover");
+    });
+  });
+
+  /* mobile disable */
+  if (window.innerWidth <= 768) {
+    document.body.style.cursor = "auto";
+    cursor.style.display = "none";
+  }
+
+});
+fetch("/version.txt")
+  .then(res => res.text())
+  .then(version => {
+    siteVersion = version.trim();
+  });
+</script>
 </html>
