@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <div class="cursor"></div>
 
   <title>jasonyen.me</title>
 
@@ -315,7 +316,21 @@
 
       overflow: hidden;
     }
+body {
+  cursor: none;
+}
 
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2147483647;
+  transform: translate(-50%, -50%);
+}
     .visualizer::before {
       content: "";
 
@@ -494,6 +509,8 @@
       <a href="/tools">Tools</a>
       <a href="/ai">Search</a>
       <a href="/downloadpage">Exhibit</a>
+                      <a href="/radio">Radio</a>
+
 
     </div>
 
@@ -639,6 +656,12 @@
         );
       }
     };
+    const cursor = document.querySelector(".cursor");
+
+document.addEventListener("mousemove", (e) => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
   </script>
 
 </body>
