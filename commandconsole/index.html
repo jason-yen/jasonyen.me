@@ -1065,6 +1065,7 @@
 
   </body>
 <script>
+const terminalInput = document.getElementById("terminalInput");
 const terminalBody = document.getElementById("terminalBody");
 let siteVersion = "loading...";
 const commands = {
@@ -1074,7 +1075,7 @@ const commands = {
 
   help: "Commands: about, clear, date, version",
 
-  version: () => "Version: " + version.txt,
+  version: () => "Version: " + (siteVersion || "loading...")
 };
 
 function addLine(text) {
@@ -1112,19 +1113,17 @@ terminalInput.addEventListener("keydown", function (e) {
 
   /* COMMANDS */
 
-  if (commands[input]) {
+if (commands[input]) {
+  const result =
+    typeof commands[input] === "function"
+      ? commands[input]()
+      : commands[input];
 
-    addLine(commands[input]);
-
-  } else {
-
-    addLine("Command not found.");
-
-  }
-
-  terminalInput.value = "";
-
-});
+  addLine(result);
+} else {
+  addLine("Command not found.");
+}
+})
 </script>
 <script>
 window.addEventListener("DOMContentLoaded", () => {
