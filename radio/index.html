@@ -422,7 +422,17 @@ body {
       transform: translateX(-120%);
       transition: transform 0.7s ease;
     }
+        h1 {
+          font-size: clamp(24px, 4vw, 48px);
+          line-height: 1.15;
+          letter-spacing: -1px;
+          font-weight: 600;
+          margin-bottom: 20px;
 
+          background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
     .game-link:hover::before {
       transform: translateX(120%);
     }
@@ -487,6 +497,138 @@ body {
         height: 100px;
       }
     }
+    /* ================= NAVBAR ================= */
+
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 60px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  padding: 0 20px !important;
+
+  background: rgba(255, 255, 255, 0.2) !important;
+
+  backdrop-filter: blur(20px) !important;
+
+  z-index: 9999 !important;
+
+  transition:
+    background 0.4s ease !important;
+    box-shadow 0.4s ease !important;
+
+
+.navbar-content {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  flex-wrap: wrap !important;
+}
+
+.navbar a {
+  color: #536dfe !important;
+
+  text-decoration: none !important;
+
+  font-size: 18px !important;
+
+  position: relative !important;
+
+  white-space: nowrap !important;
+}
+
+.navbar a::after {
+  content: "" !important;
+
+  position: absolute !important;
+
+  left: 0 !important;
+  bottom: -3px !important;
+
+  width: 0% !important;
+  height: 3px !important;
+
+  background: #536dfe !important;
+
+  border-radius: 2px !important;
+
+  transition: width 0.3s ease !important;
+}
+
+.navbar a:hover::after {
+  width: 100% !important;
+}
+
+/* LOGO */
+
+.nav-logo {
+  width: 42px !important;
+  height: 42px !important;
+
+  border-radius: 5px !important;
+
+  display: block !important;
+
+  object-fit: cover !important;
+
+  transition:
+    transform 0.25s ease !important,
+    box-shadow 0.25s ease !important;
+}
+
+.nav-logo:hover {
+  transform: scale(1.08) !important;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.25) !important;
+}
+
+/* ================= MOBILE NAVBAR ================= */
+
+@media (max-width: 600px) {
+
+  .navbar {
+    height: auto !important;
+    min-height: 60px !important;
+
+    padding: 10px 12px !important;
+
+    flex-direction: column !important;
+
+    gap: 10px !important;
+  }
+
+  .navbar-content {
+    width: 100% !important;
+
+    justify-content: center !important;
+
+    gap: 12px !important;
+
+    flex-wrap: wrap !important;
+  }
+
+  .navbar a {
+    font-size: 15px !important;
+  }
+
+  .nav-logo {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .toggle {
+    transform: scale(0.9) !important;
+  }
+
+  .main {
+    padding-top: 140px !important;
+  }
+}
   </style>
 </head>
 
@@ -507,9 +649,11 @@ body {
 
       <a href="/games">Games</a>
       <a href="/tools">Tools</a>
+            <a href="/donatejk">Donate</a>
+
       <a href="/ai">Search</a>
       <a href="/downloadpage">Exhibit</a>
-                      <a href="/radio">Radio</a>
+      <a href="/radio">Radio</a>
 
 
     </div>
@@ -525,17 +669,18 @@ body {
   <!-- MAIN -->
 
   <main class="main">
+  <h1>
+    ✦ Radio {Beta} ✦<br />
 
+  </h1>
     <div class="radio-card">
 
 
 
-      <h1 class="radio-title">
-        ✦ Live Radio ✦ (103.5 KOST) {Beta}
-      </h1>
+
 
       <p class="radio-subtitle">
-        Smooth streaming audio player
+        KOST 103.5
       </p>
 
       <div class="visualizer"></div>
@@ -546,14 +691,14 @@ body {
           class="game-link"
           onclick="playRadio()"
         >
-          ▶ Play Radio
+          ▶ Play
         </button>
 
         <button
           class="game-link"
           onclick="stopRadio()"
         >
-          ■ Stop Radio
+          ■ Stop
         </button>
 
       </div>
@@ -568,7 +713,7 @@ body {
         class="status"
         id="status"
       >
-        ✦ Waiting for playback ✦
+        ✦ Waiting for Playback ✦
       </div>
 
     </div>
@@ -592,12 +737,12 @@ body {
         await radio.play();
 
         statusText.textContent =
-          "✦ Radio is now playing ✦";
+          "✦ Radio is Playing ✦";
 
       } catch (err) {
 
         statusText.textContent =
-          "✦ Playback blocked by browser ✦";
+          "✦ Playback Blocked by Browser ✦";
 
         console.error(err);
       }
@@ -608,7 +753,7 @@ body {
       radio.pause();
 
       statusText.textContent =
-        "✦ Radio stopped ✦";
+        "✦ Radio Stopped ✦";
     }
 
     const toggle =
