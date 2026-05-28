@@ -518,10 +518,9 @@ body {
   z-index: 9999 !important;
 
   transition:
-    background 0.4s ease !important;
+    background 0.4s ease,
     box-shadow 0.4s ease !important;
-
-
+}
 .navbar-content {
   display: flex !important;
   align-items: center !important;
@@ -576,7 +575,7 @@ body {
   object-fit: cover !important;
 
   transition:
-    transform 0.25s ease !important,
+    transform 0.25s ease,
     box-shadow 0.25s ease !important;
 }
 
@@ -683,7 +682,6 @@ body {
         KOST 103.5
       </p>
 
-      <div class="visualizer"></div>
 
       <div class="controls">
 
@@ -717,7 +715,89 @@ body {
       </div>
 
     </div>
+<!-- SECOND RADIO CARD -->
 
+<div class="radio-card" style="margin-top:40px;">
+
+  <p class="radio-subtitle">
+    104.3 MYFM {UNFINISHED}
+  </p>
+
+
+  <div class="controls">
+
+    <button
+      class="game-link"
+      onclick="playRadio2()"
+    >
+      ▶ Play
+    </button>
+
+    <button
+      class="game-link"
+      onclick="stopRadio2()"
+    >
+      ■ Stop
+    </button>
+
+  </div>
+
+  <audio
+    id="radio2"
+    controls
+    preload="none"
+  ></audio>
+
+  <div
+    class="status"
+    id="status2"
+  >
+    ✦ Waiting for Playback ✦
+  </div>
+
+</div>
+
+<!-- THIRD RADIO CARD -->
+
+<div class="radio-card" style="margin-top:40px;">
+
+  <p class="radio-subtitle">
+    102.7 KIIS-FM
+  </p>
+
+
+  <div class="controls">
+
+    <button
+      class="game-link"
+      onclick="playRadio3()"
+    >
+      ▶ Play
+    </button>
+
+    <button
+      class="game-link"
+      onclick="stopRadio3()"
+    >
+      ■ Stop
+    </button>
+
+  </div>
+
+  <audio
+    id="radio3"
+    controls
+    preload="none"
+  ></audio>
+
+  <div
+    class="status"
+    id="status3"
+  >
+    ✦ Waiting for Playback ✦
+  </div>
+
+</div>
   </main>
 
   <script>
@@ -806,7 +886,80 @@ body {
 document.addEventListener("mousemove", (e) => {
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
-});
+});/* ================= RADIO 2 ================= */
+
+const radio2 =
+  document.getElementById("radio2");
+
+radio2.src =
+  "104.3";
+
+const statusText2 =
+  document.getElementById("status2");
+
+async function playRadio2() {
+
+  try {
+
+    await radio2.play();
+
+    statusText2.textContent =
+      "✦ Radio Playing ✦";
+
+  } catch (err) {
+
+    statusText2.textContent =
+      "✦ Playback Blocked ✦";
+
+    console.error(err);
+  }
+}
+
+function stopRadio2() {
+
+  radio2.pause();
+
+  statusText2.textContent =
+    "✦ Radio Stopped ✦";
+}
+
+/* ================= RADIO 3 ================= */
+
+const radio3 =
+  document.getElementById("radio3");
+
+radio3.src =
+  "https://cloud.revma.ihrhls.com/zc185?rj-org=n0bb-e2&rj-ttl=5&rj-tok=AAABnmyXXDgApHYh19TuszW5BA";
+
+const statusText3 =
+  document.getElementById("status3");
+
+async function playRadio3() {
+
+  try {
+
+    await radio3.play();
+
+    statusText3.textContent =
+      "✦ Radio Playing ✦";
+
+  } catch (err) {
+
+    statusText3.textContent =
+      "✦ Playback Blocked ✦";
+
+    console.error(err);
+  }
+}
+
+function stopRadio3() {
+
+  radio3.pause();
+
+  statusText3.textContent =
+    "✦ Radio Stopped ✦";
+}
+
   </script>
 
 </body>
