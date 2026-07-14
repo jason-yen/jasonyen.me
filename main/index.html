@@ -36,74 +36,62 @@
       }
       /* BACKGROUND BLUR ORBS */
 
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: .35;
-  pointer-events: none;
-  animation: float 14s ease-in-out infinite alternate;
-    will-change: transform;
-}
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.35;
+        pointer-events: none;
+        animation: float 14s ease-in-out infinite alternate;
+        will-change: transform;
+      }
 
-.orb1{
-    width:420px;
-    height:420px;
-    top:-120px;
-    left:-120px;
-    background:#7f5af0;
-}
+      .orb1 {
+        width: 420px;
+        height: 420px;
+        top: -120px;
+        left: -120px;
+        background: #7f5af0;
+      }
 
-.orb2{
-    width:380px;
-    height:380px;
-    bottom:-120px;
-    right:-120px;
-    background:#00c2ff;
-    animation-duration:18s;
-}
+      .orb2 {
+        width: 380px;
+        height: 380px;
+        bottom: -120px;
+        right: -120px;
+        background: #00c2ff;
+        animation-duration: 18s;
+      }
 
-@keyframes float{
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
 
-0%{
-transform:translate(0,0) scale(1);
-}
+        50% {
+          transform: translate(60px, -40px) scale(1.15);
+        }
 
-50%{
-transform:translate(60px,-40px) scale(1.15);
-}
+        100% {
+          transform: translate(-40px, 50px) scale(0.95);
+        }
+      }
+      .scroll-card {
+        opacity: 0.25;
+        transform: translateY(100px) scale(0.92);
 
-100%{
-transform:translate(-40px,50px) scale(.95);
-}
+        transition:
+          opacity 0.7s,
+          filter 0.7s;
 
-}
-.scroll-card{
+        will-change: transform, opacity;
+      }
 
-opacity:.25;
-transform:
-translateY(100px)
-scale(.92);
+      .scroll-card.visible {
+        opacity: 1;
 
-transition:
-        opacity .7s,
-        filter .7s;
-
-will-change:
-transform,
-opacity;
-
-}
-
-.scroll-card.visible{
-
-opacity:1;
-
-transform:
-translateY(0)
-scale(1);
-
-}
+        transform: translateY(0) scale(1);
+      }
 
       /* NAVBAR */
 
@@ -278,15 +266,70 @@ scale(1);
         line-height: 1.7;
       }
 
-      /* FOOTER */
+.footer {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 80px;
+  padding: 40px 30px;
 
-      footer {
-        padding: 40px;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.4);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-      }
+  text-align: center;
+  font-size: 13px;
+  line-height: 2;
 
+  color: rgba(255, 255, 255, 0.65);
+
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.25),
+    inset 0 1px 1px rgba(255,255,255,0.08);
+}
+
+.footer hr {
+  border: none;
+  height: 1px;
+  margin: 18px auto;
+  width: 80%;
+
+  background: rgba(255,255,255,0.15);
+}
+
+.footer span {
+  color: white;
+}
+
+@media (max-width:768px) {
+  .footer {
+    margin: 20px 20px 50px;
+    padding: 30px 20px;
+    font-size: 12px;
+  }
+}
+
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  position: relative;
+  z-index: 5;
+  margin-top: auto;
+  margin-bottom: 0;
+
+  border-radius: 40px 40px 0 0;
+}
       /* MOBILE */
 
       @media (max-width: 768px) {
@@ -422,12 +465,8 @@ scale(1);
       }
 
       /* overlap effect */
-      .scroll-card + .scroll-card {
-        margin-top: -120px;
-      }
 
-      /* stack order */
-      .scroll-card:nth-child(1) {
+      .scroll-card {
         z-index: 1;
       }
 
@@ -437,10 +476,6 @@ scale(1);
 
       .scroll-card:nth-child(3) {
         z-index: 3;
-      }
-
-      .scroll-card:nth-child(4) {
-        z-index: 4;
       }
 
       /* Hero card centering */
@@ -466,98 +501,75 @@ scale(1);
         line-height: 1.8;
         font-size: 1.1rem;
       }
-      .btn{
+      .btn {
+        position: relative;
+        overflow: hidden;
 
-position:relative;
-overflow:hidden;
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s;
+      }
 
-transition:
-transform .35s,
-box-shadow .35s;
+      .btn::before {
+        content: "";
 
-}
+        position: absolute;
 
-.btn::before{
+        top: 0;
+        left: -120%;
 
-content:"";
+        width: 60%;
+        height: 100%;
 
-position:absolute;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.45),
+          transparent
+        );
 
-top:0;
-left:-120%;
+        transform: skewX(-20deg);
+      }
 
-width:60%;
-height:100%;
+      .btn:hover {
+        transform: translateY(-4px) scale(1.04);
 
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.45),
-transparent);
+        box-shadow: 0 15px 35px rgba(255, 255, 255, 0.12);
+      }
 
-transform:skewX(-20deg);
+      .btn:hover::before {
+        left: 170%;
+        transition: 1s;
+      }
+      h1 {
+        animation:
+          fadeHero 1.2s ease,
+          gradientMove 6s linear infinite;
 
-}
+        background-size: 250%;
+      }
 
-.btn:hover{
+      @keyframes fadeHero {
+        from {
+          opacity: 0;
+          transform: translateY(50px) scale(0.9);
+        }
 
-transform:
-translateY(-4px)
-scale(1.04);
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
 
-box-shadow:
-0 15px 35px rgba(255,255,255,.12);
+      @keyframes gradientMove {
+        0% {
+          background-position: 0%;
+        }
 
-}
-
-.btn:hover::before{
-
-left:170%;
-transition:1s;
-
-}
-h1{
-
-animation:
-fadeHero 1.2s ease,
-gradientMove 6s linear infinite;
-
-background-size:250%;
-
-}
-
-@keyframes fadeHero{
-
-from{
-
-opacity:0;
-transform:
-translateY(50px)
-scale(.9);
-
-}
-
-to{
-
-opacity:1;
-transform:none;
-
-}
-
-}
-
-@keyframes gradientMove{
-
-0%{
-background-position:0%;
-}
-
-100%{
-background-position:200%;
-}
-
-}
+        100% {
+          background-position: 200%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -580,13 +592,13 @@ background-position:200%;
           <h1>JasonYen.Me</h1>
 
           <div class="buttons">
-            <a href="#" class="btn secondary">Explore</a>
-            <a href="#about" class="btn secondary">Information</a>
+            <a href="#" id="exploreBtn" class="btn secondary">Explore</a>
+            <a href="#" id="infoBtn" class="btn secondary">Information</a>
           </div>
         </div>
       </div>
 
-      <div class="scroll-card">
+      <div class="scroll-card" id="features">
         <h2>Features:</h2>
 
         <div class="category-buttons">
@@ -613,80 +625,91 @@ background-position:200%;
       </div>
     </section>
 
-    <footer>© 2026 JasonYen.Me - Copyright Protected - Updating</footer>
-    <script>
-const observer = new IntersectionObserver(entries=>{
+    <div class="footer">
+      ©<span id="current-dates"></span> • jasonyen.me<br />
+      ────────────────────────────────────────────────────────<br />
+      Built over 5 years • All rights reserved Started Dec 15, 2021 • Date:
+      <span id="current-date"></span><br />
+      ──────────────────────────────────────────────────────── <br />
 
-entries.forEach(entry=>{
+    </div>    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.25,
+        },
+      );
 
-if(entry.isIntersecting){
+      document
+        .querySelectorAll(".scroll-card")
+        .forEach((card) => observer.observe(card));
 
-entry.target.classList.add("visible");
+      document.querySelectorAll(".scroll-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const r = card.getBoundingClientRect();
 
-}
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
 
-});
-
-},{
-threshold:.25
-});
-
-document
-.querySelectorAll(".scroll-card")
-.forEach(card=>observer.observe(card));
-
-
-document.querySelectorAll(".scroll-card").forEach(card=>{
-
-card.addEventListener("mousemove",e=>{
-
-const r=card.getBoundingClientRect();
-
-const x=(e.clientX-r.left)/r.width-.5;
-const y=(e.clientY-r.top)/r.height-.5;
-
-card.style.transform=`
+          card.style.transform = `
 perspective(1200px)
-rotateX(${-y*8}deg)
-rotateY(${x*8}deg)
+rotateX(${-y * 8}deg)
+rotateY(${x * 8}deg)
 translateY(0)
 scale(1.02)
 `;
+        });
 
-});
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "";
+        });
+      });
 
-card.addEventListener("mouseleave",()=>{
+      const cards = document.querySelectorAll(".scroll-card");
 
-card.style.transform="";
+      window.addEventListener("scroll", () => {
+        cards.forEach((card, i) => {
+          const rect = card.getBoundingClientRect();
 
-});
+          const progress = Math.min(Math.max((110 - rect.top) / 500, 0), 1);
 
-});
+          const scale = 1 - progress * 0.08;
+          const y = progress * -35;
 
-const cards = document.querySelectorAll(".scroll-card");
+          card.style.transform = `translateY(${y}px) scale(${scale})`;
 
-window.addEventListener("scroll", () => {
-    cards.forEach((card, i) => {
+          card.style.opacity = 1 - progress * 0.25;
+        });
+      });
 
-        const rect = card.getBoundingClientRect();
+      document.getElementById("infoBtn").addEventListener("click", (e) => {
+        e.preventDefault();
 
-        const progress = Math.min(
-            Math.max((110 - rect.top) / 500, 0),
-            1
-        );
+        const about = document.getElementById("about");
 
-        const scale = 1 - progress * 0.08;
-        const y = progress * -35;
+        const y = about.getBoundingClientRect().top + window.pageYOffset - 110; // navbar height
 
-        card.style.transform =
-            `translateY(${y}px) scale(${scale})`;
+        window.scrollTo({
+          top: y,
+          behavior: "smooth",
+        });
+      });
+      document.getElementById("exploreBtn").addEventListener("click", (e) => {
+        e.preventDefault();
 
-        card.style.opacity = 1 - progress * 0.25;
+        const features = document.getElementById("features");
 
-    });
-});
-
-
-</script>
+        window.scrollTo({
+          top: features.offsetTop - 100,
+          behavior: "smooth",
+        });
+      });
+    </script>
   </body>
 </html>
