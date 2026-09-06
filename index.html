@@ -18,8 +18,10 @@
         --footer-spacing: 180px;
 
         /* Footer typography */
-        --footer-font: "Spectral", serif;
-        --footer-color: rgba(255, 255, 255, 0.88);
+        --footer-font:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          sans-serif;
+        --footer-color: #a4abaf;
       }
       * {
         margin: 0;
@@ -311,8 +313,12 @@
       .footer * {
         font-family: var(--footer-font);
         color: var(--footer-color);
-      }
 
+      }
+.footer {
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
       .footer span {
         font-family: inherit;
         color: inherit;
