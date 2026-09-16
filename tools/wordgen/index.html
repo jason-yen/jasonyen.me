@@ -4,1178 +4,818 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>jasonyen.me</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
-<head>
-  <div class="cursor"></div>
-</head>
+
     <style>
-      /* ================= FOOTER ================= */
-      /* ================= LAYOUT FIX (sticky footer) ================= */
-      .footer {
-        margin-top: 80px;
-        padding: 80px 20px 40px;
-
-        background: linear-gradient(
-          to bottom,
-          transparent 0%,
-          rgba(212, 220, 251, 0.5) 25%,
-          #d4dcfb 55%,
-          #cfd8ff 100%
-        );
-
-        color: #111;
-        text-align: center;
-        font-family: "Spectral", serif;
-        font-size: 15px;
-        line-height: 1.7;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(6px);
-      }
-
-      /* animated glow line */
-      .footer::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -50%;
-        width: 200%;
-        height: 2px;
-
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 200, 255, 0.6),
-          rgba(180, 120, 255, 0.6),
-          transparent
-        );
-
-        animation: footerGlow 6s linear infinite;
-        will-change: transform;
-      }
-
-      @keyframes footerGlow {
-        0% {
-          transform: translateX(-25%);
-        }
-
-        100% {
-          transform: translateX(25%);
-        }
-      }
-
-      /* links */
-      .footer a {
-        color: #444;
-        text-decoration: none;
-        margin: 0 6px;
-        transition: color 0.25s ease;
-      }
-
-      .footer a:hover {
-        color: #000;
-      }
-
-      /* ================= DARK MODE ================= */
-      body.dark .footer {
-        background: #000;
-        color: #fff;
-      }
-
-      body.dark .footer a {
-        color: #aaa;
-      }
-
-      body.dark .footer a:hover {
-        color: #fff;
-      }
-
-      body.dark .footer::before {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 200, 255, 0.7),
-          rgba(180, 120, 255, 0.7),
-          transparent
-        );
-      }
-
-      /* ================= GLOBAL ================= */
       * {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          sans-serif;
+      }
+
+      html {
+        min-height: 100%;
+        background: #050816;
+        scroll-behavior: smooth;
       }
 
       body {
-        font-family: "Fredoka", sans-serif;
-        font-size: 18px;
-        background-color: #f5f6fa;
+        min-height: 100vh;
+        position: relative;
+        isolation: isolate;
+        background: #050816;
+        color: white;
         overflow-x: hidden;
-        transition:
-          background 0.4s,
-          color 0.4s;
-        line-height: 1.6;
       }
 
-      /* ================= DISABLE ON MOBILE ================= */
-      @media (max-width: 600px) {
-        body::before,
-        body::after {
-          display: none;
+      /* ================= BACKGROUND ================= */
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background:
+          radial-gradient(
+            circle at 0% 18%,
+            rgba(127, 90, 240, 0.95),
+            rgba(127, 90, 240, 0.55) 18%,
+            transparent 38%
+          ),
+          radial-gradient(
+            circle at 100% 82%,
+            rgba(0, 194, 255, 0.55),
+            transparent 36%
+          ),
+          linear-gradient(
+            135deg,
+            #050816 0%,
+            #0b1022 50%,
+            #0f172a 100%
+          );
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .orb {
+        position: fixed;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: -1;
+        animation: float 14s ease-in-out infinite alternate;
+      }
+
+      .orb1 {
+        top: -120px;
+        left: -120px;
+        background: #7f5af0;
+      }
+
+      .orb2 {
+        width: 380px;
+        height: 380px;
+        bottom: -120px;
+        right: -120px;
+        background: #00c2ff;
+        animation-duration: 18s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) scale(1);
         }
-      }
 
-      /* ================= DISABLE FRAME ON MOBILE (SAFE) ================= */
-      @media (max-width: 600px) {
-        body::before,
-        body::after {
-          content: none !important;
+        50% {
+          transform: translate(40px, 30px) scale(1.05);
+        }
+
+        100% {
+          transform: translate(-20px, 50px) scale(0.98);
         }
       }
 
       /* ================= NAVBAR ================= */
-      .navbar {
+
+      nav {
+        width: 100%;
+        padding: 24px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         position: fixed;
         top: 0;
-        width: 100%;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
-        z-index: 9999;
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 1000;
       }
 
-      .navbar-content {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .navbar a {
-        color: #536dfe;
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
         text-decoration: none;
-        font-size: 18px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 32px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      /* ================= MAIN GLASS CARD ================= */
+
+      .chatbox {
+        width: 90%;
+        max-width: 1100px;
+        margin: 120px auto 50px;
+        padding: 60px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 60px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.35),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
         position: relative;
-        white-space: nowrap;
-      }
-
-      .navbar a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -3px;
-        width: 0%;
-        height: 3px;
-        background: #536dfe;
-        border-radius: 2px;
-        transition: width 0.3s ease;
-      }
-
-      .navbar a:hover::after {
-        width: 100%;
-      }
-
-      /* LOGO */
-      .nav-logo {
-        width: 42px;
-        height: 42px;
-        border-radius: 5px;
-        display: block;
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-      }
-
-      .nav-logo:hover {
-        transform: scale(1.08);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-      }
-
-      /* ================= MAIN ================= */
-      .main-content {
-        margin-top: 80px;
-        padding: 20px;
+        z-index: 2;
       }
 
       h1 {
-        font-size: clamp(24px, 4vw, 48px);
-        line-height: 1.15;
-        letter-spacing: -1px;
+        font-size: 1.7rem;
         font-weight: 600;
-        margin-bottom: 20px;
-
-        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      /* About Me Section */
-      .about-me {
-        text-align: left;
-        font-size: 16px;
-        color: #555;
-        margin: 10px 0 20px 0;
-      }
-
-      body.dark .about-me {
-        color: #ccc;
-      }
-
-      /* ================= SECTIONS ================= */
-      .section {
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-      }
-
-      body.dark .section {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.25);
-      }
-
-      /* ================= BUTTONS ================= */
-      /* ================= BUTTONS ================= */
-      .game-link {
-        position: relative;
-        overflow: hidden;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 220px;
-        /* same width for all */
-        height: 56px;
-        /* same height for all */
-
-        margin: 10px;
-        padding: 0 20px;
-
-        border-radius: 14px;
-
-        background: linear-gradient(
-          135deg,
-          rgba(83, 109, 254, 0.95),
-          rgba(120, 140, 255, 0.95)
-        );
-
+        margin-bottom: 10px;
         color: white;
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        text-align: center;
-
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease,
-          filter 0.25s ease;
-
-        box-shadow: 0 10px 30px rgba(83, 109, 254, 0.25);
       }
 
-      /* shine effect */
-      .game-link::before {
+      .description {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+      }
+
+      /* ================= WORD GENERATOR ================= */
+
+      .word-generator {
+        width: 100%;
+        max-width: 720px;
+        text-align: center;
+      }
+
+      .word-card {
+        position: relative;
+        width: 100%;
+        padding: 40px 30px;
+        margin-bottom: 28px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.25),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        transition:
+          transform 0.35s ease,
+          box-shadow 0.35s ease;
+      }
+
+      .word-card:hover {
+        transform: translateY(-4px);
+        box-shadow:
+          0 25px 70px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      .word-card::before {
         content: "";
         position: absolute;
         inset: 0;
-
-        background: linear-gradient(
-          120deg,
-          transparent,
-          rgba(255, 255, 255, 0.25),
-          transparent
-        );
-
-        transform: translateX(-120%);
-        transition: transform 0.7s ease;
-      }
-
-      .game-link:hover::before {
-        transform: translateX(120%);
-      }
-      .game-link {
-        font-family: "Fredoka", sans-serif;
-      }
-      .game-link:hover {
-        transform: translateY(-4px) scale(1.03);
-
-        filter: brightness(1.08);
-
-        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.4);
-      }
-      .footer .game-link {
-        color: white !important;
-      }
-      /* ================= IMAGE ================= */
-      .bottom-image {
-        margin-top: 20px;
-        max-width: 260px;
-      }
-
-      .bottom-image img {
-        width: 100%;
-        border-radius: 12px;
-        display: block;
-        animation: floatImage 3.5s ease-in-out infinite;
-        box-shadow: 0 0 12px rgba(83, 109, 254, 0.4);
-        transition:
-          transform 0.3s ease,
-          box-shadow 0.3s ease;
-      }
-
-      .bottom-image img:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(83, 109, 254, 0.7);
-      }
-
-      @keyframes floatImage {
-        0% {
-          transform: translateY(0);
-        }
-
-        50% {
-          transform: translateY(-4px);
-        }
-
-        100% {
-          transform: translateY(0);
-        }
-      }
-
-      /* ================= DARK MODE ================= */
-      body.dark {
-        color: #e6e6e6;
-        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
-        background-size: 400% 400%;
-        animation: gradientMove 18s ease infinite;
-      }
-
-      @keyframes gradientMove {
-        0% {
-          background-position: 0% 50%;
-        }
-
-        50% {
-          background-position: 100% 50%;
-        }
-
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      /* ================= TOGGLE ================= */
-      .toggle {
-        width: 65px;
-        height: 34px;
-        border-radius: 50px;
-        cursor: pointer;
-        position: relative;
-        background: #dcdde1;
-        border: 2px solid rgba(0, 0, 0, 0.2);
-      }
-
-      body.dark .toggle {
-        background: #2f3640;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-      }
-
-      .toggle.active {
-        background: #536dfe;
-        border: 2px solid #536dfe;
-        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
-      }
-
-      .toggle-circle {
-        width: 28px;
-        height: 28px;
-        background: white;
-        position: absolute;
-        top: 1px;
-        left: 2px;
-        border-radius: 50%;
-        transition: 0.35s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 14px;
-      }
-
-      .toggle.active .toggle-circle {
-        left: 33px;
-      }
-
-      /* ================= FX ================= */
-      .cursor-glow {
-        position: fixed;
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(
-          circle,
-          rgba(83, 109, 254, 0.25),
-          transparent 70%
-        );
+        background:
+          radial-gradient(
+            circle at 20% 0%,
+            rgba(127, 90, 240, 0.2),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 100% 100%,
+            rgba(0, 194, 255, 0.12),
+            transparent 40%
+          );
         pointer-events: none;
-        transform: translate(-50%, -50%);
       }
 
-      @keyframes floatUp {
-        from {
-          transform: translateY(100vh);
-        }
-
-        to {
-          transform: translateY(-10vh);
-        }
-      }
-
-      /* ================= MOBILE + TABLET RESPONSIVE ================= */
-
-      /* Tablets */
-      @media (max-width: 900px) {
-        .main-content {
-          padding: 18px;
-        }
-        h1 {
-          font-size: clamp(24px, 4vw, 48px);
-          line-height: 1.15;
-          letter-spacing: -1px;
-          font-weight: 600;
-          margin-bottom: 20px;
-
-          background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .section {
-          margin-bottom: 24px;
-        }
-
-        .game-link {
-          font-size: 16px;
-          padding: 10px 18px;
-        }
-
-        .footer {
-          padding: 60px 18px 30px;
-          font-size: 14px;
-        }
-      }
-
-      /* Phones */
-      @media (max-width: 600px) {
-        body {
-          font-size: 16px;
-        }
-
-        .navbar {
-          height: auto;
-          min-height: 60px;
-          padding: 10px 12px;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .navbar-content {
-          width: 100%;
-          justify-content: center;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-
-        .navbar a {
-          font-size: 15px;
-        }
-
-        .nav-logo {
-          width: 36px;
-          height: 36px;
-        }
-
-        .toggle {
-          transform: scale(0.9);
-        }
-
-        .main-content {
-          margin-top: 120px;
-          padding: 14px;
-        }
-
-        h1 {
-          font-size: 22px !important;
-          line-height: 1.2;
-          letter-spacing: -1px;
-          font-weight: 600;
-          margin-bottom: 20px;
-
-          background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .about-me {
-          text-align: center;
-          font-size: 15px;
-        }
-
-        .section {
-          margin-bottom: 24px;
-          padding-bottom: 16px;
-        }
-
-        .game-link {
-          display: block;
-          width: 100%;
-          text-align: center;
-          margin: 10px 0;
-          font-size: 15px;
-          padding: 12px;
-        }
-
-        .bottom-image {
-          max-width: 160px;
-          margin: 25px auto 0;
-        }
-
-        .footer {
-          margin-top: 50px;
-          padding: 50px 14px 25px;
-          font-size: 13px;
-          line-height: 1.6;
-        }
-
-        .footer br {
-          display: none;
-        }
-
-        .footer a.game-link {
-          width: 220px;
-          height: 56px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin: 14px auto 0;
-        }
-
-        /* reduce heavy effects on phones */
-        .cursor-glow {
-          display: none;
-        }
-
-        .bottom-image img {
-          animation: none;
-        }
-      }
-
-      /* Very small phones */
-      @media (max-width: 380px) {
-        h1 {
-          font-size: 22px !important;
-          line-height: 1.2;
-          letter-spacing: -1px;
-          font-weight: 600;
-          margin-bottom: 20px;
-
-          background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        h1 {
-          font-size: clamp(24px, 4vw, 48px);
-          line-height: 1.15;
-          letter-spacing: -1px;
-          font-weight: 600;
-          margin-bottom: 20px;
-
-          background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .navbar a {
-          font-size: 14px;
-        }
-
-        .game-link {
-          font-size: 14px;
-          padding: 10px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        .game-link {
-          width: 100%;
-          height: 52px;
-          margin: 10px 0;
-        }
-      }
-
-      .reveal {
-        opacity: 0;
-        transform: translateY(60px);
-        transition:
-          opacity 1s ease,
-          transform 1s ease;
-      }
-
-      .reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .ai-popup {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-
-        width: 280px;
-        padding: 18px;
-
-        border-radius: 22px;
-
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(24px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-        border: 1px solid rgba(255, 255, 255, 0.12);
-
-        box-shadow:
-          0 10px 40px rgba(0, 0, 0, 0.25),
-          inset 0 1px rgba(255, 255, 255, 0.08);
-
-        z-index: 99999;
-
-        animation: popupFloat 4s ease-in-out infinite;
-      }
-
-      .ai-popup h3 {
-        margin-bottom: 8px;
-        font-size: 18px;
-      }
-
-      .ai-popup p {
-        font-size: 14px;
-        opacity: 0.8;
-      }
-
-      @keyframes popupFloat {
-        0% {
-          transform: translateY(0px);
-        }
-
-        50% {
-          transform: translateY(-8px);
-        }
-
-        100% {
-          transform: translateY(0px);
-        }
-      }
-
-      .navbar {
-        transition:
-          background 0.4s ease,
-          box-shadow 0.4s ease;
-      }
-
-      .section {
-        transition:
-          transform 0.4s ease,
-          background 0.4s ease;
-      }
-
-      .section:hover {
-        transform: translateY(-4px);
-      }
-
-      .scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-
-        height: 3px;
-
-        background: linear-gradient(90deg, #536dfe, #b478ff);
-
-        width: 0%;
-
-        z-index: 100000;
-      }
-
-      .popup-close:active {
-        transform: scale(0.95);
-      }
-
-      .ai-popup {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-
-        width: 280px;
-        padding: 18px;
-
-        border-radius: 22px;
-
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(24px);
-
-        border: 1px solid rgba(255, 255, 255, 0.12);
-
-        box-shadow:
-          0 10px 40px rgba(0, 0, 0, 0.25),
-          inset 0 1px rgba(255, 255, 255, 0.08);
-
-        z-index: 999999;
-
-        animation: popupFloat 4s ease-in-out infinite;
-
-        position: fixed;
-      }
-
-      .popup-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-
-        width: 28px;
-        height: 28px;
-
+      /* ================= WORD ================= */
+
+      #wordDisplay {
+        position: relative;
+        z-index: 1;
+        width: 100%;
         border: none;
-        border-radius: 50%;
-
-        background: rgba(0, 0, 0, 0.35);
+        outline: none;
+        background: transparent;
+        text-align: center;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          sans-serif;
+        font-size: clamp(30px, 5vw, 52px);
+        font-weight: 600;
+        letter-spacing: -1px;
         color: white;
+        margin-bottom: 18px;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      }
 
+      #wordDisplay::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* ================= DEFINITION ================= */
+
+      #meaningDisplay {
+        position: relative;
+        z-index: 1;
         font-size: 16px;
-        line-height: 1;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.78);
+        max-width: 620px;
+        margin: 0 auto;
+      }
 
-        cursor: pointer;
+      /* ================= BUTTONS ================= */
 
+      .button-row {
         display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .game-link {
+        padding: 16px 28px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.35s;
+        font-size: 0.95rem;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-
-        z-index: 1000000;
+        min-width: 140px;
       }
-      body {
-  cursor: none;
-}
 
-.cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: transparent;
-  pointer-events: none;
-  z-index: 2147483647;
-  transform: translate(-50%, -50%);
-}
-      /* ================= WORD GENERATOR CARD ================= */
+      .game-link:hover {
+        transform: translateY(-4px) scale(1.04);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 15px 35px rgba(255, 255, 255, 0.12);
+      }
 
-      /* ================= WORD GENERATOR CARD ================= */
-.word-generator {
-  max-width: 720px;
+      .game-link:active {
+        transform: translateY(-1px) scale(1.01);
+      }
 
-  margin-top: 40px;
-  margin-left: 0;
-  margin-right: auto;
+      /* ================= FADE ================= */
 
-  text-align: center;
-}
+      .fade-out {
+        opacity: 0;
+        transform: scale(0.96);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
 
-/* floating glass card */
-.word-card {
-  position: relative;
+      /* ================= MOBILE ================= */
 
-  padding: 40px 30px;
-  margin-bottom: 28px;
+      @media (max-width: 768px) {
+        nav {
+          padding: 20px 5%;
+        }
 
-  border-radius: 30px;
+        .nav-links {
+          display: none;
+        }
 
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(24px);
+        .chatbox {
+          margin-top: 110px;
+          padding: 30px;
+          border-radius: 35px;
+        }
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
+        h1 {
+          font-size: 1.5rem;
+        }
 
-  box-shadow:
-    0 20px 60px rgba(83, 109, 254, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        .button-row {
+          flex-direction: column;
+        }
 
-  overflow: hidden;
+        .game-link {
+          width: 100%;
+        }
+      }
 
-  animation: floatCard 5s ease-in-out infinite;
+      @media (max-width: 480px) {
+        .chatbox {
+          width: 94%;
+          padding: 24px;
+          border-radius: 30px;
+        }
 
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease;
-}
+        h1 {
+          font-size: 1.4rem;
+        }
 
-.word-card:hover {
-  transform: translateY(-6px);
+        .description {
+          font-size: 0.9rem;
+        }
 
-  box-shadow:
-    0 30px 80px rgba(83, 109, 254, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
+        .word-card {
+          padding: 28px 20px;
+          border-radius: 24px;
+        }
 
-/* glow */
-.word-card::before {
-  content: "";
+        #wordDisplay {
+          font-size: 32px;
+        }
 
-  position: absolute;
-  inset: -2px;
+        #meaningDisplay {
+          font-size: 15px;
+          line-height: 1.7;
+        }
+      }
 
-  background: linear-gradient(
-    135deg,
-    rgba(83, 109, 254, 0.35),
-    rgba(180, 120, 255, 0.2),
-    transparent
-  );
-
-  z-index: -1;
-
-  filter: blur(25px);
-}
-
-/* animated shine */
-.word-card::after {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  left: -120%;
-
-  width: 80%;
-  height: 100%;
-
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.18),
-    transparent
-  );
-
-  transform: skewX(-20deg);
-
-  animation: shineMove 6s linear infinite;
-}
-
-@keyframes shineMove {
-  100% {
-    left: 160%;
-  }
-}
-
-@keyframes floatCard {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-/* WORD */
-#wordDisplay {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-
-  text-align: center;
-
-  font-family: "Fredoka", sans-serif;
-  font-size: clamp(34px, 5vw, 58px);
-  font-weight: 600;
-  letter-spacing: -1px;
-
-  color: #536dfe;
-
-  margin-bottom: 18px;
-
-  text-shadow: 0 6px 18px rgba(83, 109, 254, 0.18);
-}
-
-/* placeholder */
-#wordDisplay::placeholder {
-  color: rgba(83, 109, 254, 0.45);
-}
-
-/* definition */
-#meaningDisplay {
-  font-size: 17px;
-  line-height: 1.8;
-
-  color: #444;
-
-  max-width: 620px;
-  margin: 0 auto;
-
-  opacity: 0.92;
-}
-
-/* dark mode */
-body.dark .word-card {
-  background: rgba(15, 18, 35, 0.7);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    0 20px 70px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
-
-body.dark #wordDisplay {
-  color: #b8c4ff;
-
-  text-shadow: 0 0 25px rgba(143, 159, 255, 0.35);
-}
-
-body.dark #meaningDisplay {
-  color: rgba(255, 255, 255, 0.82);
-}
-
-/* smooth word change */
-.fade-out {
-  opacity: 0;
-  transform: scale(0.96);
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-/* mobile */
-@media (max-width: 600px) {
-  .word-card {
-    padding: 28px 20px;
-    border-radius: 24px;
-  }
-
-  #wordDisplay {
-    font-size: 34px;
-  }
-
-  #meaningDisplay {
-    font-size: 15px;
-    line-height: 1.7;
-  }
-}
-@media (max-width: 600px) {
-  .cursor {
-    display: none;
-  }
-}
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <div class="navbar">
-      <div class="navbar-content">
-        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <nav>
+      <a href="/" class="logo">Word Generator</a>
+
+      <div class="nav-links">
+        <a href="/">Main</a>
         <a href="/games">Games</a>
         <a href="/tools">Tools</a>
-        <a href="/donatejk">Donate</a>
-        <a href="/ai">Search</a>
-        <a href="/downloadpage">Exhibit</a>
-                        <a href="/radio">Radio</a>
-
+        <a href="/radio">Radio</a>
       </div>
-      <div class="toggle" id="toggle">
-        <div class="toggle-circle" id="icon">🌙</div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="main-content">
-      <h1>Advanced Word Generator</h1>
+    <main class="chatbox">
+
+      <p class="description">
+        Discover an advanced word, learn its meaning, hear its pronunciation,
+        or copy it.
+      </p>
 
       <div class="word-generator">
-<div class="word-card">
-  <input
-    id="wordDisplay"
-    disabled
-    placeholder="Word will appear here"
-  />
+        <div class="word-card">
+          <input
+            id="wordDisplay"
+            disabled
+            placeholder="Word will appear here"
+          />
 
-  <div id="meaningDisplay">
-    Press generate to discover a new advanced word.
-  </div>
-</div>
-        <button class="game-link" id="generateBtn">Generate</button>
-        <button class="game-link" id="speakBtn">🔊 Speak</button>
-        <button class="game-link" id="copyBtn">📋 Copy</button>
+          <div id="meaningDisplay">
+            Press generate.
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="game-link" id="generateBtn">
+            Generate
+          </button>
+
+          <button class="game-link" id="speakBtn">
+            🔊 Speak
+          </button>
+
+          <button class="game-link" id="copyBtn">
+            📋 Copy
+          </button>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <script>
-      const wordDisplay = document.getElementById("wordDisplay");
-      const meaningDisplay = document.getElementById("meaningDisplay");
-      const generateBtn = document.getElementById("generateBtn");
-      const speakBtn = document.getElementById("speakBtn");
-      const copyBtn = document.getElementById("copyBtn");
+<script>
+  const wordDisplay = document.getElementById("wordDisplay");
+  const meaningDisplay = document.getElementById("meaningDisplay");
+  const generateBtn = document.getElementById("generateBtn");
+  const speakBtn = document.getElementById("speakBtn");
+  const copyBtn = document.getElementById("copyBtn");
 
-      /* 60 advanced words */
-      const wordsList = [
-        "aberration",
-        "abstruse",
-        "accolade",
-        "acrimony",
-        "adulation",
-        "alacrity",
-        "anachronism",
-        "antithesis",
-        "archetype",
-        "ardent",
-        "assiduous",
-        "belligerent",
-        "benevolent",
-        "catharsis",
-        "cacophony",
-        "chicanery",
-        "circumspect",
-        "conflagration",
-        "conundrum",
-        "copious",
-        "cursory",
-        "dearth",
-        "deleterious",
-        "demagogue",
-        "didactic",
-        "dichotomy",
-        "disparate",
-        "divergent",
-        "ebullient",
-        "effervescent",
-        "egregious",
-        "enervate",
-        "equivocate",
-        "esoteric",
-        "evanescent",
-        "exacerbate",
-        "fastidious",
-        "fatuous",
-        "flippant",
-        "fortuitous",
-        "garrulous",
-        "grandiloquent",
-        "hapless",
-        "harangue",
-        "iconoclast",
-        "idiosyncrasy",
-        "impetuous",
-        "inimical",
-        "insidious",
-        "insipid",
-        "intrepid",
-        "inundate",
-        "laconic",
-        "lethargic",
-        "lugubrious",
-        "magnanimous",
-        "mendacious",
-        "munificent",
-        "nefarious",
-        "obsequious",
-        "parsimonious",
-        "pedantic",
-        "perfunctory",
-        "phlegmatic",
-      ];
+  const wordsList = [
+    "aberration",
+    "abstruse",
+    "accolade",
+    "acrimony",
+    "adulation",
+    "alacrity",
+    "anachronism",
+    "antithesis",
+    "archetype",
+    "ardent",
+    "assiduous",
+    "belligerent",
+    "benevolent",
+    "catharsis",
+    "cacophony",
+    "chicanery",
+    "circumspect",
+    "conflagration",
+    "conundrum",
+    "copious",
+    "cursory",
+    "dearth",
+    "deleterious",
+    "demagogue",
+    "didactic",
+    "dichotomy",
+    "disparate",
+    "divergent",
+    "ebullient",
+    "effervescent",
+    "egregious",
+    "enervate",
+    "equivocate",
+    "esoteric",
+    "evanescent",
+    "exacerbate",
+    "fastidious",
+    "fatuous",
+    "flippant",
+    "fortuitous",
+    "garrulous",
+    "grandiloquent",
+    "hapless",
+    "harangue",
+    "iconoclast",
+    "idiosyncrasy",
+    "impetuous",
+    "inimical",
+    "insidious",
+    "insipid",
+    "intrepid",
+    "inundate",
+    "laconic",
+    "lethargic",
+    "lugubrious",
+    "magnanimous",
+    "mendacious",
+    "munificent",
+    "nefarious",
+    "obsequious",
+    "parsimonious",
+    "pedantic",
+    "perfunctory",
+    "phlegmatic"
+  ];
 
-      let recentWords = []; // prevent repeats until 4 others
+  const definitions = {
+    aberration:
+      "A departure from what is normal, expected, or typical.",
 
-      async function generateWord() {
-        if (wordsList.length === 0) return;
-        wordDisplay.classList.add("fade-out");
-        setTimeout(async () => {
-          let availableWords = wordsList.filter(
-            (w) => !recentWords.includes(w),
-          );
-          if (availableWords.length === 0) recentWords = [];
-          let word =
-            availableWords[Math.floor(Math.random() * availableWords.length)];
-          recentWords.push(word);
-          if (recentWords.length > 4) recentWords.shift();
-          wordDisplay.value = word;
-          meaningDisplay.innerHTML = "Loading...";
-          try {
-            const res = await fetch(
-              `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
-            );
-            const data = await res.json();
-            meaningDisplay.innerHTML =
-              data[0].meanings[0].definitions[0].definition;
-          } catch {
-            meaningDisplay.innerHTML = "Definition not found.";
-          }
-          wordDisplay.classList.remove("fade-out");
-        }, 200);
+    abstruse:
+      "Difficult to understand because of complexity or obscurity.",
+
+    accolade:
+      "An award or expression of praise or approval.",
+
+    acrimony:
+      "Sharpness or bitterness in speech, manner, or feeling.",
+
+    adulation:
+      "Excessive praise or admiration.",
+
+    alacrity:
+      "Cheerful readiness or eagerness.",
+
+    anachronism:
+      "Something belonging to a different period of history.",
+
+    antithesis:
+      "The direct opposite or contrast of something.",
+
+    archetype:
+      "A typical example or original model of something.",
+
+    ardent:
+      "Very enthusiastic, passionate, or devoted.",
+
+    assiduous:
+      "Showing great care, attention, and persistence.",
+
+    belligerent:
+      "Hostile and aggressive.",
+
+    benevolent:
+      "Well-meaning and kindly.",
+
+    catharsis:
+      "The release of strong or suppressed emotions.",
+
+    cacophony:
+      "A harsh or unpleasant mixture of sounds.",
+
+    chicanery:
+      "The use of trickery or deception to achieve a purpose.",
+
+    circumspect:
+      "Careful to consider all circumstances and consequences.",
+
+    conflagration:
+      "A large and destructive fire.",
+
+    conundrum:
+      "A confusing or difficult problem or question.",
+
+    copious:
+      "Abundant or plentiful.",
+
+    cursory:
+      "Done quickly without paying close attention to detail.",
+
+    dearth:
+      "A lack or shortage of something.",
+
+    deleterious:
+      "Causing harm or damage.",
+
+    demagogue:
+      "A political leader who gains support by appealing to emotions and prejudices.",
+
+    didactic:
+      "Intended to teach or instruct.",
+
+    dichotomy:
+      "A division or contrast between two things.",
+
+    disparate:
+      "Essentially different or unrelated.",
+
+    divergent:
+      "Moving or developing in different directions.",
+
+    ebullient:
+      "Cheerful, enthusiastic, and full of energy.",
+
+    effervescent:
+      "Lively, enthusiastic, or bubbly.",
+
+    egregious:
+      "Outstandingly bad or shocking.",
+
+    enervate:
+      "To weaken or drain energy from someone or something.",
+
+    equivocate:
+      "To speak ambiguously in order to avoid committing to a position.",
+
+    esoteric:
+      "Intended for or understood by only a small group with specialized knowledge.",
+
+    evanescent:
+      "Soon disappearing or fading away.",
+
+    exacerbate:
+      "To make a problem or situation worse.",
+
+    fastidious:
+      "Very attentive to detail and accuracy.",
+
+    fatuous:
+      "Silly or foolish, especially in a self-satisfied way.",
+
+    flippant:
+      "Not showing a serious or respectful attitude.",
+
+    fortuitous:
+      "Happening by chance, often in a fortunate way.",
+
+    garrulous:
+      "Excessively talkative.",
+
+    grandiloquent:
+      "Using language that is elaborate or intended to sound impressive.",
+
+    hapless:
+      "Unfortunate or unlucky.",
+
+    harangue:
+      "A long and forceful speech or verbal attack.",
+
+    iconoclast:
+      "A person who challenges established beliefs or traditions.",
+
+    idiosyncrasy:
+      "A distinctive or unusual characteristic.",
+
+    impetuous:
+      "Acting quickly without thinking carefully about the consequences.",
+
+    inimical:
+      "Hostile or harmful.",
+
+    insidious:
+      "Proceeding gradually and subtly while causing harm.",
+
+    insipid:
+      "Lacking flavor, interest, or excitement.",
+
+    intrepid:
+      "Fearless and adventurous.",
+
+    inundate:
+      "To overwhelm with a large amount of something.",
+
+    laconic:
+      "Using very few words.",
+
+    lethargic:
+      "Lacking energy or enthusiasm.",
+
+    lugubrious:
+      "Looking or sounding sad and gloomy.",
+
+    magnanimous:
+      "Generous and forgiving, especially toward a rival.",
+
+    mendacious:
+      "Not telling the truth; dishonest.",
+
+    munificent:
+      "Very generous, especially with money or gifts.",
+
+    nefarious:
+      "Wicked or criminal.",
+
+    obsequious:
+      "Excessively eager to please or obey someone.",
+
+    parsimonious:
+      "Extremely unwilling to spend or use resources.",
+
+    pedantic:
+      "Overly concerned with minor details or rules.",
+
+    perfunctory:
+      "Done with little effort, interest, or enthusiasm.",
+
+    phlegmatic:
+      "Calm and unemotional, especially in difficult situations."
+  };
+
+  let recentWords = [];
+
+  function generateWord() {
+    wordDisplay.classList.add("fade-out");
+
+    setTimeout(() => {
+      let availableWords = wordsList.filter(
+        (word) => !recentWords.includes(word)
+      );
+
+      if (availableWords.length === 0) {
+        recentWords = [];
+        availableWords = [...wordsList];
       }
 
-      function speakWord() {
-        if (!wordDisplay.value) return;
-        speakBtn.textContent = "Speaking...";
-        const utter = new SpeechSynthesisUtterance(wordDisplay.value);
-        utter.onend = () => {
-          speakBtn.textContent = "🔊 Speak";
-        };
-        speechSynthesis.speak(utter);
+      const word =
+        availableWords[
+          Math.floor(Math.random() * availableWords.length)
+        ];
+
+      recentWords.push(word);
+
+      if (recentWords.length > 4) {
+        recentWords.shift();
       }
 
-      function copyWord() {
-        if (!wordDisplay.value) return;
-        navigator.clipboard.writeText(wordDisplay.value);
-        const original = copyBtn.textContent;
+      wordDisplay.value = word;
+
+      meaningDisplay.textContent =
+        definitions[word] || "Definition not available.";
+
+      wordDisplay.classList.remove("fade-out");
+    }, 200);
+  }
+
+  function speakWord() {
+    if (!wordDisplay.value) return;
+
+    if (!("speechSynthesis" in window)) {
+      speakBtn.textContent = "Not supported";
+
+      setTimeout(() => {
+        speakBtn.textContent = "🔊 Speak";
+      }, 2000);
+
+      return;
+    }
+
+    speechSynthesis.cancel();
+
+    speakBtn.textContent = "Speaking...";
+
+    const utterance = new SpeechSynthesisUtterance(
+      wordDisplay.value
+    );
+
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+
+    utterance.onend = () => {
+      speakBtn.textContent = "🔊 Speak";
+    };
+
+    utterance.onerror = () => {
+      speakBtn.textContent = "🔊 Speak";
+    };
+
+    speechSynthesis.speak(utterance);
+  }
+
+  async function copyWord() {
+    if (!wordDisplay.value) return;
+
+    try {
+      await navigator.clipboard.writeText(wordDisplay.value);
+
+      const originalText = copyBtn.textContent;
+
+      copyBtn.textContent = "Copied!";
+
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 2000);
+    } catch {
+      const textArea = document.createElement("textarea");
+
+      textArea.value = wordDisplay.value;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+
+      document.body.appendChild(textArea);
+
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+
         copyBtn.textContent = "Copied!";
+
         setTimeout(() => {
-          copyBtn.textContent = original;
-        }, 3000);
+          copyBtn.textContent = "📋 Copy";
+        }, 2000);
+      } catch {
+        copyBtn.textContent = "Copy failed";
+
+        setTimeout(() => {
+          copyBtn.textContent = "📋 Copy";
+        }, 2000);
       }
 
-      generateBtn.addEventListener("click", generateWord);
-      speakBtn.addEventListener("click", speakWord);
-      copyBtn.addEventListener("click", copyWord);
+      document.body.removeChild(textArea);
+    }
+  }
 
-      /* DARK MODE TOGGLE */
-      const toggle = document.getElementById("toggle");
-      const icon = document.getElementById("icon");
-      if (localStorage.getItem("darkMode") === "on") {
-        document.body.classList.add("dark");
-        toggle.classList.add("active");
-        icon.textContent = "☀️";
-      }
-      toggle.onclick = () => {
-        document.body.classList.toggle("dark");
-        toggle.classList.toggle("active");
-        icon.textContent = document.body.classList.contains("dark")
-          ? "☀️"
-          : "🌙";
-        localStorage.setItem(
-          "darkMode",
-          document.body.classList.contains("dark") ? "on" : "off",
-        );
-      };
-      const cursor = document.querySelector(".cursor");
-
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-    </script>
+  generateBtn.addEventListener("click", generateWord);
+  speakBtn.addEventListener("click", speakWord);
+  copyBtn.addEventListener("click", copyWord);
+</script>
   </body>
 </html>

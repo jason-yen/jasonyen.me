@@ -2,437 +2,290 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
     <title>jasonyen.me</title>
-<head>
-  <div class="cursor"></div>
-</head>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+
     <link rel="icon" type="image/png" href="/images/favicon.png" />
+
     <style>
-      /* ================= GLOBAL ================= */
+      /* =========================================================
+         GLOBAL
+      ========================================================= */
+
       * {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          "Segoe UI",
+          sans-serif;
+      }
+
+      html {
+        min-height: 100%;
+        background: #050816;
+        scroll-behavior: smooth;
       }
 
       body {
-        font-family: "Fredoka", sans-serif;
-        font-size: 18px;
-        background-color: #f5f6fa;
+        min-height: 100vh;
+        position: relative;
+        isolation: isolate;
+        background: #050816;
+        color: white;
         overflow-x: hidden;
-        line-height: 1.6;
-        transition:
-          background 0.4s,
-          color 0.4s;
-        color: #111;
       }
 
-      /* ================= DARK MODE ================= */
-      body.dark {
-        color: #e6e6e6;
-        background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
-        background-size: 400% 400%;
-        animation: gradientMove 18s ease infinite;
-        color-scheme: dark;
+      /* =========================================================
+         CONTINUOUS BACKGROUND
+      ========================================================= */
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+
+        background:
+          radial-gradient(
+            circle at 0% 18%,
+            rgba(127, 90, 240, 0.95),
+            rgba(127, 90, 240, 0.55) 18%,
+            transparent 38%
+          ),
+          radial-gradient(
+            circle at 100% 82%,
+            rgba(0, 194, 255, 0.55),
+            transparent 36%
+          ),
+          linear-gradient(
+            135deg,
+            #050816 0%,
+            #0b1022 50%,
+            #0f172a 100%
+          );
+
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
-      @keyframes gradientMove {
+      /* =========================================================
+         FLOATING ORBS
+      ========================================================= */
+
+      .orb {
+        position: fixed;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: -1;
+        animation: float 14s ease-in-out infinite alternate;
+      }
+
+      .orb1 {
+        top: -120px;
+        left: -120px;
+        background: #7f5af0;
+      }
+
+      .orb2 {
+        width: 380px;
+        height: 380px;
+        bottom: -120px;
+        right: -120px;
+        background: #00c2ff;
+        animation-duration: 18s;
+      }
+
+      @keyframes float {
         0% {
-          background-position: 0% 50%;
+          transform: translate(0, 0) scale(1);
         }
+
         50% {
-          background-position: 100% 50%;
+          transform: translate(40px, 30px) scale(1.05);
         }
+
         100% {
-          background-position: 0% 50%;
+          transform: translate(-20px, 50px) scale(0.98);
         }
       }
 
-      /* ================= NAVBAR ================= */
-      .navbar {
+      /* =========================================================
+         NAVBAR
+      ========================================================= */
+
+      nav {
+        width: 100%;
+        padding: 24px 7%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
         position: fixed;
         top: 0;
-        width: 100%;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        background: rgba(255, 255, 255, 0.2);
+
+        background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px);
-        z-index: 9999;
-        transition:
-          background 0.4s ease,
-          box-shadow 0.4s ease;
-      }
-body {
-  cursor: none;
-}
+        -webkit-backdrop-filter: blur(20px);
 
-.cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: transparent;
-  pointer-events: none;
-  z-index: 2147483647;
-  transform: translate(-50%, -50%);
-}
-      .navbar.scrolled {
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+        z-index: 1000;
       }
 
-      body.dark .navbar.scrolled {
-        background: rgba(15, 17, 23, 0.72);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-      }
-
-      .navbar-content {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .navbar a {
-        color: #536dfe;
-        text-decoration: none;
-        font-size: 18px;
-        position: relative;
-      }
-
-      .navbar a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -3px;
-        width: 0%;
-        height: 3px;
-        background: #536dfe;
-        border-radius: 2px;
-        transition: width 0.3s ease;
-      }
-
-      .navbar a:hover::after {
-        width: 100%;
-      }
-
-      .nav-logo {
-        width: 42px;
-        height: 42px;
-        border-radius: 5px;
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-      }
-
-      .nav-logo:hover {
-        transform: scale(1.08);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-      }
-
-      /* ================= MAIN ================= */
-      .main-content {
-        margin-top: 80px;
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: clamp(24px, 4vw, 48px);
-        font-weight: 600;
-        letter-spacing: -1px;
-        margin-bottom: 20px;
-
-        background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .about-me {
-        font-size: 16px;
-        color: #555;
-        margin: 10px 0 20px;
-      }
-
-      body.dark .about-me {
-        color: #ccc;
-      }
-
-      /* ================= SECTIONS ================= */
-      .section {
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-        transition: transform 0.4s ease;
-      }
-
-      .section:hover {
-        transform: translateY(-4px);
-      }
-
-      body.dark .section {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.25);
-      }
-
-      /* ================= BUTTONS ================= */
-      .game-link {
-        position: relative;
-        overflow: hidden;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 220px;
-        height: 56px;
-
-        margin: 10px;
-        padding: 0 20px;
-
-        border-radius: 14px;
-
-        background: linear-gradient(
-          135deg,
-          rgba(83, 109, 254, 0.95),
-          rgba(120, 140, 255, 0.95)
-        );
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
         color: white;
         text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease,
-          filter 0.25s ease;
-        box-shadow: 0 10px 30px rgba(83, 109, 254, 0.25);
       }
 
-      .game-link::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          120deg,
-          transparent,
-          rgba(255, 255, 255, 0.25),
-          transparent
-        );
-        transform: translateX(-120%);
-        transition: transform 0.7s ease;
-      }
-
-      .game-link:hover::before {
-        transform: translateX(120%);
-      }
-
-      .game-link:hover {
-        transform: translateY(-4px) scale(1.03);
-        filter: brightness(1.08);
-        box-shadow: 0 18px 40px rgba(83, 109, 254, 0.4);
-      }
-
-      /* ================= FOOTER ================= */
-      .footer {
-        margin-top: 80px;
-        padding: 80px 20px 40px;
-        text-align: center;
-        font-family: "Spectral", serif;
-        font-size: 15px;
-        line-height: 1.7;
-
-        background: linear-gradient(to bottom, transparent, #d4dcfb);
-        color: #111;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(6px);
-      }
-
-      body.dark .footer {
-        background: #000;
-        color: #fff;
-      }
-
-      .footer * {
-        color: inherit;
-      }
-
-      /* ================= TOGGLE ================= */
-      .toggle {
-        width: 65px;
-        height: 34px;
-        border-radius: 50px;
-        cursor: pointer;
-        position: relative;
-        background: #dcdde1;
-        border: 2px solid rgba(0, 0, 0, 0.2);
-      }
-
-      body.dark .toggle {
-        background: #2f3640;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-      }
-
-      .toggle.active {
-        background: #536dfe;
-        border: 2px solid #536dfe;
-        box-shadow: 0 0 10px rgba(83, 109, 254, 0.6);
-      }
-
-      .toggle-circle {
-        width: 28px;
-        height: 28px;
-        background: white;
-        position: absolute;
-        top: 1px;
-        left: 2px;
-        border-radius: 50%;
-        transition: 0.35s;
+      .nav-links {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        gap: 32px;
       }
 
-      .toggle.active .toggle-circle {
-        left: 33px;
+      .nav-links a {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        transition: 0.3s;
       }
 
-      /* ================= FX ================= */
-      .cursor-glow {
-        position: fixed;
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(
-          circle,
-          rgba(83, 109, 254, 0.25),
-          transparent 70%
-        );
-        pointer-events: none;
-        transform: translate(-50%, -50%);
+      .nav-links a:hover {
+        color: white;
       }
 
-      /* ================= SCROLL BAR ================= */
-      .scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 3px;
-        width: 0%;
-        background: linear-gradient(90deg, #536dfe, #b478ff);
-        z-index: 100000;
-      }
+      /* =========================================================
+         MAIN GLASS CONTAINER
+      ========================================================= */
 
-      /* ================= AI POPUP (single clean version) ================= */
-      .ai-popup {
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
+      .chatbox {
+        width: 90%;
+        max-width: 1100px;
 
-        width: 280px;
-        padding: 18px;
-
-        border-radius: 22px;
+        margin: 120px auto 50px;
+        padding: 60px;
 
         background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(24px);
+
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+
+        border-radius: 60px;
+
         border: 1px solid rgba(255, 255, 255, 0.12);
 
         box-shadow:
-          0 10px 40px rgba(0, 0, 0, 0.25),
-          inset 0 1px rgba(255, 255, 255, 0.08);
-        z-index: 999999;
+          0 8px 32px rgba(0, 0, 0, 0.35),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
 
-        animation: popupFloat 4s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
       }
 
-      @keyframes popupFloat {
-        0% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-        100% {
-          transform: translateY(0px);
-        }
+      /* =========================================================
+         GAME HEADER
+      ========================================================= */
+
+      .game-header {
+        margin-bottom: 24px;
       }
 
-      .popup-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 28px;
-        height: 28px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.35);
-        color: white;
+      .game-header h1 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        margin-bottom: 10px;
+      }
+
+      .about-me {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 850px;
+      }
+
+      /* =========================================================
+         GAME AREA
+      ========================================================= */
+
+      .game-area {
+        width: 100%;
+        margin-top: 28px;
+      }
+
+      canvas {
+        width: 100%;
+        max-width: 100%;
+        height: 300px;
+
+        display: block;
+
+        border-radius: 24px;
+
+        background: #0f1117;
+
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.35),
+          inset 0 1px rgba(255, 255, 255, 0.05);
+
         cursor: pointer;
+
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.15s ease;
       }
 
-      /* ================= RESPONSIVE ================= */
-      @media (max-width: 600px) {
-        .game-link {
-          width: 100%;
-          height: 52px;
-          margin: 10px 0;
-        }
-
-        .navbar {
-          flex-direction: column;
-          height: auto;
-          padding: 10px;
-        }
+      canvas.gold-mode {
+        box-shadow:
+          0 0 20px rgba(255, 215, 0, 0.45),
+          0 0 50px rgba(255, 215, 0, 0.35),
+          0 0 90px rgba(255, 215, 0, 0.25);
       }
 
-      /* ================= CODE BOX ================= */
+      /* =========================================================
+         SCORE
+      ========================================================= */
+
+      .score-ui {
+        margin-top: 18px;
+
+        font-size: 0.95rem;
+        font-weight: 600;
+
+        color: rgba(255, 255, 255, 0.85);
+
+        text-align: left;
+      }
+
+      /* =========================================================
+         CODE BOX
+      ========================================================= */
 
       .code-box {
         display: flex;
         align-items: center;
         gap: 12px;
 
+        width: 100%;
         max-width: 440px;
-        margin: 22px auto 0;
-        padding: 14px;
 
-        border-radius: 18px;
-
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(20px);
-
-        border: 1px solid rgba(255, 255, 255, 0.12);
-
-        box-shadow:
-          0 10px 35px rgba(83, 109, 254, 0.18),
-          inset 0 1px rgba(255, 255, 255, 0.06);
-
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
+        margin-top: 22px;
       }
-
-      .code-box:hover {
-        transform: translateY(-2px);
-
-        box-shadow:
-          0 18px 45px rgba(83, 109, 254, 0.28),
-          inset 0 1px rgba(255, 255, 255, 0.08);
-      }
-
-      /* ================= INPUT ================= */
 
       .code-box input {
         flex: 1;
@@ -440,270 +293,111 @@ body {
         height: 48px;
         padding: 0 16px;
 
-        border-radius: 14px;
-        border: 1px solid rgba(83, 109, 254, 0.35);
+        border-radius: 16px;
 
-        background: rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.12);
 
-        color: inherit;
-        font-family: "Fredoka", sans-serif;
-        font-size: 15px;
+        background: rgba(255, 255, 255, 0.06);
+
+        color: white;
+
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          "Segoe UI",
+          sans-serif;
+
+        font-size: 0.9rem;
 
         outline: none;
 
         transition:
           border-color 0.25s ease,
-          box-shadow 0.25s ease,
-          transform 0.2s ease;
+          background 0.25s ease,
+          box-shadow 0.25s ease;
       }
 
       .code-box input::placeholder {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.4);
       }
 
       .code-box input:focus {
-        border-color: #536dfe;
+        border-color: rgba(127, 90, 240, 0.65);
+
+        background: rgba(255, 255, 255, 0.08);
 
         box-shadow:
-          0 0 0 4px rgba(83, 109, 254, 0.15),
-          0 0 18px rgba(83, 109, 254, 0.35);
-
-        transform: scale(1.015);
+          0 0 0 4px rgba(127, 90, 240, 0.12),
+          0 0 20px rgba(127, 90, 240, 0.18);
       }
 
-      /* ================= BUTTON ================= */
+      /* =========================================================
+         BUTTON
+      ========================================================= */
 
+      .game-link,
       .code-box button {
-        position: relative;
-        overflow: hidden;
+        padding: 16px 28px;
 
-        height: 48px;
-        padding: 0 22px;
+        border-radius: 18px;
 
-        border: none;
-        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.08);
 
-        background: linear-gradient(
-          135deg,
-          rgba(83, 109, 254, 0.95),
-          rgba(143, 159, 255, 0.95)
-        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         color: white;
 
-        font-family: "Fredoka", sans-serif;
-        font-size: 15px;
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          "Segoe UI",
+          sans-serif;
+
         font-weight: 600;
 
         cursor: pointer;
 
-        box-shadow:
-          0 10px 30px rgba(83, 109, 254, 0.35),
-          inset 0 1px rgba(255, 255, 255, 0.18);
-
-        transition:
-          transform 0.22s ease,
-          box-shadow 0.22s ease,
-          filter 0.22s ease;
+        transition: 0.35s;
       }
 
-      /* animated shine */
-      .code-box button::before {
-        content: "";
-
-        position: absolute;
-        inset: 0;
-
-        background: linear-gradient(
-          120deg,
-          transparent,
-          rgba(255, 255, 255, 0.28),
-          transparent
-        );
-
-        transform: translateX(-120%);
-        transition: transform 0.7s ease;
-      }
-
-      .code-box button:hover::before {
-        transform: translateX(120%);
-      }
-
+      .game-link:hover,
       .code-box button:hover {
-        transform: translateY(-3px) scale(1.03);
+        transform: translateY(-4px) scale(1.04);
 
-        filter: brightness(1.08);
+        background: rgba(255, 255, 255, 0.15);
 
         box-shadow:
-          0 18px 45px rgba(83, 109, 254, 0.5),
-          inset 0 1px rgba(255, 255, 255, 0.22);
+          0 15px 35px rgba(255, 255, 255, 0.12);
+      }
+
+      .code-box button {
+        height: 48px;
+        padding: 0 22px;
+        white-space: nowrap;
       }
 
       .code-box button:active {
         transform: scale(0.97);
       }
 
-      /* ================= DARK MODE ================= */
+      /* =========================================================
+         BLACKOUT
+      ========================================================= */
 
-      body.dark .code-box {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      body.dark .code-box input {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(255, 255, 255, 0.14);
-        color: white;
-      }
-
-      body.dark .code-box input::placeholder {
-        color: rgba(255, 255, 255, 0.35);
-      }
-
-      /* ================= MOBILE ================= */
-
-      @media (max-width: 600px) {
-        .code-box {
-          flex-direction: column;
-          max-width: 100%;
-        }
-
-        .code-box input,
-        .code-box button {
-          width: 100%;
-        }
-      }
-      /* ================= SCORE UI ================= */
-      .score-ui {
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: 500;
-        color: #536dfe;
-      }
-
-      /* dark mode fix */
-      body.dark .code-box input {
-        background: rgba(255, 255, 255, 0.05);
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-      }
-
-      body.dark .score-ui {
-        color: #8f9fff;
-      }
-      /* ================= UI BASE (matches main site) ================= */
-
-      :root {
-        --primary: #536dfe;
-        --secondary: #8f9fff;
-        --dark: #0f1117;
-        --glass: rgba(255, 255, 255, 0.08);
-      }
-
-      /* unify font rendering */
-      body {
-        font-family: "Fredoka", sans-serif;
-      }
-
-      /* ================= GAME CONTAINER ================= */
-      .main-content {
-        max-width: 1000px;
-        margin: 90px 0 40px 0;
-        padding: 20px;
-      }
-      h1,
-      .about-me,
-      .score-ui,
-      .code-box {
-        text-align: left;
-      }
-
-      canvas {
-        margin: 20px 0;
-      }
-
-      .code-box {
-        margin-left: 0;
-      }
-      /* ================= CANVAS WRAPPER ================= */
-      canvas {
-        width: 100%;
-        max-width: 900px;
-        height: auto;
-
-        display: block;
-        margin: 20px auto;
-
-        border-radius: 18px;
-
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-      }
-
-      /* ================= CODE BOX (GLASS STYLE) ================= */
-
-      /* ================= SCORE UI ================= */
-      .score-ui {
-        text-align: center;
-        margin-top: 10px;
-
-        font-size: 18px;
-        font-weight: 500;
-
-        color: var(--primary);
-      }
-
-      /* ================= ABOUT TEXT ================= */
-      .about-me {
-        text-align: center;
-        opacity: 0.8;
-      }
-
-      /* ================= DARK MODE FIX ================= */
-      body.dark .code-box {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      body.dark .code-box input {
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      body.dark .score-ui {
-        color: #8f9fff;
-      }
-
-      /* ===== GAME CANVAS YELLOW GLOW MODE ===== */
-      canvas.gold-mode {
-        box-shadow:
-          0 0 20px rgba(255, 215, 0, 0.4),
-          0 0 50px rgba(255, 215, 0, 0.35),
-          0 0 90px rgba(255, 215, 0, 0.25);
-        transition: box-shadow 0.3s ease;
-      }
-
-      /* ===== BLACKOUT OVERLAY ===== */
       .blackout {
         position: fixed;
         inset: 0;
-        background: black;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-        z-index: 999998;
-      }
 
-      .blackout.active {
-        opacity: 1;
-      }
-      /* ================= BLACKOUT ================= */
-      .blackout {
-        position: fixed;
-        inset: 0;
         background: black;
+
         opacity: 0;
+
         pointer-events: none;
+
         transition: opacity 0.2s ease;
+
         z-index: 999999;
       }
 
@@ -711,213 +405,189 @@ body {
         opacity: 1;
       }
 
-      /* ================= YELLOW GLOW MODE ================= */
-      canvas.gold-mode {
-        box-shadow:
-          0 0 20px rgba(255, 215, 0, 0.45),
-          0 0 50px rgba(255, 215, 0, 0.35),
-          0 0 90px rgba(255, 215, 0, 0.25);
-      }
-      /* ================= LEFT ALIGN EVERYTHING ================= */
+      /* =========================================================
+         MOBILE
+      ========================================================= */
 
-      body,
-      .main-content,
-      .about-me,
-      .score-ui,
-      h1,
-      p,
-      .section {
-        text-align: left;
-      }
+      @media (max-width: 768px) {
+        nav {
+          padding: 20px 5%;
+        }
 
-      /* keep content pinned left instead of centered */
-      .main-content {
-        max-width: 1000px;
-        margin: 90px 0 40px 0;
-        padding: 20px;
-      }
+        .nav-links {
+          display: none;
+        }
 
-      /* move canvas to left */
-      canvas {
-        display: block;
-        margin: 20px 0;
-      }
+        .chatbox {
+          margin-top: 110px;
+          padding: 30px;
+          border-radius: 35px;
+        }
 
-      /* move code box left */
-      .code-box {
-        margin: 22px 0 0 0;
-      }
+        .game-header h1 {
+          font-size: 1.5rem;
+        }
 
-      /* navbar links aligned left */
-      *.navbar {
-        justify-content: space-between;
-        align-items: center;
-      }
+        .about-me {
+          font-size: 0.9rem;
+        }
 
-      /* optional: footer left aligned too */
-      .footer {
-        text-align: left;
+        canvas {
+          height: 300px;
+          border-radius: 20px;
+        }
+
+        .code-box {
+          flex-direction: column;
+          max-width: none;
+        }
+
+        .code-box input,
+        .code-box button {
+          width: 100%;
+        }
       }
-    @media (max-width: 600px) {
-  .cursor {
-    display: none;
-  }
-}
     </style>
   </head>
+
   <body>
+    <!-- Background -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- Blackout -->
     <div class="blackout" id="blackout"></div>
-    <div class="navbar">
-      <div class="navbar-content">
-        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+
+    <!-- Navbar -->
+    <nav>
+      <a href="/" class="logo">Geometry Dash</a>
+
+      <div class="nav-links">
+        <a href="/">Main</a>
         <a href="/games">Games</a>
         <a href="/tools">Tools</a>
-        <a href="/donatejk">Donate</a>
-        <a href="/ai">Search</a>
-        <a href="/downloadpage">Exhibit</a>
-                        <a href="/radio">Radio</a>
+        <a href="/radio">Radio</a>
+      </div>
+    </nav>
 
+    <!-- Main -->
+    <main class="chatbox">
+      <div class="game-header">
+
+        <div class="about-me" id="aboutme">
+          Press 3 to remove blackout for photosensitive viewers.
+          Enter the code for extra dev tools.
+        </div>
       </div>
 
-      <div class="toggle" id="toggle">
-        <div class="toggle-circle" id="icon">🌙</div>
+      <div class="game-area">
+        <canvas
+          id="gameCanvas"
+          width="800"
+          height="300"
+        ></canvas>
+
+        <p id="score" class="score-ui">
+          Score: 0 | Best: 0
+        </p>
+
+        <div class="code-box">
+          <input
+            type="password"
+            id="secretCode"
+            placeholder="Enter code..."
+            autocomplete="off"
+          />
+
+          <button id="submitCode">
+            Submit
+          </button>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <div class="main-content">
-      <h1>Geometry Dash {Beta}</h1>
-      <!-- About Me Section -->
-      <div class="about-me" id="aboutme">
-        Press 3 for remove blackout for photosensitive viewers. Enter the code
-        for extra dev tools.
-      </div>
-      <canvas id="gameCanvas" width="800" height="300"></canvas>
-      <p id="score" class="score-ui">Score: 0</p>
-      <div class="code-box">
-        <input type="password" id="secretCode" placeholder="Enter code..." />
-        <button id="submitCode">Submit</button>
-      </div>
-    </div>
-<audio id="bgMusic" loop preload="auto">
-<source src="./mp3/geodash.mp3" type="audio/mpeg" />
-</audio>
+    <!-- Music -->
+    <audio id="bgMusic" loop preload="auto">
+      <source src="./mp3/geodash.mp3" type="audio/mpeg" />
+    </audio>
 
-<script>
-  function startMusic() {
-  if (bgMusic.paused) {
-    bgMusic.volume = 0.35;
+    <script>
+      /* =========================================================
+         MUSIC
+      ========================================================= */
 
-    bgMusic.play().catch((err) => {
-      console.log(err);
-    });
-  }
-}
-const cursor = document.querySelector(".cursor");
+      const bgMusic = document.getElementById("bgMusic");
 
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-document.addEventListener("click", startMusic, { once: true });
-document.addEventListener("keydown", startMusic, { once: true });
-const bgMusic = document.getElementById("bgMusic");
+      function startMusic() {
+        if (bgMusic.paused) {
+          bgMusic.volume = 0.35;
 
-document.addEventListener("click", async () => {
-  try {
-    bgMusic.volume = 0.35;
-    await bgMusic.play();
-    console.log("Music started");
-  } catch (err) {
-    console.log("Playback failed:", err);
-  }
-}, { once: true });
-
-      let isPaused = false;
-      const toggle = document.getElementById("toggle");
-      const icon = document.getElementById("icon");
-
-      if (localStorage.getItem("darkMode") === "on") {
-        document.body.classList.add("dark");
-        toggle.classList.add("active");
-        icon.textContent = "☀️";
-      }
-
-      toggle.onclick = () => {
-        document.body.classList.toggle("dark");
-        toggle.classList.toggle("active");
-
-        if (document.body.classList.contains("dark")) {
-          icon.textContent = "☀️";
-          localStorage.setItem("darkMode", "on");
-        } else {
-          icon.textContent = "🌙";
-          localStorage.setItem("darkMode", "off");
+          bgMusic.play().catch((err) => {
+            console.log(err);
+          });
         }
-      };
-
-      /* ===== HOOK INTO EXISTING EFFECTS (no rewrites) ===== */
-
-      /* block dust + glow movement */
-      document.addEventListener(
-        "mousemove",
-        (e) => {
-          if (!isPaused) return;
-          e.stopImmediatePropagation();
-        },
-        true,
-      );
-      function getFormattedDateTime() {
-        return new Date().toLocaleString(undefined, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-          second: "2-digit",
-        });
       }
 
-      const dateEl = document.getElementById("current-date");
-      const yearEl = document.getElementById("current-dates");
+      document.addEventListener("click", startMusic, {
+        once: true,
+      });
 
-      if (dateEl && yearEl) {
-        dateEl.textContent = getFormattedDateTime();
-        yearEl.textContent = new Date().getFullYear();
+      document.addEventListener("keydown", startMusic, {
+        once: true,
+      });
 
-        setInterval(() => {
-          dateEl.textContent = getFormattedDateTime();
-        }, 1000);
-      }
-      window.onload = () => {
+      /* =========================================================
+         GAME
+      ========================================================= */
+
+      window.addEventListener("load", () => {
         const canvas = document.getElementById("gameCanvas");
+
         if (!canvas) return;
 
         const ctx = canvas.getContext("2d");
+
         function resizeCanvas() {
-          canvas.width = canvas.clientWidth;
+          const width =
+            canvas.parentElement.clientWidth || 800;
+
+          canvas.width = width;
           canvas.height = 300;
         }
 
         window.addEventListener("resize", resizeCanvas);
+
         resizeCanvas();
-        // ===== GROUND LEVEL =====
+
+        /* =====================================================
+           GAME CONSTANTS
+        ===================================================== */
+
         const GROUND_Y = 250;
 
-        // ===== PLAYER SETTINGS =====
+        /* =====================================================
+           PLAYER
+        ===================================================== */
+
         let player = {
           x: 80,
-          y: GROUND_Y - 30, // place player EXACTLY on ground
+          y: GROUND_Y - 30,
           size: 30,
           velocityY: 0,
-          // ===== TIGHTER JUMP (faster + more responsive) =====
-          gravity: 1.3, //Change jump power
+          gravity: 1.3,
           jumpPower: -16.15,
           grounded: true,
-          rotation: 0, // used for spinning effect
+          rotation: 0,
         };
+
         let jumpBuffer = 0;
         let coyoteTime = 0;
-        let obstacles = []; // Variables
+
+        /* =====================================================
+           OBJECT ARRAYS
+        ===================================================== */
+
+        let obstacles = [];
         let rollingSpikes = [];
         let platforms = [];
         let stars = [];
@@ -925,22 +595,31 @@ document.addEventListener("click", async () => {
         let particles = [];
         let clouds = [];
         let floatingBlocks = [];
-        let spawnTimer = 0;
         let ballSpikes = [];
-        let nextSpawn = 90; // ===== SCORE =====
+
+        let spawnTimer = 0;
+        let nextSpawn = 90;
+
+        /* =====================================================
+           SCORE
+        ===================================================== */
+
         let score = 0;
         let worldOffset = 0;
-        let gridOffset = 0;
-        let highScore = localStorage.getItem("gd_highscore") || 0;
+
+        let highScore =
+          Number(localStorage.getItem("gd_highscore")) || 0;
+
         let gameOver = false;
         let invincible = false;
         let shakeTime = 0;
-        let lastSpawnX = canvas.width;
-        const MIN_GAP = 2 * 34 + 40; // ~2 spikes + extra safety space
 
-        // ===== TIME TRACKING (for real seconds) =====
         let startTime = Date.now();
-        // ===== BACKGROUND STARS =====
+
+        /* =====================================================
+           STARS
+        ===================================================== */
+
         for (let i = 0; i < 80; i++) {
           stars.push({
             x: Math.random() * canvas.width,
@@ -950,7 +629,10 @@ document.addEventListener("click", async () => {
           });
         }
 
-        // ===== CLOUDS =====
+        /* =====================================================
+           CLOUDS
+        ===================================================== */
+
         for (let i = 0; i < 8; i++) {
           clouds.push({
             x: Math.random() * canvas.width,
@@ -959,35 +641,40 @@ document.addEventListener("click", async () => {
             speed: 0.3 + Math.random() * 0.5,
           });
         }
-        // ===== SPAWN SPIKE OBSTACLES =====
-        // ===== SPAWN SPIKE CLUMPS =====
+
+        /* =====================================================
+           SPAWN OBSTACLES
+        ===================================================== */
+
         function spawnObstacle() {
-          // ===== FIND RIGHTMOST OBJECT =====
           let furthestX = -Infinity;
 
           if (obstacles.length > 0) {
             furthestX = Math.max(
               furthestX,
-              ...obstacles.map((o) => o.x + o.size),
+              ...obstacles.map((o) => o.x + o.size)
             );
           }
 
           if (rollingSpikes.length > 0) {
             furthestX = Math.max(
               furthestX,
-              ...rollingSpikes.map((r) => r.x + r.size),
+              ...rollingSpikes.map((r) => r.x + r.size)
             );
           }
 
-          // ===== PREVENT OVERLAP =====
           const SAFE_GAP = 140;
-          if (canvas.width - furthestX < SAFE_GAP) return;
+
+          if (canvas.width - furthestX < SAFE_GAP) {
+            return;
+          }
 
           const isRolling = Math.random() < 0.35;
 
-          // =========================================
-          // ===== SPAWN ROLLING SPIKES ==============
-          // =========================================
+          /* ===================================================
+             ROLLING SPIKES
+          =================================================== */
+
           if (isRolling) {
             rollingSpikes.push({
               x: canvas.width - 42,
@@ -1010,7 +697,6 @@ document.addEventListener("click", async () => {
               rotation: 0,
             });
 
-            // optional platform
             platforms.push({
               x: canvas.width - 5,
               y: GROUND_Y - 75,
@@ -1020,54 +706,54 @@ document.addEventListener("click", async () => {
 
             return;
           }
-          // =========================================
-          // ===== BALL SPIKES =======================
-          // =========================================
-          // ===== BALL SPIKE CLUMPS =================
-          // =========================================
+
+          /* ===================================================
+             BALL SPIKES
+          =================================================== */
+
           if (Math.random() < 0.35) {
-            // only 1–2 ball spikes together
-            const count = Math.floor(Math.random() * 2) + 1;
+            const count =
+              Math.floor(Math.random() * 2) + 1;
 
             for (let i = 0; i < count; i++) {
               ballSpikes.push({
                 x: canvas.width + i * 46,
                 y: GROUND_Y - 18,
-
                 size: 36,
                 rotation: 0,
-
-                // slower rolling
-                spinSpeed: 0.018 + Math.random() * 0.008,
+                spinSpeed:
+                  0.018 + Math.random() * 0.008,
               });
             }
 
             return;
           }
-          // =========================================
-          // ===== FLOOR PLATFORM SECTIONS ===========
-          // =========================================
+
+          /* ===================================================
+             FLOOR PLATFORM
+          =================================================== */
+
           if (Math.random() < 0.25) {
             const tileSize = 68;
 
-            // 4–10 platform sections
-            const length = Math.floor(Math.random() * 7) + 4;
+            const length =
+              Math.floor(Math.random() * 7) + 4;
 
             const platformY = GROUND_Y - 55;
 
             let spikes = [];
 
-            // random spike clumps ON platform
-            const spikeCount = Math.floor(Math.random() * 3) + 1;
+            const spikeCount =
+              Math.floor(Math.random() * 3) + 1;
 
-            // force spikes to start AFTER 5 blocks
             const MIN_SAFE_BLOCKS = 5;
 
             for (let i = 0; i < spikeCount; i++) {
-              // only allow spikes after block 5
               const spikeIndex =
-                Math.floor(Math.random() * (length - MIN_SAFE_BLOCKS)) +
-                MIN_SAFE_BLOCKS;
+                Math.floor(
+                  Math.random() *
+                    (length - MIN_SAFE_BLOCKS)
+                ) + MIN_SAFE_BLOCKS;
 
               spikes.push(spikeIndex);
             }
@@ -1083,10 +769,13 @@ document.addEventListener("click", async () => {
 
             return;
           }
-          // =========================================
-          // ===== NORMAL SPIKE CLUMPS ===============
-          // =========================================
-          const count = Math.floor(Math.random() * 3) + 1;
+
+          /* ===================================================
+             NORMAL SPIKES
+          =================================================== */
+
+          const count =
+            Math.floor(Math.random() * 3) + 1;
 
           for (let i = 0; i < count; i++) {
             obstacles.push({
@@ -1094,23 +783,36 @@ document.addEventListener("click", async () => {
               y: GROUND_Y,
               size: 30,
             });
-            // random floating decoration block
+
             if (Math.random() < 0.45) {
               floatingBlocks.push({
-                x: canvas.width + Math.random() * 100,
-                y: 80 + Math.random() * 100,
-                size: 25 + Math.random() * 25,
+                x:
+                  canvas.width +
+                  Math.random() * 100,
+                y:
+                  80 +
+                  Math.random() * 100,
+                size:
+                  25 +
+                  Math.random() * 25,
                 rotation: 0,
               });
             }
           }
         }
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         function resetGame() {
-          obstacles = []; // Reset Obstacles
+          obstacles = [];
           rollingSpikes = [];
           platforms = [];
           spikePlatforms = [];
           ballSpikes = [];
+          particles = [];
+
           player.y = GROUND_Y - player.size;
           player.velocityY = 0;
           player.rotation = 0;
@@ -1119,16 +821,23 @@ document.addEventListener("click", async () => {
           score = 0;
           gameOver = false;
 
-          // reset timer
           startTime = Date.now();
 
-          // stop screen shake
-          canvas.style.transform = "translate(0,0)";
+          canvas.style.transform =
+            "translate(0,0)";
         }
-        function update(deltaTime) {
-          const GAME_SPEED = 13 * deltaTime; // Change game speed
 
-          // ===== MOVE STARS =====
+        /* =====================================================
+           UPDATE
+        ===================================================== */
+
+        function update(deltaTime) {
+          const GAME_SPEED = 13 * deltaTime;
+
+          /* ---------------------------------------------------
+             STARS
+          --------------------------------------------------- */
+
           stars.forEach((s) => {
             s.x -= s.speed * deltaTime;
 
@@ -1138,7 +847,10 @@ document.addEventListener("click", async () => {
             }
           });
 
-          // ===== MOVE CLOUDS =====
+          /* ---------------------------------------------------
+             CLOUDS
+          --------------------------------------------------- */
+
           clouds.forEach((c) => {
             c.x -= c.speed * deltaTime;
 
@@ -1148,43 +860,70 @@ document.addEventListener("click", async () => {
             }
           });
 
-          // ===== FLOATING BLOCKS =====
+          /* ---------------------------------------------------
+             FLOATING BLOCKS
+          --------------------------------------------------- */
+
           floatingBlocks.forEach((b) => {
             b.x -= GAME_SPEED * 0.7;
             b.rotation += 0.01 * deltaTime;
           });
 
-          floatingBlocks = floatingBlocks.filter((b) => b.x > -100);
+          floatingBlocks =
+            floatingBlocks.filter(
+              (b) => b.x > -100
+            );
 
-          // ===== PLAYER PARTICLES =====
-          particles.push({
-            x: player.x,
-            y: player.y + player.size,
-            size: 3 + Math.random() * 4,
-            life: 25,
-          });
+          /* ---------------------------------------------------
+             PARTICLES
+          --------------------------------------------------- */
+
+          if (!gameOver) {
+            particles.push({
+              x: player.x,
+              y: player.y + player.size,
+              size: 3 + Math.random() * 4,
+              life: 25,
+            });
+          }
 
           particles.forEach((p) => {
             p.x -= 2;
             p.life--;
           });
 
-          particles = particles.filter((p) => p.life > 0);
+          particles =
+            particles.filter(
+              (p) => p.life > 0
+            );
+
           if (gameOver) return;
+
           worldOffset += 0.6 * deltaTime;
           spawnTimer += deltaTime;
-          // countdown timers
-          if (jumpBuffer > 0) jumpBuffer -= deltaTime;
-          if (coyoteTime > 0) coyoteTime -= deltaTime;
 
-          // refresh coyote time while grounded
+          if (jumpBuffer > 0) {
+            jumpBuffer -= deltaTime;
+          }
+
+          if (coyoteTime > 0) {
+            coyoteTime -= deltaTime;
+          }
+
           if (player.grounded) {
             coyoteTime = 8;
           }
 
-          // JUMP FIRST
-          if (jumpBuffer > 0 && coyoteTime > 0) {
-            player.velocityY = player.jumpPower;
+          /* ---------------------------------------------------
+             JUMP
+          --------------------------------------------------- */
+
+          if (
+            jumpBuffer > 0 &&
+            coyoteTime > 0
+          ) {
+            player.velocityY =
+              player.jumpPower;
 
             player.grounded = false;
 
@@ -1192,523 +931,1030 @@ document.addEventListener("click", async () => {
             coyoteTime = 0;
           }
 
-          // THEN gravity
-          player.velocityY += player.gravity * deltaTime;
+          /* ---------------------------------------------------
+             GRAVITY
+          --------------------------------------------------- */
+
+          player.velocityY +=
+            player.gravity * deltaTime;
 
           if (player.velocityY > 0) {
-            player.velocityY += 0.9 * deltaTime;
+            player.velocityY +=
+              0.9 * deltaTime;
           }
 
-          player.y += player.velocityY * deltaTime;
+          player.y +=
+            player.velocityY * deltaTime;
+
+          /* ---------------------------------------------------
+             SPAWN
+          --------------------------------------------------- */
+
           if (spawnTimer >= nextSpawn) {
             spawnObstacle();
 
             spawnTimer = 0;
-            nextSpawn = 38 + Math.random() * 28; // Change obstacle frequency
-          }
-          // ===== GRAVITY + MOVEMENT =====
 
-          // ===== ROTATION WHILE IN AIR =====
+            nextSpawn =
+              38 +
+              Math.random() * 28;
+          }
+
+          /* ---------------------------------------------------
+             ROTATION
+          --------------------------------------------------- */
+
           if (!player.grounded) {
-            player.rotation += 0.25 * deltaTime;
+            player.rotation +=
+              0.25 * deltaTime;
           } else {
-            player.rotation = 0; // reset when on ground
+            player.rotation = 0;
           }
-          if (player.grounded) {
-            player.rotation =
-              Math.round(player.rotation / (Math.PI / 2)) * (Math.PI / 2);
-          }
-          // ===== PLATFORM COLLISION =====
+
+          /* ---------------------------------------------------
+             PLATFORMS
+          --------------------------------------------------- */
+
           let onPlatform = false;
 
           platforms.forEach((p) => {
             const withinX =
-              player.x + player.size > p.x && player.x < p.x + p.width;
+              player.x + player.size > p.x &&
+              player.x <
+                p.x + p.width;
 
             const touchingTop =
-              player.y + player.size >= p.y &&
-              player.y + player.size <= p.y + p.height + 8 &&
+              player.y + player.size >=
+                p.y &&
+              player.y + player.size <=
+                p.y +
+                  p.height +
+                  8 &&
               player.velocityY >= 0;
 
-            if (withinX && touchingTop) {
-              player.y = p.y - player.size;
+            if (
+              withinX &&
+              touchingTop
+            ) {
+              player.y =
+                p.y - player.size;
+
               player.velocityY = 0;
               player.grounded = true;
               onPlatform = true;
             }
-            if (Math.abs(player.velocityY) < 0.5) {
+
+            if (
+              Math.abs(
+                player.velocityY
+              ) < 0.5
+            ) {
               player.velocityY *= 0.95;
             }
           });
 
-          // ===== GROUND COLLISION =====
-          if (player.y >= GROUND_Y - player.size) {
-            player.y = GROUND_Y - player.size;
+          /* ---------------------------------------------------
+             GROUND
+          --------------------------------------------------- */
+
+          if (
+            player.y >=
+            GROUND_Y - player.size
+          ) {
+            player.y =
+              GROUND_Y - player.size;
+
             player.velocityY = 0;
             player.grounded = true;
           } else if (!onPlatform) {
             player.grounded = false;
           }
-          // ===== Game speed =====
-          platforms.forEach((p) => (p.x -= GAME_SPEED));
-          platforms = platforms.filter((p) => p.x > -100);
 
-          obstacles.forEach((obs) => (obs.x -= GAME_SPEED)); // ===== COLLISION DETECTION (spike hitbox) =====
+          /* ---------------------------------------------------
+             MOVE OBJECTS
+          --------------------------------------------------- */
+
+          platforms.forEach(
+            (p) =>
+              (p.x -= GAME_SPEED)
+          );
+
+          platforms =
+            platforms.filter(
+              (p) => p.x > -100
+            );
+
+          obstacles.forEach(
+            (obs) =>
+              (obs.x -= GAME_SPEED)
+          );
+
           rollingSpikes.forEach((r) => {
             r.x -= GAME_SPEED;
-            r.rotation += 0.18 * deltaTime;
+            r.rotation +=
+              0.18 * deltaTime;
           });
 
-          rollingSpikes = rollingSpikes.filter((r) => r.x > -60);
+          rollingSpikes =
+            rollingSpikes.filter(
+              (r) => r.x > -60
+            );
+
           ballSpikes.forEach((b) => {
-            // slower movement
-            b.x -= GAME_SPEED * 0.88;
+            b.x -=
+              GAME_SPEED * 0.88;
 
-            // slower rolling
-            b.rotation += b.spinSpeed * deltaTime;
+            b.rotation +=
+              b.spinSpeed *
+              deltaTime;
           });
 
-          ballSpikes = ballSpikes.filter((b) => b.x > -100);
-          // ===== FAIRER TRIANGLE HITBOX =====
+          ballSpikes =
+            ballSpikes.filter(
+              (b) => b.x > -100
+            );
+
+          spikePlatforms.forEach(
+            (p) =>
+              (p.x -= GAME_SPEED)
+          );
+
+          spikePlatforms =
+            spikePlatforms.filter(
+              (p) =>
+                p.x + p.width >
+                -200
+            );
+
+          /* ===================================================
+             NORMAL SPIKE COLLISION
+          =================================================== */
+
           obstacles.forEach((obs) => {
             const paddingX = 8;
             const paddingTop = 12;
             const paddingBottom = 4;
 
-            const spikeLeft = obs.x + paddingX;
-            const spikeRight = obs.x + obs.size - paddingX;
+            const spikeLeft =
+              obs.x + paddingX;
 
-            const spikeTop = obs.y - obs.size + paddingTop;
-            const spikeBottom = obs.y - paddingBottom;
+            const spikeRight =
+              obs.x +
+              obs.size -
+              paddingX;
 
-            const playerLeft = player.x + 4;
-            const playerRight = player.x + player.size - 4;
-            const playerTop = player.y + 4;
-            const playerBottom = player.y + player.size - 4;
+            const spikeTop =
+              obs.y -
+              obs.size +
+              paddingTop;
 
-            const hit =
-              playerRight > spikeLeft &&
-              playerLeft < spikeRight &&
-              playerBottom > spikeTop &&
-              playerTop < spikeBottom;
+            const spikeBottom =
+              obs.y -
+              paddingBottom;
 
-            if (hit && !invincible) {
-              if (!gameOver) {
-                gameOver = true;
-                shakeTime = 20;
-              }
+            const playerLeft =
+              player.x + 4;
 
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
-            }
-          });
+            const playerRight =
+              player.x +
+              player.size -
+              4;
 
-          // ===== FAIRER ROLLING SPIKE HITBOX =====
-          rollingSpikes.forEach((r) => {
-            const paddingX = 8;
-            const paddingTop = 12;
-            const paddingBottom = 4;
+            const playerTop =
+              player.y + 4;
 
-            const spikeLeft = r.x + paddingX;
-            const spikeRight = r.x + r.size - paddingX;
-
-            const spikeTop = r.y - r.size + paddingTop;
-            const spikeBottom = r.y - paddingBottom;
-
-            const playerLeft = player.x + 4;
-            const playerRight = player.x + player.size - 4;
-            const playerTop = player.y + 4;
-            const playerBottom = player.y + player.size - 4;
+            const playerBottom =
+              player.y +
+              player.size -
+              4;
 
             const hit =
-              playerRight > spikeLeft &&
-              playerLeft < spikeRight &&
-              playerBottom > spikeTop &&
-              playerTop < spikeBottom;
+              playerRight >
+                spikeLeft &&
+              playerLeft <
+                spikeRight &&
+              playerBottom >
+                spikeTop &&
+              playerTop <
+                spikeBottom;
 
-            if (hit && !invincible) {
-              if (!gameOver) {
-                gameOver = true;
-                shakeTime = 20;
-              }
+            if (
+              hit &&
+              !invincible
+            ) {
+              gameOver = true;
+              shakeTime = 20;
 
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
+              saveHighScore();
             }
           });
-          spikePlatforms.forEach((p) => (p.x -= GAME_SPEED));
-          spikePlatforms = spikePlatforms.filter((p) => p.x + p.width > -200);
-          spikePlatforms.forEach((p) => {
-            // ===== LAND ON TOP =====
-            const withinX =
-              player.x + player.size > p.x && player.x < p.x + p.width;
 
-            const touchingTop =
-              player.y + player.size >= p.y &&
-              player.y + player.size <= p.y + p.height + 10 &&
-              player.velocityY >= 0;
+          /* ===================================================
+             ROLLING SPIKE COLLISION
+          =================================================== */
 
-            if (withinX && touchingTop) {
-              player.y = p.y - player.size;
-              player.velocityY = 0;
-              player.grounded = true;
-            }
-            // ===== BOTTOM SPIKE COLLISION =====
-            for (let i = 0; i < p.width; i += 34) {
-              const spikeX = p.x + i;
+          rollingSpikes.forEach(
+            (r) => {
+              const paddingX = 8;
+              const paddingTop = 12;
+              const paddingBottom = 4;
 
-              const spikeLeft = spikeX + 6;
-              const spikeRight = spikeX + 28;
+              const spikeLeft =
+                r.x + paddingX;
 
-              const spikeTop = p.y + p.height;
-              const spikeBottom = p.y + p.height + 26;
+              const spikeRight =
+                r.x +
+                r.size -
+                paddingX;
 
-              const playerLeft = player.x + 4;
-              const playerRight = player.x + player.size - 4;
-              const playerTop = player.y + 4;
-              const playerBottom = player.y + player.size - 4;
+              const spikeTop =
+                r.y -
+                r.size +
+                paddingTop;
 
-              const hit =
-                playerRight > spikeLeft &&
-                playerLeft < spikeRight &&
-                playerBottom > spikeTop &&
-                playerTop < spikeBottom;
+              const spikeBottom =
+                r.y -
+                paddingBottom;
 
-              if (hit && !invincible) {
-                gameOver = true;
-                shakeTime = 20;
-              }
-            }
-            // ===== SPIKES ON PLATFORM =====
-            p.spikes.forEach((index) => {
-              const spikeX = p.x + index * 34;
+              const playerLeft =
+                player.x + 4;
 
-              const spikeLeft = spikeX + 6;
-              const spikeRight = spikeX + 28;
+              const playerRight =
+                player.x +
+                player.size -
+                4;
 
-              const spikeTop = p.y - 28;
-              const spikeBottom = p.y;
+              const playerTop =
+                player.y + 4;
 
-              const playerLeft = player.x + 4;
-              const playerRight = player.x + player.size - 4;
-              const playerTop = player.y + 4;
-              const playerBottom = player.y + player.size - 4;
+              const playerBottom =
+                player.y +
+                player.size -
+                4;
 
               const hit =
-                playerRight > spikeLeft &&
-                playerLeft < spikeRight &&
-                playerBottom > spikeTop &&
-                playerTop < spikeBottom;
+                playerRight >
+                  spikeLeft &&
+                playerLeft <
+                  spikeRight &&
+                playerBottom >
+                  spikeTop &&
+                playerTop <
+                  spikeBottom;
 
-              if (hit && !invincible) {
+              if (
+                hit &&
+                !invincible
+              ) {
                 gameOver = true;
                 shakeTime = 20;
-              }
-            });
-          });
-          obstacles = obstacles.filter((obs) => obs.x > -50);
 
-          // ===== SCORE BASED ON REAL TIME (seconds) =====
-          score = Math.floor((Date.now() - startTime) / 1000);
-          // ===== DISPLAY SCORE + HIGH SCORE =====
-          document.getElementById("score").textContent =
-            "Score: " + score + " | Best: " + highScore;
+                saveHighScore();
+              }
+            }
+          );
+
+          /* ===================================================
+             SPIKE PLATFORMS
+          =================================================== */
+
+          spikePlatforms.forEach(
+            (p) => {
+              const withinX =
+                player.x +
+                  player.size >
+                  p.x &&
+                player.x <
+                  p.x +
+                    p.width;
+
+              const touchingTop =
+                player.y +
+                  player.size >=
+                  p.y &&
+                player.y +
+                  player.size <=
+                  p.y +
+                    p.height +
+                    10 &&
+                player.velocityY >=
+                  0;
+
+              if (
+                withinX &&
+                touchingTop
+              ) {
+                player.y =
+                  p.y -
+                  player.size;
+
+                player.velocityY = 0;
+                player.grounded = true;
+              }
+
+              /* Bottom spikes */
+
+              for (
+                let i = 0;
+                i < p.width;
+                i += 34
+              ) {
+                const spikeX =
+                  p.x + i;
+
+                const spikeLeft =
+                  spikeX + 6;
+
+                const spikeRight =
+                  spikeX + 28;
+
+                const spikeTop =
+                  p.y +
+                  p.height;
+
+                const spikeBottom =
+                  p.y +
+                  p.height +
+                  26;
+
+                const playerLeft =
+                  player.x + 4;
+
+                const playerRight =
+                  player.x +
+                  player.size -
+                  4;
+
+                const playerTop =
+                  player.y + 4;
+
+                const playerBottom =
+                  player.y +
+                  player.size -
+                  4;
+
+                const hit =
+                  playerRight >
+                    spikeLeft &&
+                  playerLeft <
+                    spikeRight &&
+                  playerBottom >
+                    spikeTop &&
+                  playerTop <
+                    spikeBottom;
+
+                if (
+                  hit &&
+                  !invincible
+                ) {
+                  gameOver = true;
+                  shakeTime = 20;
+
+                  saveHighScore();
+                }
+              }
+
+              /* Top spikes */
+
+              p.spikes.forEach(
+                (index) => {
+                  const spikeX =
+                    p.x +
+                    index * 34;
+
+                  const spikeLeft =
+                    spikeX + 6;
+
+                  const spikeRight =
+                    spikeX + 28;
+
+                  const spikeTop =
+                    p.y - 28;
+
+                  const spikeBottom =
+                    p.y;
+
+                  const playerLeft =
+                    player.x + 4;
+
+                  const playerRight =
+                    player.x +
+                    player.size -
+                    4;
+
+                  const playerTop =
+                    player.y + 4;
+
+                  const playerBottom =
+                    player.y +
+                    player.size -
+                    4;
+
+                  const hit =
+                    playerRight >
+                      spikeLeft &&
+                    playerLeft <
+                      spikeRight &&
+                    playerBottom >
+                      spikeTop &&
+                    playerTop <
+                      spikeBottom;
+
+                  if (
+                    hit &&
+                    !invincible
+                  ) {
+                    gameOver = true;
+                    shakeTime = 20;
+
+                    saveHighScore();
+                  }
+                }
+              );
+            }
+          );
+
+          obstacles =
+            obstacles.filter(
+              (obs) =>
+                obs.x > -50
+            );
+
+          /* ===================================================
+             SCORE
+          =================================================== */
+
+          score = Math.floor(
+            (Date.now() -
+              startTime) /
+              1000
+          );
+
+          saveHighScore();
+
+          document.getElementById(
+            "score"
+          ).textContent =
+            "Score: " +
+            score +
+            " | Best: " +
+            highScore;
         }
 
-        function draw() {
-          // ===== CLEAR SCREEN =====
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        /* =====================================================
+           HIGH SCORE
+        ===================================================== */
 
-          // ===== BACKGROUND =====
-          const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
-          bg.addColorStop(0, "#1a1f3a");
-          bg.addColorStop(1, "#0f1117");
+        function saveHighScore() {
+          if (score > highScore) {
+            highScore = score;
+
+            localStorage.setItem(
+              "gd_highscore",
+              highScore
+            );
+          }
+        }
+
+        /* =====================================================
+           DRAW
+        ===================================================== */
+
+        function draw() {
+          ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+
+          /* ---------------------------------------------------
+             BACKGROUND
+          --------------------------------------------------- */
+
+          const bg =
+            ctx.createLinearGradient(
+              0,
+              0,
+              0,
+              canvas.height
+            );
+
+          bg.addColorStop(
+            0,
+            "#1a1f3a"
+          );
+
+          bg.addColorStop(
+            1,
+            "#0f1117"
+          );
 
           ctx.fillStyle = bg;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          // =========================================
-          // ===== PARALLAX MOUNTAINS (BACKGROUND) ===
-          // =========================================
-          ctx.fillStyle = "rgba(21,25,43,0.75)";
+          ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
 
-          for (let i = 0; i < 12; i++) {
-            let x = i * 120 - (worldOffset % 120);
+          /* ---------------------------------------------------
+             MOUNTAINS
+          --------------------------------------------------- */
+
+          ctx.fillStyle =
+            "rgba(21,25,43,0.75)";
+
+          for (
+            let i = 0;
+            i < 12;
+            i++
+          ) {
+            const x =
+              i * 120 -
+              (worldOffset % 120);
+
             ctx.beginPath();
-            ctx.moveTo(x, GROUND_Y);
 
-            ctx.lineTo(x + 60, GROUND_Y - 90);
+            ctx.moveTo(
+              x,
+              GROUND_Y
+            );
 
-            ctx.lineTo(x + 120, GROUND_Y);
+            ctx.lineTo(
+              x + 60,
+              GROUND_Y - 90
+            );
+
+            ctx.lineTo(
+              x + 120,
+              GROUND_Y
+            );
 
             ctx.closePath();
+
             ctx.fill();
           }
-          // =========================================
-          // ===== CLOUDS ============================
-          // =========================================
-          ctx.fillStyle = "rgba(255,255,255,0.08)";
+
+          /* ---------------------------------------------------
+             CLOUDS
+          --------------------------------------------------- */
+
+          ctx.fillStyle =
+            "rgba(255,255,255,0.08)";
 
           clouds.forEach((c) => {
             ctx.beginPath();
-            ctx.roundRect(c.x, c.y, c.width, 35, 20);
+
+            ctx.roundRect(
+              c.x,
+              c.y,
+              c.width,
+              35,
+              20
+            );
+
             ctx.fill();
           });
-          // =========================================
-          // ===== GRID BACKGROUND ===================
-          // =========================================
-          ctx.strokeStyle = "rgba(255,255,255,0.05)";
+
+          /* ---------------------------------------------------
+             GRID
+          --------------------------------------------------- */
+
+          ctx.strokeStyle =
+            "rgba(255,255,255,0.05)";
+
           ctx.lineWidth = 1;
-          for (let x = 0; x < canvas.width; x += 40) {
+
+          for (
+            let x = 0;
+            x < canvas.width;
+            x += 40
+          ) {
             ctx.beginPath();
+
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);
+            ctx.lineTo(
+              x,
+              canvas.height
+            );
+
             ctx.stroke();
           }
 
-          for (let y = 0; y < canvas.height; y += 40) {
+          for (
+            let y = 0;
+            y < canvas.height;
+            y += 40
+          ) {
             ctx.beginPath();
+
             ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
+            ctx.lineTo(
+              canvas.width,
+              y
+            );
+
             ctx.stroke();
           }
-          // =========================================
-          // ===== STARS =============================
-          // =========================================
+
+          /* ---------------------------------------------------
+             STARS
+          --------------------------------------------------- */
+
           ctx.fillStyle = "white";
 
           stars.forEach((s) => {
             ctx.globalAlpha = 0.7;
+
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+
+            ctx.arc(
+              s.x,
+              s.y,
+              s.size,
+              0,
+              Math.PI * 2
+            );
+
             ctx.fill();
           });
 
           ctx.globalAlpha = 1;
-          // =========================================
-          // ===== GLOWING GROUND ====================
-          // =========================================
+
+          /* ---------------------------------------------------
+             GROUND
+          --------------------------------------------------- */
+
           ctx.shadowBlur = 15;
           ctx.shadowColor = "#536dfe";
 
           ctx.fillStyle = "#536dfe";
-          ctx.fillRect(0, GROUND_Y, canvas.width, 4);
+
+          ctx.fillRect(
+            0,
+            GROUND_Y,
+            canvas.width,
+            4
+          );
 
           ctx.shadowBlur = 0;
-          // =========================================
-          // ===== FLOATING BLOCKS ===================
-          // =========================================
-          floatingBlocks.forEach((b) => {
-            ctx.save();
 
-            ctx.translate(b.x, b.y);
-            ctx.rotate(b.rotation);
+          /* ---------------------------------------------------
+             FLOATING BLOCKS
+          --------------------------------------------------- */
 
-            ctx.fillStyle = "#8e99f3";
+          floatingBlocks.forEach(
+            (b) => {
+              ctx.save();
 
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = "#8e99f3";
+              ctx.translate(
+                b.x,
+                b.y
+              );
 
-            ctx.fillRect(-b.size / 2, -b.size / 2, b.size, b.size);
+              ctx.rotate(
+                b.rotation
+              );
 
-            ctx.restore();
-          });
+              ctx.fillStyle =
+                "#8e99f3";
+
+              ctx.shadowBlur = 15;
+              ctx.shadowColor =
+                "#8e99f3";
+
+              ctx.fillRect(
+                -b.size / 2,
+                -b.size / 2,
+                b.size,
+                b.size
+              );
+
+              ctx.restore();
+            }
+          );
 
           ctx.shadowBlur = 0;
-          // =========================================
-          // ===== PLATFORMS =========================
-          // =========================================
+
+          /* ---------------------------------------------------
+             PLATFORMS
+          --------------------------------------------------- */
+
           ctx.shadowBlur = 15;
           ctx.shadowColor = "#00ff88";
 
           ctx.fillStyle = "#00ff88";
 
           platforms.forEach((p) => {
-            ctx.fillRect(p.x, p.y, p.width, p.height);
+            ctx.fillRect(
+              p.x,
+              p.y,
+              p.width,
+              p.height
+            );
           });
 
           ctx.shadowBlur = 0;
 
-          // =========================================
-          // ===== PLAYER ============================
-          // =========================================
+          /* ---------------------------------------------------
+             PLAYER
+          --------------------------------------------------- */
+
           ctx.save();
 
-          ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
+          ctx.translate(
+            player.x +
+              player.size / 2,
+            player.y +
+              player.size / 2
+          );
 
-          ctx.rotate(player.rotation);
+          ctx.rotate(
+            player.rotation
+          );
 
-          // glow
           ctx.shadowBlur = 20;
-          ctx.shadowColor = invincible ? "#ffd700" : "#00e5ff";
-          ctx.fillStyle = invincible ? "#ffd700" : "#00e5ff";
+
+          ctx.shadowColor =
+            invincible
+              ? "#ffd700"
+              : "#00e5ff";
+
+          ctx.fillStyle =
+            invincible
+              ? "#ffd700"
+              : "#00e5ff";
 
           ctx.fillRect(
             -player.size / 2,
             -player.size / 2,
             player.size,
-            player.size,
+            player.size
           );
 
           ctx.restore();
 
           ctx.shadowBlur = 0;
 
-          // =========================================
-          // ===== ROLLING SPIKES ====================
-          // =========================================
-          rollingSpikes.forEach((r) => {
-            ctx.save();
+          /* ---------------------------------------------------
+             ROLLING SPIKES
+          --------------------------------------------------- */
 
-            ctx.translate(r.x + r.size / 2, r.y - r.size / 2);
+          rollingSpikes.forEach(
+            (r) => {
+              ctx.save();
 
-            ctx.rotate(r.rotation);
+              ctx.translate(
+                r.x +
+                  r.size / 2,
+                r.y -
+                  r.size / 2
+              );
 
-            ctx.shadowBlur = 18;
-            ctx.shadowColor = "#ff1744";
+              ctx.rotate(
+                r.rotation
+              );
 
-            ctx.fillStyle = "#ff1744";
+              ctx.shadowBlur = 18;
+              ctx.shadowColor =
+                "#ff1744";
 
-            ctx.beginPath();
-
-            ctx.moveTo(-r.size / 2, r.size / 2);
-            ctx.lineTo(0, -r.size / 2);
-            ctx.lineTo(r.size / 2, r.size / 2);
-
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 2;
-
-            ctx.beginPath();
-
-            ctx.moveTo(-8, 6);
-            ctx.lineTo(0, -10);
-            ctx.lineTo(8, 6);
-
-            ctx.stroke();
-
-            ctx.restore();
-          });
-
-          ctx.shadowBlur = 0;
-          // =========================================
-          // ===== FLOOR SPIKE PLATFORMS =============
-          // =========================================
-          spikePlatforms.forEach((p) => {
-            // ===== PLATFORM =====
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = "#00ff88";
-
-            ctx.fillStyle = "#00ff88";
-
-            ctx.fillRect(p.x, p.y, p.width, p.height);
-            // ===== SINGLE SPIKE UNDER START =====
-            ctx.save();
-
-            ctx.translate(p.x + 17, p.y + p.height + 15);
-
-            ctx.shadowBlur = 18;
-            ctx.shadowColor = "#ff1744";
-
-            ctx.fillStyle = "#ff1744";
-
-            // upside-down spike
-            ctx.beginPath();
-
-            ctx.moveTo(-17, -15);
-            ctx.lineTo(0, 15);
-            ctx.lineTo(17, -15);
-
-            ctx.closePath();
-            ctx.fill();
-
-            // white detail
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 2;
-
-            ctx.beginPath();
-
-            ctx.moveTo(-8, -6);
-            ctx.lineTo(0, 10);
-            ctx.lineTo(8, -6);
-
-            ctx.stroke();
-
-            ctx.restore();
-            // ===== PLATFORM DETAILS =====
-            ctx.fillStyle = "rgba(255,255,255,0.18)";
-
-            for (let i = 0; i < p.width; i += 34) {
-              ctx.fillRect(p.x + i + 4, p.y + 3, 24, 3);
-            }
-
-            // ===== SPIKES ON TOP =====
-            ctx.fillStyle = "#ff1744";
-            ctx.shadowColor = "#ff1744";
-
-            p.spikes.forEach((index) => {
-              const spikeX = p.x + index * 34;
+              ctx.fillStyle =
+                "#ff1744";
 
               ctx.beginPath();
 
-              ctx.moveTo(spikeX, p.y);
-              ctx.lineTo(spikeX + 17, p.y - 30);
-              ctx.lineTo(spikeX + 34, p.y);
+              ctx.moveTo(
+                -r.size / 2,
+                r.size / 2
+              );
+
+              ctx.lineTo(
+                0,
+                -r.size / 2
+              );
+
+              ctx.lineTo(
+                r.size / 2,
+                r.size / 2
+              );
 
               ctx.closePath();
 
               ctx.fill();
 
-              // inner detail
-              ctx.strokeStyle = "#ffffff";
+              ctx.strokeStyle =
+                "#ffffff";
+
               ctx.lineWidth = 2;
 
               ctx.beginPath();
 
-              ctx.moveTo(spikeX + 9, p.y - 6);
-              ctx.lineTo(spikeX + 17, p.y - 20);
-              ctx.lineTo(spikeX + 25, p.y - 6);
+              ctx.moveTo(-8, 6);
+              ctx.lineTo(0, -10);
+              ctx.lineTo(8, 6);
 
               ctx.stroke();
-            });
 
-            ctx.shadowBlur = 0;
-          });
+              ctx.restore();
+            }
+          );
 
           ctx.shadowBlur = 0;
-          // =========================================
-          // ===== NORMAL SPIKES =====================
-          // =========================================
+
+          /* ---------------------------------------------------
+             SPIKE PLATFORMS
+          --------------------------------------------------- */
+
+          spikePlatforms.forEach(
+            (p) => {
+              ctx.shadowBlur = 15;
+              ctx.shadowColor =
+                "#00ff88";
+
+              ctx.fillStyle =
+                "#00ff88";
+
+              ctx.fillRect(
+                p.x,
+                p.y,
+                p.width,
+                p.height
+              );
+
+              /* Bottom spike */
+
+              ctx.save();
+
+              ctx.translate(
+                p.x + 17,
+                p.y +
+                  p.height +
+                  15
+              );
+
+              ctx.shadowBlur = 18;
+              ctx.shadowColor =
+                "#ff1744";
+
+              ctx.fillStyle =
+                "#ff1744";
+
+              ctx.beginPath();
+
+              ctx.moveTo(-17, -15);
+              ctx.lineTo(0, 15);
+              ctx.lineTo(17, -15);
+
+              ctx.closePath();
+
+              ctx.fill();
+
+              ctx.strokeStyle =
+                "#ffffff";
+
+              ctx.lineWidth = 2;
+
+              ctx.beginPath();
+
+              ctx.moveTo(-8, -6);
+              ctx.lineTo(0, 10);
+              ctx.lineTo(8, -6);
+
+              ctx.stroke();
+
+              ctx.restore();
+
+              /* Platform details */
+
+              ctx.fillStyle =
+                "rgba(255,255,255,0.18)";
+
+              for (
+                let i = 0;
+                i < p.width;
+                i += 34
+              ) {
+                ctx.fillRect(
+                  p.x + i + 4,
+                  p.y + 3,
+                  24,
+                  3
+                );
+              }
+
+              /* Top spikes */
+
+              ctx.fillStyle =
+                "#ff1744";
+
+              ctx.shadowColor =
+                "#ff1744";
+
+              p.spikes.forEach(
+                (index) => {
+                  const spikeX =
+                    p.x +
+                    index * 34;
+
+                  ctx.beginPath();
+
+                  ctx.moveTo(
+                    spikeX,
+                    p.y
+                  );
+
+                  ctx.lineTo(
+                    spikeX + 17,
+                    p.y - 30
+                  );
+
+                  ctx.lineTo(
+                    spikeX + 34,
+                    p.y
+                  );
+
+                  ctx.closePath();
+
+                  ctx.fill();
+
+                  ctx.strokeStyle =
+                    "#ffffff";
+
+                  ctx.lineWidth = 2;
+
+                  ctx.beginPath();
+
+                  ctx.moveTo(
+                    spikeX + 9,
+                    p.y - 6
+                  );
+
+                  ctx.lineTo(
+                    spikeX + 17,
+                    p.y - 20
+                  );
+
+                  ctx.lineTo(
+                    spikeX + 25,
+                    p.y - 6
+                  );
+
+                  ctx.stroke();
+                }
+              );
+
+              ctx.shadowBlur = 0;
+            }
+          );
+
+          /* ---------------------------------------------------
+             NORMAL SPIKES
+          --------------------------------------------------- */
+
           obstacles.forEach((obs) => {
             ctx.save();
 
-            // center the spike
-            ctx.translate(obs.x + obs.size / 2, obs.y - obs.size / 2);
+            ctx.translate(
+              obs.x +
+                obs.size / 2,
+              obs.y -
+                obs.size / 2
+            );
 
-            // red glow
             ctx.shadowBlur = 18;
-            ctx.shadowColor = "#ff1744";
+            ctx.shadowColor =
+              "#ff1744";
 
-            ctx.fillStyle = "#ff1744";
+            ctx.fillStyle =
+              "#ff1744";
 
-            // main triangle
             ctx.beginPath();
 
-            ctx.moveTo(-obs.size / 2, obs.size / 2);
-            ctx.lineTo(0, -obs.size / 2);
-            ctx.lineTo(obs.size / 2, obs.size / 2);
+            ctx.moveTo(
+              -obs.size / 2,
+              obs.size / 2
+            );
+
+            ctx.lineTo(
+              0,
+              -obs.size / 2
+            );
+
+            ctx.lineTo(
+              obs.size / 2,
+              obs.size / 2
+            );
 
             ctx.closePath();
+
             ctx.fill();
 
-            // inner white detail
-            ctx.strokeStyle = "#ffffff";
+            ctx.strokeStyle =
+              "#ffffff";
+
             ctx.lineWidth = 2;
 
             ctx.beginPath();
@@ -1724,198 +1970,442 @@ document.addEventListener("click", async () => {
 
           ctx.shadowBlur = 0;
 
-          // rolling spikes
-          // =========================================
-          // ===== BALL SPIKES DRAW ==================
-          // =========================================
+          /* ---------------------------------------------------
+             BALL SPIKES
+          --------------------------------------------------- */
+
           ballSpikes.forEach((b) => {
             ctx.save();
 
-            ctx.translate(b.x + b.size / 2, b.y);
-            ctx.rotate(b.rotation);
+            ctx.translate(
+              b.x +
+                b.size / 2,
+              b.y
+            );
+
+            ctx.rotate(
+              b.rotation
+            );
 
             ctx.shadowBlur = 20;
-            ctx.shadowColor = "#ff1744";
+            ctx.shadowColor =
+              "#ff1744";
 
             const spikes = 14;
-            const outerR = b.size / 2;
-            const innerR = b.size / 3;
+
+            const outerR =
+              b.size / 2;
+
+            const innerR =
+              b.size / 3;
 
             ctx.beginPath();
 
-            for (let i = 0; i < spikes * 2; i++) {
-              const angle = (Math.PI / spikes) * i;
+            for (
+              let i = 0;
+              i < spikes * 2;
+              i++
+            ) {
+              const angle =
+                (Math.PI / spikes) *
+                i;
 
-              const r = i % 2 === 0 ? outerR : innerR;
+              const r =
+                i % 2 === 0
+                  ? outerR
+                  : innerR;
 
-              const x = Math.cos(angle) * r;
-              const y = Math.sin(angle) * r;
+              const x =
+                Math.cos(angle) * r;
 
-              if (i === 0) ctx.moveTo(x, y);
-              else ctx.lineTo(x, y);
+              const y =
+                Math.sin(angle) * r;
+
+              if (i === 0) {
+                ctx.moveTo(x, y);
+              } else {
+                ctx.lineTo(x, y);
+              }
             }
 
             ctx.closePath();
 
-            ctx.fillStyle = "#c0c0c0";
+            ctx.fillStyle =
+              "#c0c0c0";
+
             ctx.fill();
 
             ctx.beginPath();
-            ctx.arc(0, 0, outerR * 0.25, 0, Math.PI * 2);
 
-            ctx.fillStyle = "#ff1744";
+            ctx.arc(
+              0,
+              0,
+              outerR * 0.25,
+              0,
+              Math.PI * 2
+            );
+
+            ctx.fillStyle =
+              "#ff1744";
+
             ctx.fill();
 
             ctx.restore();
           });
-          // ===== BALL SPIKE HITBOX =====
+
+          /* ---------------------------------------------------
+             BALL COLLISION
+          --------------------------------------------------- */
+
           ballSpikes.forEach((b) => {
-            const centerX = b.x + b.size / 2;
-            const centerY = b.y;
+            const centerX =
+              b.x +
+              b.size / 2;
 
-            const radius = b.size / 2 - 6;
+            const centerY =
+              b.y;
 
-            const playerCenterX = player.x + player.size / 2;
-            const playerCenterY = player.y + player.size / 2;
+            const radius =
+              b.size / 2 - 6;
 
-            const dx = playerCenterX - centerX;
-            const dy = playerCenterY - centerY;
+            const playerCenterX =
+              player.x +
+              player.size / 2;
 
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const playerCenterY =
+              player.y +
+              player.size / 2;
 
-            // collision
-            if (distance < radius + player.size / 2 - 4 && !invincible) {
-              if (!gameOver) {
-                gameOver = true;
-                shakeTime = 20;
-              }
+            const dx =
+              playerCenterX -
+              centerX;
 
-              if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("gd_highscore", highScore);
-              }
+            const dy =
+              playerCenterY -
+              centerY;
+
+            const distance =
+              Math.sqrt(
+                dx * dx +
+                  dy * dy
+              );
+
+            if (
+              distance <
+                radius +
+                  player.size /
+                    2 -
+                  4 &&
+              !invincible
+            ) {
+              gameOver = true;
+              shakeTime = 20;
+
+              saveHighScore();
             }
           });
-          // =========================================
-          // ===== GAME OVER SCREEN ==================
-          // =========================================
-          if (gameOver) {
-            // screen darken
-            ctx.fillStyle = "rgba(0,0,0,0.45)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // screen shake
+          /* ---------------------------------------------------
+             PARTICLES
+          --------------------------------------------------- */
+
+          particles.forEach((p) => {
+            ctx.globalAlpha =
+              p.life / 25;
+
+            ctx.fillStyle =
+              "#00e5ff";
+
+            ctx.fillRect(
+              p.x,
+              p.y,
+              p.size,
+              p.size
+            );
+          });
+
+          ctx.globalAlpha = 1;
+
+          /* ---------------------------------------------------
+             GAME OVER
+          --------------------------------------------------- */
+
+          if (gameOver) {
+            ctx.fillStyle =
+              "rgba(0,0,0,0.45)";
+
+            ctx.fillRect(
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
             if (shakeTime > 0) {
-              canvas.style.transform = `translate(${Math.floor(Math.random() * 8 - 4)}px,
-               ${Math.floor(Math.random() * 8 - 4)}px)`;
+              canvas.style.transform =
+                `translate(${
+                  Math.floor(
+                    Math.random() *
+                      8 -
+                      4
+                  )
+                }px, ${
+                  Math.floor(
+                    Math.random() *
+                      8 -
+                      4
+                  )
+                }px)`;
 
               shakeTime--;
             } else {
-              canvas.style.transform = "translate(0,0)";
+              canvas.style.transform =
+                "translate(0,0)";
             }
 
-            ctx.fillStyle = "white";
+            ctx.fillStyle =
+              "white";
 
-            ctx.font = "bold 32px Fredoka";
-            ctx.fillText("Game Over", 285, 120);
+            ctx.textAlign =
+              "center";
 
-            ctx.font = "18px Fredoka";
+            ctx.font =
+              "700 32px -apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Segoe UI\", sans-serif";
 
-            ctx.fillText("Click to Restart", 300, 155);
+            ctx.fillText(
+              "Game Over",
+              canvas.width / 2,
+              120
+            );
+
+            ctx.font =
+              "18px -apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Segoe UI\", sans-serif";
+
+            ctx.fillText(
+              "Click to Restart",
+              canvas.width / 2,
+              155
+            );
+
+            ctx.textAlign =
+              "left";
           } else {
-            canvas.style.transform = "translate(0,0)";
+            canvas.style.transform =
+              "translate(0,0)";
           }
         }
+
+        /* =====================================================
+           GAME LOOP
+        ===================================================== */
+
         let lastTime = 0;
+
         function loop(timestamp) {
-          const deltaTime = Math.min((timestamp - lastTime) / 16.67, 2);
+          if (!lastTime) {
+            lastTime = timestamp;
+          }
+
+          const deltaTime =
+            Math.min(
+              (timestamp -
+                lastTime) /
+                16.67,
+              2
+            );
+
           lastTime = timestamp;
 
           update(deltaTime);
           draw();
 
-          requestAnimationFrame(loop);
+          requestAnimationFrame(
+            loop
+          );
         }
+
         requestAnimationFrame(loop);
-        // Key Toggle
-        document.addEventListener("keydown", (e) => {
-          // press 1 for invincibility
-          if (e.key === "1") {
-            invincible = !invincible;
 
-            console.log(invincible ? "Invincibility ON" : "Invincibility OFF");
-          }
-          // press 3 to toggle blackout effect
-          if (e.key === "3") {
-            blackoutEnabled = !blackoutEnabled;
+        /* =====================================================
+           KEYBOARD CONTROLS
+        ===================================================== */
 
-            // instantly remove blackout if disabled
-            if (!blackoutEnabled) {
-              blackout.classList.remove("active");
+        document.addEventListener(
+          "keydown",
+          (e) => {
+            /* 1 = Invincibility */
+
+            if (e.key === "1") {
+              invincible =
+                !invincible;
+
+              console.log(
+                invincible
+                  ? "Invincibility ON"
+                  : "Invincibility OFF"
+              );
             }
 
-            console.log(blackoutEnabled ? "Blackout ON" : "Blackout OFF");
-            canvas.classList.toggle("gold-mode", !blackoutEnabled);
+            /* 3 = Blackout */
+
+            if (e.key === "3") {
+              blackoutEnabled =
+                !blackoutEnabled;
+
+              if (!blackoutEnabled) {
+                blackout.classList.remove(
+                  "active"
+                );
+
+                canvas.classList.add(
+                  "gold-mode"
+                );
+              } else {
+                canvas.classList.remove(
+                  "gold-mode"
+                );
+              }
+
+              console.log(
+                blackoutEnabled
+                  ? "Blackout ON"
+                  : "Blackout OFF"
+              );
+            }
+
+            /* Space = Jump */
+
+            if (
+              e.code === "Space" &&
+              !gameOver
+            ) {
+              e.preventDefault();
+
+              jumpBuffer = 8;
+            }
+
+            /* 2 = Reset high score */
+
+            if (e.key === "2") {
+              highScore = 0;
+
+              localStorage.removeItem(
+                "gd_highscore"
+              );
+
+              document.getElementById(
+                "score"
+              ).textContent =
+                "Score: " +
+                score +
+                " | Best: " +
+                highScore;
+            }
           }
-          // jump
-          if (e.code === "Space" && !gameOver) {
-            jumpBuffer = 8;
+        );
+
+        /* =====================================================
+           CLICK
+        ===================================================== */
+
+        canvas.addEventListener(
+          "click",
+          () => {
+            if (gameOver) {
+              resetGame();
+            } else if (
+              player.grounded
+            ) {
+              player.velocityY =
+                player.jumpPower;
+
+              player.grounded = false;
+            }
+          }
+        );
+
+        /* =====================================================
+           BLACKOUT
+        ===================================================== */
+
+        const blackout =
+          document.getElementById(
+            "blackout"
+          );
+
+        let blackoutEnabled = true;
+
+        function triggerBlackout() {
+          if (!blackoutEnabled) {
+            setTimeout(
+              triggerBlackout,
+              2000
+            );
+
+            return;
           }
 
-          // press 2 to clear high score
-          if (e.key === "2") {
-            highScore = 0;
-            localStorage.removeItem("gd_highscore");
+          blackout.classList.add(
+            "active"
+          );
 
-            document.getElementById("score").textContent =
-              "Score: " + score + " | Best: " + highScore;
-          }
-        });
+          const duration =
+            100 +
+            Math.random() * 250;
 
-        canvas.addEventListener("click", () => {
-          if (gameOver) resetGame();
-          else if (player.grounded) {
-            player.velocityY = player.jumpPower;
-            player.grounded = false;
-          }
-        });
-      };
-      /* ===== RANDOM BLACKOUT EFFECT ===== */
+          setTimeout(() => {
+            blackout.classList.remove(
+              "active"
+            );
 
-      const blackout = document.getElementById("blackout");
-      let blackoutEnabled = true;
-      function triggerBlackout() {
-        if (!blackoutEnabled) {
-          setTimeout(triggerBlackout, 2000);
-          return;
+            const nextTime =
+              5000 +
+              Math.random() * 15000;
+
+            setTimeout(
+              triggerBlackout,
+              nextTime
+            );
+          }, duration);
         }
-        blackout.classList.add("active");
 
-        // blackout lasts 100–350ms
-        const duration = 100 + Math.random() * 250;
+        setTimeout(
+          triggerBlackout,
+          5000 +
+            Math.random() * 15000
+        );
 
-        setTimeout(() => {
-          blackout.classList.remove("active");
+        /* =====================================================
+           SECRET CODE
+        ===================================================== */
 
-          // next blackout in 5–20 seconds
-          const nextTime = 5000 + Math.random() * 15000;
+        const submitCode =
+          document.getElementById(
+            "submitCode"
+          );
 
-          setTimeout(triggerBlackout, nextTime);
-        }, duration);
-      }
+        submitCode.addEventListener(
+          "click",
+          () => {
+            const code =
+              document.getElementById(
+                "secretCode"
+              ).value;
 
-      // start first blackout
-      setTimeout(triggerBlackout, 5000 + Math.random() * 15000);
-      const submitCode = document.getElementById("submitCode");
+            const aboutme =
+              document.getElementById(
+                "aboutme"
+              );
 
-      submitCode.addEventListener("click", () => {
-        const code = document.getElementById("secretCode").value;
-        const aboutme = document.getElementById("aboutme");
-
-        if (code === "!@#$%^&*()") {
-          aboutme.textContent =
-            "Press 3 for remove blackout for photosensitive viewers. Press 1 to turn on invincibility and 2 to reset high score.";
-        }
+            if (
+              code ===
+              "!@#$%^&*()"
+            ) {
+              aboutme.textContent =
+                "Press 3 to remove blackout for photosensitive viewers. Press 1 to turn on invincibility and 2 to reset high score.";
+            }
+          }
+        );
       });
     </script>
   </body>

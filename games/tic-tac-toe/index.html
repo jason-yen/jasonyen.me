@@ -1,385 +1,430 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0"
     />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>jasonyen.me</title>
-    <head>
-  <div class="cursor"></div>
-</head>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+
     <link rel="icon" type="image/png" href="/images/favicon.png" />
 
-<style>
-  body {
-  cursor: none;
-}
-
-.cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: transparent;
-  pointer-events: none;
-  z-index: 2147483647;
-  transform: translate(-50%, -50%);
-}
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: "Fredoka", sans-serif;
-    font-size: 18px;
-    background: #f5f6fa;
-    color: #1b1f3b;
-    overflow-x: hidden;
-    line-height: 1.6;
-    transition: background 0.4s, color 0.4s;
-  }
-
-  /* ================= NAVBAR ================= */
-
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 20px;
-
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-
-    z-index: 9999;
-  }
-
-  .navbar-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .navbar a {
-    color: #536dfe;
-    text-decoration: none;
-    font-size: 18px;
-    position: relative;
-    white-space: nowrap;
-  }
-
-  .navbar a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-
-    width: 0%;
-    height: 3px;
-
-    background: #536dfe;
-    border-radius: 2px;
-
-    transition: width 0.3s ease;
-  }
-
-  .navbar a:hover::after {
-    width: 100%;
-  }
-
-  .nav-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .nav-logo:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-  }
-
-  /* ================= MAIN ================= */
-
-  .main-content {
-    margin-top: 72px;
-    padding: 18px;
-    max-width: 520px;
-  }
+    <style>
+      /* ================= GLOBAL ================= */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          sans-serif;
+      }
+
+      html {
+        min-height: 100%;
+        background: #050816;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        position: relative;
+        isolation: isolate;
+        background: #050816;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      /* ================= BACKGROUND ================= */
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+
+        background:
+          radial-gradient(
+            circle at 0% 18%,
+            rgba(127, 90, 240, 0.95),
+            rgba(127, 90, 240, 0.55) 18%,
+            transparent 38%
+          ),
+          radial-gradient(
+            circle at 100% 82%,
+            rgba(0, 194, 255, 0.55),
+            transparent 36%
+          ),
+          linear-gradient(
+            135deg,
+            #050816 0%,
+            #0b1022 50%,
+            #0f172a 100%
+          );
+
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      /* ================= FLOATING ORBS ================= */
+
+      .orb {
+        position: fixed;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: -1;
+        animation: float 14s ease-in-out infinite alternate;
+      }
+
+      .orb1 {
+        top: -120px;
+        left: -120px;
+        background: #7f5af0;
+      }
+
+      .orb2 {
+        width: 380px;
+        height: 380px;
+        bottom: -120px;
+        right: -120px;
+        background: #00c2ff;
+        animation-duration: 18s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+
+        50% {
+          transform: translate(40px, 30px) scale(1.05);
+        }
+
+        100% {
+          transform: translate(-20px, 50px) scale(0.98);
+        }
+      }
+
+      /* ================= NAVBAR ================= */
 
-  h1 {
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 600;
-    margin-bottom: 16px;
-    line-height: 1.2;
+      nav {
+        width: 100%;
+        padding: 24px 7%;
 
-    background: linear-gradient(135deg, #536dfe, #8f9fff, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-  .game-container {
-    margin-top: 10px;
-  }
+        position: fixed;
+        top: 0;
 
-  /* ================= GRID ================= */
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 110px);
-    gap: 12px;
-    justify-content: start;
-  }
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
-  /* ================= CELLS ================= */
+        z-index: 1000;
+      }
 
-  .cell {
-    width: 110px;
-    height: 110px;
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+        text-decoration: none;
+      }
 
-    background: rgba(255, 255, 255, 0.55);
-    border-radius: 16px;
+      .nav-links {
+        display: flex;
+        gap: 32px;
+      }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 38px;
-    font-weight: 600;
-
-    cursor: pointer;
-    user-select: none;
-
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-
-    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  .cell:hover {
-    transform: scale(1.05);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
-  }
-
-  .cell:active {
-    transform: scale(0.92);
-  }
-
-  .cell.taken {
-    pointer-events: none;
-  }
-
-  /* ================= WIN / LOSE ================= */
-
-  .winner {
-    background: #6dff8f !important;
-    box-shadow: 0 0 18px rgba(109, 255, 143, 0.7);
-  }
-
-  .loser {
-    opacity: 0.4;
-  }
-
-  /* ================= UI ================= */
-
-  #message {
-    margin-top: 14px;
-    font-size: 18px;
-    opacity: 0.85;
-  }
-
-  #replayButton {
-    margin-top: 14px;
-    padding: 12px 24px;
-
-    border: none;
-    border-radius: 14px;
-
-    background: linear-gradient(135deg, #536dfe, #8f9fff);
-    color: white;
-
-    font-size: 16px;
-    cursor: pointer;
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  #replayButton:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(83, 109, 254, 0.35);
-  }
-
-  /* ================= TOGGLE ================= */
-
-  .toggle {
-    width: 65px;
-    height: 34px;
-    border-radius: 50px;
-    cursor: pointer;
-    position: relative;
-
-    background: #dcdde1;
-    border: 2px solid rgba(0, 0, 0, 0.15);
-    transition: 0.3s ease;
-  }
-
-  body.dark .toggle {
-    background: #2f3640;
-    border: 2px solid rgba(255, 255, 255, 0.25);
-  }
-
-  .toggle.active {
-    background: #536dfe;
-    border: 2px solid #536dfe;
-    box-shadow: 0 0 12px rgba(83, 109, 254, 0.5);
-  }
-
-  .toggle-circle {
-    width: 28px;
-    height: 28px;
-
-    background: white;
-    position: absolute;
-    top: 1px;
-    left: 2px;
-
-    border-radius: 50%;
-    transition: 0.35s;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-
-  .toggle.active .toggle-circle {
-    left: 33px;
-  }
-
-  /* ================= DARK MODE ================= */
-
-  body.dark {
-    color: #e6e6e6;
-    background: linear-gradient(-45deg, #0f1117, #1a1f3a, #0f1117, #1c2240);
-    background-size: 400% 400%;
-    animation: gradientMove 18s ease infinite;
-  }
-
-  body.dark .cell {
-    background: rgba(30, 34, 53, 0.9);
-    color: #fff;
-  }
-
-  body.dark .loser {
-    opacity: 0.3;
-  }
-
-  @keyframes gradientMove {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* ================= MOBILE ================= */
-
-  @media (max-width: 600px) {
-    .navbar {
-      padding: 0 12px;
-      height: 55px;
-    }
-
-    .navbar a {
-      font-size: 16px;
-    }
-
-    .main-content {
-      margin-top: 68px;
-      padding: 14px;
-    }
-
-    h1 {
-      font-size: 30px;
-    }
-
-    .grid {
-      grid-template-columns: repeat(3, 90px);
-      gap: 10px;
-    }
-
-    .cell {
-      width: 90px;
-      height: 90px;
-      font-size: 32px;
-    }
-  }
-  @media (max-width: 600px) {
-  .cursor {
-    display: none;
-  }
-}
-</style>
+      .nav-links a {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      /* ================= MAIN GLASS BOX ================= */
+
+      .chatbox {
+        width: 90%;
+        max-width: 1100px;
+
+        margin: 120px auto 50px;
+        padding: 60px;
+
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+
+        border-radius: 60px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.35),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
+
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ================= GAME HEADER ================= */
+
+      .game-header {
+        margin-bottom: 30px;
+      }
+
+      .game-header h1 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .game-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      /* ================= GAME ================= */
+
+      .game-container {
+        margin-top: 30px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 110px);
+        gap: 12px;
+        justify-content: start;
+      }
+
+      /* ================= CELLS ================= */
+
+      .cell {
+        width: 110px;
+        height: 110px;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: white;
+        font-size: 38px;
+        font-weight: 600;
+
+        cursor: pointer;
+        user-select: none;
+
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.2),
+          inset 0 1px 1px rgba(255, 255, 255, 0.05);
+
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
+
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      .cell:hover {
+        transform: scale(1.05);
+
+        background: rgba(255, 255, 255, 0.14);
+
+        box-shadow:
+          0 14px 30px rgba(0, 0, 0, 0.3),
+          inset 0 1px 1px rgba(255, 255, 255, 0.08);
+      }
+
+      .cell:active {
+        transform: scale(0.92);
+      }
+
+      .cell.taken {
+        pointer-events: none;
+      }
+
+      /* ================= WIN / LOSE ================= */
+
+      .winner {
+        background: rgba(109, 255, 143, 0.3) !important;
+        border-color: rgba(109, 255, 143, 0.6);
+
+        box-shadow:
+          0 0 18px rgba(109, 255, 143, 0.4),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      }
+
+      .loser {
+        opacity: 0.4;
+      }
+
+      /* ================= MESSAGE ================= */
+
+      #message {
+        margin-top: 24px;
+
+        font-size: 1rem;
+        font-weight: 500;
+
+        color: rgba(255, 255, 255, 0.9);
+        min-height: 24px;
+      }
+
+      /* ================= REPLAY BUTTON ================= */
+
+      #replayButton {
+        margin-top: 20px;
+
+        padding: 16px 28px;
+
+        border-radius: 18px;
+
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+
+        cursor: pointer;
+
+        transition: 0.35s;
+      }
+
+      #replayButton:hover {
+        transform: translateY(-4px) scale(1.04);
+
+        background: rgba(255, 255, 255, 0.15);
+
+        box-shadow:
+          0 15px 35px rgba(255, 255, 255, 0.12);
+      }
+
+      #replayButton:active {
+        transform: translateY(-1px) scale(0.98);
+      }
+
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 20px 5%;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .chatbox {
+          margin-top: 110px;
+          padding: 30px;
+          border-radius: 35px;
+        }
+
+        .game-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .grid {
+          grid-template-columns: repeat(3, 90px);
+          gap: 10px;
+        }
+
+        .cell {
+          width: 90px;
+          height: 90px;
+          font-size: 32px;
+          border-radius: 18px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .grid {
+          grid-template-columns: repeat(3, 75px);
+          gap: 8px;
+        }
+
+        .cell {
+          width: 75px;
+          height: 75px;
+          font-size: 28px;
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <div class="navbar">
-      <div class="navbar-content">
-        <a href="/"><img src="/images/logo.png" class="nav-logo" /></a>
+    <!-- Background orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+      <a href="/" class="logo">Tic Tac Toe</a>
+
+      <div class="nav-links">
+        <a href="/">Main</a>
         <a href="/games">Games</a>
         <a href="/tools">Tools</a>
-        <a href="/donatejk">Donate</a>
-        <a href="/ai">Search</a>
-        <a href="/downloadpage">Exhibit</a>
-                        <a href="/radio">Radio</a>
-
+        <a href="/radio">Radio</a>
       </div>
-      <div class="toggle" id="toggle">
-        <div class="toggle-circle" id="icon">🌙</div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="main-content">
-      <h1>Tic-Tac-Toe</h1>
+    <!-- ================= MAIN ================= -->
+
+    <main class="chatbox">
+      <div class="game-header">
+        <p>Play against the computer.</p>
+      </div>
+
       <div class="game-container">
         <div class="grid">
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
+
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
+
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
         </div>
 
         <div id="message"></div>
-        <button id="replayButton" onclick="resetGame()">Replay</button>
+
+        <button id="replayButton" onclick="resetGame()">
+          Replay
+        </button>
       </div>
-    </div>
+    </main>
+
+    <!-- ================= GAME SCRIPT ================= -->
 
     <script>
       let board = Array(9).fill("");
@@ -388,13 +433,13 @@
 
       const cells = document.querySelectorAll(".cell");
 
-      /* ✅ FIX: pointerdown instead of onclick */
       cells.forEach((cell, i) => {
         cell.addEventListener("click", (e) => {
           e.preventDefault();
           makeMove(i);
         });
       });
+
       const patterns = [
         [0, 1, 2],
         [3, 4, 5],
@@ -425,22 +470,32 @@
 
         currentPlayer = currentPlayer === "X" ? "O" : "X";
 
-        /* ✅ FIX: removed setTimeout delay */
-        if (currentPlayer === "O") computerMove();
+        if (currentPlayer === "O") {
+          computerMove();
+        }
       }
 
       function checkWinner(p) {
         for (const [a, b, c] of patterns) {
-          if (board[a] === p && board[b] === p && board[c] === p) {
-            [a, b, c].forEach((i) => cells[i].classList.add("winner"));
+          if (
+            board[a] === p &&
+            board[b] === p &&
+            board[c] === p
+          ) {
+            [a, b, c].forEach((i) => {
+              cells[i].classList.add("winner");
+            });
+
             cells.forEach((cell, idx) => {
               if (![a, b, c].includes(idx)) {
                 cell.classList.add("loser");
               }
             });
+
             return true;
           }
         }
+
         return false;
       }
 
@@ -450,14 +505,17 @@
       }
 
       function computerMove() {
-        let best = -Infinity,
-          move;
+        let best = -Infinity;
+        let move;
 
         for (let i = 0; i < 9; i++) {
           if (board[i] === "") {
             board[i] = "O";
+
             let score = minimax(board, 0, false);
+
             board[i] = "";
+
             if (score > best) {
               best = score;
               move = i;
@@ -477,91 +535,67 @@
 
         if (isMax) {
           let best = -Infinity;
+
           for (let i = 0; i < 9; i++) {
             if (bd[i] === "") {
               bd[i] = "O";
-              best = Math.max(best, minimax(bd, d + 1, false));
+
+              best = Math.max(
+                best,
+                minimax(bd, d + 1, false)
+              );
+
               bd[i] = "";
             }
           }
+
           return best;
         } else {
           let best = Infinity;
+
           for (let i = 0; i < 9; i++) {
             if (bd[i] === "") {
               bd[i] = "X";
-              best = Math.min(best, minimax(bd, d + 1, true));
+
+              best = Math.min(
+                best,
+                minimax(bd, d + 1, true)
+              );
+
               bd[i] = "";
             }
           }
+
           return best;
         }
       }
 
       function checkWinBoard(bd, p) {
         return patterns.some(
-          ([a, b, c]) => bd[a] === p && bd[b] === p && bd[c] === p,
+          ([a, b, c]) =>
+            bd[a] === p &&
+            bd[b] === p &&
+            bd[c] === p
         );
       }
 
       function resetGame() {
         board = Array(9).fill("");
+
         document.querySelectorAll(".cell").forEach((c) => {
           c.textContent = "";
-          c.classList.remove("taken", "winner", "loser");
+          c.classList.remove(
+            "taken",
+            "winner",
+            "loser"
+          );
         });
+
         document.getElementById("message").textContent = "";
+
         currentPlayer = "X";
         gameOver = false;
       }
-
-      /* DARK MODE (unchanged) */
-      const toggle = document.getElementById("toggle");
-      const icon = document.getElementById("icon");
-
-      if (localStorage.getItem("darkMode") === "on") {
-        document.body.classList.add("dark");
-        toggle.classList.add("active");
-        icon.textContent = "☀️";
-      }
-
-      toggle.onclick = () => {
-        document.body.classList.toggle("dark");
-        toggle.classList.toggle("active");
-        if (document.body.classList.contains("dark")) {
-          icon.textContent = "☀️";
-          localStorage.setItem("darkMode", "on");
-        } else {
-          icon.textContent = "🌙";
-          localStorage.setItem("darkMode", "off");
-        }
-      };
-
-      /* FX (unchanged) */
-      const glow = document.createElement("div");
-      glow.className = "cursor-glow";
-      document.body.appendChild(glow);
-
-      document.addEventListener("mousemove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-
-        for (let i = 0; i < 2; i++) {
-          let d = document.createElement("div");
-          d.className = "dust";
-          d.style.left = e.clientX + Math.random() * 10 - 5 + "px";
-          d.style.top = e.clientY + Math.random() * 10 - 5 + "px";
-          document.body.appendChild(d);
-          setTimeout(() => d.remove(), 1000);
-        }
-      });
-      const cursor = document.querySelector(".cursor");
-
-document.addEventListener("mousemove", (e) => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
     </script>
-
   </body>
 </html>
